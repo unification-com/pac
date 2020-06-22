@@ -1,0 +1,35 @@
+version: "2"
+services:
+  pac:
+    container_name: pac
+    image: node:latest
+    volumes:
+      - .:/usr/src/pac
+    working_dir: /usr/src/pac
+    env_file: .env
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - MONGODB_DBNAME=pac
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    command: >
+      /bin/sh -c "
+        sleep 5
+        cp /usr/src/pac/.env /usr/src/pac/src/ui/.env.local
+        node /usr/src/pac/src/db_utils/create_db.js
+        npm run start-dev-stack
+      "
+    networks:
+      - pac-network
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    networks:
+      - pac-network
+
+networks:
+  pac-network:
+    driver: bridge

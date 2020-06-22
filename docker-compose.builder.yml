@@ -1,0 +1,11 @@
+version: '2'
+services:
+  base:
+    image: node:latest
+    volumes:
+      - .:/usr/src/pac/
+    working_dir: /usr/src/pac/
+  install:
+    extends:
+      service: base
+    command: npm i

@@ -69,3 +69,9 @@ A MongoDB service is required, either running locally or via the cloud.
 1. Run `npm install`
 2. Copy `example.env` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
 3. Run `npm run start-dev-stack`
+
+## Static data attribution
+
+The `the-counted-2015.csv` & `the-counted-2016.csv` data contained in the `data/static` 
+directory obtained from [The Guardian](http://www.theguardian.com/thecounted)
+and included here for convenience.

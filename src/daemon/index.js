@@ -123,6 +123,7 @@ const submitBeaconHashes = async () => {
 
     if (process.env.BEACON_OWNER_ADDRESS === '' || process.env.BEACON_ID === '' || process.env.BEACON_OWNER_PK === '') {
         console.log("BEACON vars not set. Skip hash submission");
+        BEACON_UPDATE_RUNNING = false;
         return;
     }
 
@@ -179,7 +180,8 @@ const submitBeaconHashes = async () => {
                 }
             }
         } catch (err) {
-            console.log("FAILED TO SUBMIT BEACON HASH")
+            console.log("FAILED TO SUBMIT BEACON HASH");
+            BEACON_UPDATE_RUNNING = false;
             console.log(err)
         }
         console.log("wait a second...")

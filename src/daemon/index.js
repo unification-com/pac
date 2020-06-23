@@ -137,9 +137,12 @@ const submitBeaconHashes = async () => {
     const collection = db.collection(incidentReportCollectionName);
 
     console.log("timestamps to submit");
+
+    let batchLimit = (process.env.BEACON_SUBMIT_IN_BATCH || 10);
+
     let beaconsToSubmit = await collection.find({
         beaconTimestampId: 0,
-    }).limit(10).toArray();
+    }).limit(batchLimit).toArray();
 
     const undClient = await getUndClient();
 

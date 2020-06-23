@@ -1,4 +1,4 @@
-import {formatSource} from '../../lib/source'
+import {formatSource} from '../../utils/source'
 
 export default function Source({ source, sourceAdditionalData, sourceId, sourceUrl }) {
 

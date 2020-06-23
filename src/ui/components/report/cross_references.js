@@ -1,4 +1,4 @@
-import {formatSource} from '../../lib/source'
+import {formatSource} from '../../utils/source'
 import Link from "next/link";
 
 export default function CrossReferences({hasCrossReferences, crossReferences}) {

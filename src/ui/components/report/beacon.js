@@ -1,6 +1,6 @@
 import Date from "../date";
 import Alert from "../alert";
-import {hashesAreEqual} from '../../lib/utils'
+import {hashesAreEqual} from '../../utils/utils'
 
 export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, mainchainTxHash, mainchainBlockHeight, beaconTx, dataHashed, generatedHash}) {
 

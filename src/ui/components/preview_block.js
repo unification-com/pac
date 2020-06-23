@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Date from "./date";
-import {formatSource} from "../lib/source";
+import {formatSource} from "../utils/source";
 
 export default function PreviewBlock({title, sourceDatetime, beaconHash, source, content, evidenceAdditional}) {
 

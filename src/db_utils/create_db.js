@@ -78,6 +78,10 @@ MongoClient.connect(mongoUrl, function(err, db) {
             await ir_collection.createIndex({ locationStateCode: 1, victimRace: 1, victimAge: 1, victimGender: 1, victimArmed: 1  }, { collation: { locale: "en" } });
             console.log("done");
 
+            console.log("create locationStateCode, victimRace, victimAge, victimGender, victimArmed, year, month index on", incidentReportCollectionName);
+            await ir_collection.createIndex({ locationStateCode: 1, victimRace: 1, victimAge: 1, victimGender: 1, victimArmed: 1, year: 1, month: 1  }, { collation: { locale: "en" } });
+            console.log("done");
+
             console.log("create addedToMerkleTree index on", incidentReportCollectionName);
             await ir_collection.createIndex({ addedToMerkleTree: 1  }, { collation: { locale: "en" } });
             console.log("done");

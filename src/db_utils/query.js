@@ -50,11 +50,6 @@ const runQuery = async () => {
 
         // console.log("total rows:", numRows);
 
-        let victimInfo = await collection.distinct( "victimArmed" )
-        for(let vi of victimInfo) {
-            console.log( vi);
-        }
-
         // let checkCr = await collection.find({
         //     _id: new mongo.ObjectID("5ee24d424d3cfb7f218ffff6"),
         // }).toArray();

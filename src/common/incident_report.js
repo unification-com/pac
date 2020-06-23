@@ -30,6 +30,8 @@ class IncidentReport {
         this.victimAge = 0;
         this.victimGender = '';
         this.victimArmed = '';
+        this.year = 0;
+        this.month = 0;
         this.updateHistory = [];
 
         // these values are not hashed.
@@ -181,7 +183,11 @@ class IncidentReport {
         this.sourceUrl = _sourceUrl;
         this.sourceDatetime = _sourceDatetime;
         this.sourceRawData = _sourceRawData;
-        this.sourceRawDataFormat = _sourceRawDataFormat
+        this.sourceRawDataFormat = _sourceRawDataFormat;
+
+        let date = new Date(_sourceDatetime*1000);
+        this.year = date.getFullYear();
+        this.month = date.getMonth() + 1;
     }
 
     addAdditionalSourceData(_sourceAdditionalData) {
@@ -376,6 +382,8 @@ class IncidentReport {
             victimAge: this.victimAge,
             victimGender: this.victimGender,
             victimArmed: this.victimArmed,
+            year: this.year,
+            month: this.month,
             updateHistory: this.updateHistory.sort()
         }
 

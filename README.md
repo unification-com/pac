@@ -7,7 +7,9 @@ FUND Mainchain.
 
 Docker, Docker Compose and `make` are the recommended minimum requirements for development.
 
-1. Initialise the build environment
+1. Copy `example.env` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
+
+2. Initialise the build environment
 
 ```bash 
 make init-dev
@@ -19,7 +21,7 @@ Or without `make`:
 docker-compose -f docker-compose.builder.yml run --rm install
 ```
 
-2. Run the development environment:
+3. Run the development environment:
 
 ```bash 
 make dev

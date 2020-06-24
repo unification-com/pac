@@ -80,7 +80,7 @@ and included here for convenience.
 
 ## Data Sources
 
-The data used is currently sourced from the following. More will be added over time.
+The data used in `src/daemon/apis` is currently sourced from the following. More will be added over time.
 
 - [Police Brutality](https://github.com/2020PB/police-brutality)
 - [Felon Encounters](https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE)

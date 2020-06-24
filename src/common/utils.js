@@ -38,13 +38,24 @@ module.exports = {
     },
 
     mongoDbUrl: (withDbName = false)  => {
+        let mongoUrl;
+        // backwards compatibility
+        if(process.env.MONGODB_URL !== '' && process.env.MONGODB_URL !== undefined && process.env.MONGODB_URL !== null) {
+            mongoUrl = process.env.MONGODB_URL;
+            if(withDbName) {
+                mongoUrl = mongoUrl + '/' + process.env.MONGODB_DBNAME;
+            }
+            return mongoUrl;
+        }
+
+        // New method for storing DB info in .env
         let mongoProtocol = 'mongodb://';
         let mongoUserPass = '';
         if((process.env.MONGODB_DBUSER !== '' && process.env.MONGODB_DBUSER !== undefined && process.env.MONGODB_DBUSER !== null)
          && (process.env.MONGODB_DBPASS !== '' && process.env.MONGODB_DBPASS !== undefined && process.env.MONGODB_DBPASS !== null)) {
             mongoUserPass = process.env.MONGODB_DBUSER + ':' + process.env.MONGODB_DBPASS + '@';
         }
-        let mongoUrl = mongoProtocol + mongoUserPass + process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT;
+        mongoUrl = mongoProtocol + mongoUserPass + process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT;
 
         if(withDbName) {
             mongoUrl = mongoUrl + '/' + process.env.MONGODB_DBNAME;

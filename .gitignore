@@ -103,9 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
-lib
-src/ui/.next
+# Project specific
+/lib
+/src/ui/.next
 .DS_Store
 .idea
-data/mapping_police_violence.xlsx
-src/ui/.env.local
+/data/mapping_police_violence.xlsx
+/src/ui/.env.local
+/data/backup

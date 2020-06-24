@@ -1,15 +1,13 @@
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient;
+const {mongoDbUrl} = require('../common/utils');
 
-// Connection URL
-const mongoUrl = process.env.MONGODB_URL + '/' + process.env.MONGODB_DBNAME;
-
-MongoClient.connect(mongoUrl, function(err, db) {
+MongoClient.connect(mongoDbUrl(true), function(err, db) {
     if (err) throw err;
     db.close();
 });
 
-MongoClient.connect(mongoUrl, function(err, db) {
+MongoClient.connect(mongoDbUrl(true), function(err, db) {
     if (err) throw err;
     let dbo = db.db(process.env.MONGODB_DBNAME);
     dbo.collection("incident_reports").drop(function(err, delOK) {

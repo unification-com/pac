@@ -127,21 +127,27 @@ class PoliceBrutality2020 extends ReportApi {
                                     videoObj.setUrl(vidArray.url);
                                     videoObj.setStatus(vidArray.video_status);
                                     let vidSourceSite = vidArray.video[0].site;
-                                    let n = vidSourceSite.search("tiktok.com");
-                                    if(n > -1) {
-                                        vidSourceSite = 'tiktok';
+                                    if(vidSourceSite !== null) {
+                                        let n = vidSourceSite.search("tiktok.com");
+                                        if (n > -1) {
+                                            vidSourceSite = 'tiktok';
+                                        }
                                     }
                                     videoObj.setSourceSite(vidSourceSite);
                                     videoObj.setThumbnail(vidArray.video[0].thumbnail);
-                                    if(vidArray.video[0].tags.length > 0) {
-                                        for(let k = 0; k < vidArray.video[0].tags.length; k++) {
-                                            videoObj.addTag(vidArray.video[0].tags[k]);
+                                    if(vidArray.video[0].tags !== null) {
+                                        if (vidArray.video[0].tags.length > 0) {
+                                            for (let k = 0; k < vidArray.video[0].tags.length; k++) {
+                                                videoObj.addTag(vidArray.video[0].tags[k]);
+                                            }
                                         }
                                     }
-                                    for(let l = 0; l < vidArray.video[0].streams.length; l++) {
-                                        videoObj.addMedia(vidArray.video[0].streams[l].url, vidArray.video[0].streams[l].format, 'video');
+                                    if(vidArray.video[0].streams !== null) {
+                                        for (let l = 0; l < vidArray.video[0].streams.length; l++) {
+                                            videoObj.addMedia(vidArray.video[0].streams[l].url, vidArray.video[0].streams[l].format, 'video');
+                                        }
+                                        videos.push(videoObj.getMediaObj());
                                     }
-                                    videos.push(videoObj.getMediaObj());
                                 }
 
                                 let evidence = {

@@ -7,7 +7,7 @@ FUND Mainchain.
 
 Docker, Docker Compose and `make` are the recommended minimum requirements for development.
 
-1. Copy `example.env` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
+1. Copy `.env.example` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
 
 2. Initialise the build environment
 

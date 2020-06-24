@@ -1,20 +1,18 @@
+require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
-
-// Connection URL
-const mongoUrl = 'mongodb://localhost:27017';
+const {mongoDbUrl} = require('../common/utils');
 
 // Database Name
-const dbName = 'pac';
 const collectionName = 'incident_reports';
 
 // Create a new MongoClient
-const client = new MongoClient(mongoUrl);
+const client = new MongoClient(mongoDbUrl());
 
 const runQuery = async () => {
     try {
         await client.connect();
-        const db = client.db(dbName);
+        const db = client.db(process.env.MONGODB_DBNAME);
         const collection = db.collection(collectionName);
 
         // console.log("cross references");
@@ -49,12 +47,6 @@ const runQuery = async () => {
         // let numRows = await collection.find({}).count();
 
         // console.log("total rows:", numRows);
-
-        // let checkCr = await collection.find({
-        //     _id: new mongo.ObjectID("5ee24d424d3cfb7f218ffff6"),
-        // }).toArray();
-        //
-        // console.log(checkCr[0]);
 
     } catch (err) {
         console.log(err.stack);

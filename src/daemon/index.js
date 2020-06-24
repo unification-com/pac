@@ -1,6 +1,7 @@
 require('dotenv').config()
 const assert = require('assert').strict;
 const merkle_mod = require('merkle-tree');
+const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 const mongo = require('mongodb');
 const UndClient = require('@unification-com/und-js');
@@ -16,23 +17,20 @@ const MappingPoliceViolence = require('./apis/mapping_police_violence');
 const GuardianTheCounted = require('./apis/guardian_the_counted');
 
 const MerkleTree = require('../common/merkle_tree');
-const {sleepFor} = require('../common/utils');
-
-// Connection URL
-const mongoUrl = process.env.MONGODB_URL + '/' + process.env.MONGODB_DBNAME;
+const {mongoDbUrl, sleepFor} = require('../common/utils');
+const {dbBackUp} = require('../db_utils/backup');
 
 // Database Name
-const dbName = 'pac';
 const incidentReportCollectionName = 'incident_reports';
 const merkleTreeCollectionName = 'merkle_tree';
 
 const DEFAULT_UPDATE_FREQUENCY = 3600000;
 
 // create database
-MongoClient.connect(mongoUrl, function (err, db) {
+MongoClient.connect(mongoDbUrl(true), function (err, db) {
     if (err) throw err;
-    console.log(dbName, "database created!");
-    var dbo = db.db(dbName);
+    console.log(process.env.MONGODB_DBNAME, "database created!");
+    var dbo = db.db(process.env.MONGODB_DBNAME);
     dbo.createCollection(incidentReportCollectionName, function (err, res) {
         if (err) throw err;
         console.log("Collection created!", incidentReportCollectionName);
@@ -45,7 +43,7 @@ MongoClient.connect(mongoUrl, function (err, db) {
 });
 
 // Create a new MongoClient
-const mongoClient = new MongoClient(mongoUrl);
+const mongoClient = new MongoClient(mongoDbUrl(true));
 
 let BEACON_UPDATE_RUNNING = false;
 let DB_UPDATE_RUNNING = false;
@@ -73,7 +71,7 @@ const runDbUpdates = async () => {
 
     let dbOptions = {
         client: mongoClient,
-        dbName: dbName,
+        dbName: process.env.MONGODB_DBNAME,
         collectionName: incidentReportCollectionName
     }
 
@@ -112,6 +110,7 @@ const runDbUpdates = async () => {
         const timeTaken = (end.getTime() - start.getTime()) / 1000;
 
         console.log("api updates complete in ", timeTaken, "seconds");
+        backupDbToIpfs();
     }).catch(function (err) {
         console.error(err);
 
@@ -133,12 +132,12 @@ const submitBeaconHashes = async () => {
     }
     BEACON_UPDATE_RUNNING = true;
 
-    const db = mongoClient.db(dbName);
+    const db = mongoClient.db(process.env.MONGODB_DBNAME);
     const collection = db.collection(incidentReportCollectionName);
 
     console.log("timestamps to submit");
 
-    let batchLimit = (process.env.BEACON_SUBMIT_IN_BATCH || 10);
+    let batchLimit = parseInt((process.env.BEACON_SUBMIT_IN_BATCH || 10));
 
     let beaconsToSubmit = await collection.find({
         beaconTimestampId: 0,
@@ -197,7 +196,7 @@ const submitBeaconHashes = async () => {
 }
 
 const saveMerkleToDb = async (root) => {
-    const db = mongoClient.db(dbName);
+    const db = mongoClient.db(process.env.MONGODB_DBNAME);
     const collection = db.collection(merkleTreeCollectionName);
     const undClient = await getUndClient();
     const now = new Date();
@@ -237,7 +236,7 @@ const saveMerkleToDb = async (root) => {
 
 const generateMerkleTree = async () => {
 
-    const db = mongoClient.db(dbName);
+    const db = mongoClient.db(process.env.MONGODB_DBNAME);
     const collection = db.collection(incidentReportCollectionName);
 
     let config = new merkle_mod.Config({N: 256, M: 256});
@@ -270,7 +269,13 @@ const generateMerkleTree = async () => {
 
 const backupDbToIpfs = async () => {
 
-    // Todo - implement
+    console.log("run DB backup")
+    dbBackUp(function(backupDir) {
+        if(fs.existsSync(backupDir)) {
+            console.log("BACKUP SUCCESS. Location:", backupDir);
+        }
+    });
+    // Todo - implement save to IPFS
 }
 
 const runDaemon = async () => {

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const assert = require('assert').strict;
 const merkle_mod = require('merkle-tree');
+const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 const mongo = require('mongodb');
 const UndClient = require('@unification-com/und-js');
@@ -17,6 +18,7 @@ const GuardianTheCounted = require('./apis/guardian_the_counted');
 
 const MerkleTree = require('../common/merkle_tree');
 const {mongoDbUrl, sleepFor} = require('../common/utils');
+const {dbBackUp} = require('../db_utils/backup');
 
 // Database Name
 const incidentReportCollectionName = 'incident_reports';
@@ -108,6 +110,7 @@ const runDbUpdates = async () => {
         const timeTaken = (end.getTime() - start.getTime()) / 1000;
 
         console.log("api updates complete in ", timeTaken, "seconds");
+        backupDbToIpfs();
     }).catch(function (err) {
         console.error(err);
 
@@ -134,7 +137,7 @@ const submitBeaconHashes = async () => {
 
     console.log("timestamps to submit");
 
-    let batchLimit = (process.env.BEACON_SUBMIT_IN_BATCH || 10);
+    let batchLimit = parseInt((process.env.BEACON_SUBMIT_IN_BATCH || 10));
 
     let beaconsToSubmit = await collection.find({
         beaconTimestampId: 0,
@@ -266,7 +269,13 @@ const generateMerkleTree = async () => {
 
 const backupDbToIpfs = async () => {
 
-    // Todo - implement
+    console.log("run DB backup")
+    dbBackUp(function(backupDir) {
+        if(fs.existsSync(backupDir)) {
+            console.log("BACKUP SUCCESS. Location:", backupDir);
+        }
+    });
+    // Todo - implement save to IPFS
 }
 
 const runDaemon = async () => {

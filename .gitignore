@@ -110,4 +110,4 @@ dist
 .idea
 /data/mapping_police_violence.xlsx
 /src/ui/.env.local
-/data/backup/mongodump*
+/data/backup

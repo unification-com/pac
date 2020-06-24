@@ -6,7 +6,7 @@
   "scripts": {
     "develop-daemon": "nodemon --ignore './data/' --ignore './src/ui/' --ignore './src/db_utils/' --exec babel-node src/daemon",
     "test-daemon": "mocha --require babel-core/register",
-    "build-daemon": "rimraf lib && babel src/daemon -d lib/daemon",
+    "build-daemon": "rimraf lib && babel src/daemon -d lib/daemon && babel src/common -d lib/common && babel src/db_utils -d lib/db_utils",
     "start-daemon": "node lib/daemon",
     "lint-daemon": "eslint src/daemon",
     "develop-ui": "next dev src/ui",

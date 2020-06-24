@@ -1,7 +1,8 @@
 import { MongoClient } from 'mongodb';
 import nextConnect from 'next-connect';
+const {mongoDbUrl} = require('../../common/utils');
 
-const client = new MongoClient(process.env.MONGODB_URL, {
+const client = new MongoClient(mongoDbUrl(), {
     useUnifiedTopology: true,
 });
 

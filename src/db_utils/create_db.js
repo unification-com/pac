@@ -1,15 +1,13 @@
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient;
-
-// Connection URL
-const mongoUrl = process.env.MONGODB_URL + '/' + process.env.MONGODB_DBNAME;
+const {mongoDbUrl} = require('../common/utils');
 
 // Database Name
 const incidentReportCollectionName = 'incident_reports';
 const merkleTreeCollectionName = 'merkle_tree';
 
 // create database
-MongoClient.connect(mongoUrl, function(err, db) {
+MongoClient.connect(mongoDbUrl(true), function(err, db) {
     if (err) throw err;
     console.log(process.env.MONGODB_DBNAME, "database created!");
     let dbo = db.db(process.env.MONGODB_DBNAME);

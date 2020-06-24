@@ -5,11 +5,15 @@ services:
     image: node:latest
     volumes:
       - .:/usr/src/pac
+      - /usr/src/pac/src/ui/.next
     working_dir: /usr/src/pac
     env_file: .env
     environment:
-      - MONGODB_URL=mongodb://mongo:27017
+      - MONGODB_HOST=mongo
+      - MONGODB_PORT=27017
       - MONGODB_DBNAME=pac
+      - MONGODB_DBUSER=
+      - MONGODB_DBPASS=
     ports:
       - "3000:3000"
     links:

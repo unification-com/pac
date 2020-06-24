@@ -77,3 +77,15 @@ A MongoDB service is required, either running locally or via the cloud.
 The `the-counted-2015.csv` & `the-counted-2016.csv` data contained in the `data/static` 
 directory obtained from [The Guardian](http://www.theguardian.com/thecounted)
 and included here for convenience.
+
+## Data Sources
+
+The data used is currently sourced from the following. More will be added over time.
+
+- [Police Brutality](https://github.com/2020PB/police-brutality)
+- [Felon Encounters](https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE)
+- [The Guardian](https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/about-the-counted)
+- [Killed By Police](https://killedbypolice.net)
+- [Mapping Police Violence](https://mappingpoliceviolence.org)
+- [US Police Shootings](https://docs.google.com/spreadsheets/d/1cEGQ3eAFKpFBVq1k2mZIy5mBPxC6nBTJHzuSWtZQSVw)
+- [Washington Post](https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv)

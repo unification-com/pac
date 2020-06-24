@@ -4,6 +4,9 @@ export default function AdditionalEvidence({additionalEvidence}) {
 
     switch(additionalEvidence.type) {
         case 'media':
+            if(additionalEvidence.data === null) {
+                break;
+            }
             let mediaArray = [];
             for(let i = 0; i < additionalEvidence.data.length; i++) {
                 let data = additionalEvidence.data[i];
@@ -13,9 +16,11 @@ export default function AdditionalEvidence({additionalEvidence}) {
                             <a href={data.media[0].url} target="_blank">{data.title}</a><br/>
                                 {data.description}<br/>
                                 Type: {data.sourceSite} {data.media[0].type}<br/>
+                                (data.thumbnail !== null)?
                             <a href={data.media[0].url} target="_blank">
                                 <img src={data.thumbnail.replace('?name=orig', '')}/>
                             </a>
+                        : <></>
                         </li>
                 } else {
                     m = <li>

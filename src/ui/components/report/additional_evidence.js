@@ -1,3 +1,7 @@
+const checkURLIsImage = (url) => {
+    return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+};
+
 export default function AdditionalEvidence({additionalEvidence}) {
 
     let content = '';
@@ -11,22 +15,38 @@ export default function AdditionalEvidence({additionalEvidence}) {
             for(let i = 0; i < additionalEvidence.data.length; i++) {
                 let data = additionalEvidence.data[i];
                 let m = '';
-                if(data.status === 'ok') {
-                    m = <li key={data.media[0].url}>
-                            <a href={data.media[0].url} target="_blank">{data.title}</a><br/>
+
+                switch(data.mediaType) {
+                    case 'video':
+                        if(data.status === 'ok') {
+                            m = <li key={data.media[0].url}>
+                                <a href={data.media[0].url} target="_blank">{data.title}</a><br/>
                                 {data.description}<br/>
                                 Type: {data.sourceSite} {data.media[0].type}<br/>
-                                (data.thumbnail !== null)?
-                            <a href={data.media[0].url} target="_blank">
-                                <img src={data.thumbnail.replace('?name=orig', '')}/>
-                            </a>
-                        : <></>
-                        </li>
-                } else {
-                    m = <li>
-                            <pre>{JSON.stringify(additionalEvidence.data[i], null, 1)}</pre>
-                        </li>
+                                {(data.thumbnail && data.sourceSite !== 'tiktok')?
+                                <a href={data.media[0].url} target="_blank">
+                                    <img src={data.thumbnail.replace('?name=orig', '')}/>
+                                </a>
+                                : <></>}
+                            </li>
+                        }
+                        break;
+                    case 'link':
+                        if(checkURLIsImage(data.url)) {
+                            m = <li key={data.url}>
+                                <a href={data.url} target="_blank">
+                                    <img src={data.url}/>
+                                </a>
+                            </li>
+                        } else {
+                            m = <li key={data.url}>
+                                <a href={data.url} target="_blank">{(data.title !== '')?data.title:data.url}</a>
+                                { (data.sourceSite)? ' (' + data.sourceSite + ')': '' }
+                            </li>
+                        }
+                        break;
                 }
+
                 mediaArray.push(m)
             }
             content = (mediaArray.length >0) ? <ul>{mediaArray}</ul> : ''

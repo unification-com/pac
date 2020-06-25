@@ -32,7 +32,10 @@ export async function getServerSideProps(context) {
             let cr = incidentReport.crossReferences[i];
             const crRes = await fetch('http://localhost:3000/api/report?beaconHash=' + cr.beaconHash)
             let crResJson = await crRes.json()
-            cr.title = crResJson.title
+            cr.title = ''
+            if(crResJson.status) {
+                cr.title = crResJson.result.title
+            }
             crossReferences.push(cr)
         }
         incidentReport.crossReferences = crossReferences

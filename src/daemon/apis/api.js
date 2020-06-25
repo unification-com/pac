@@ -48,7 +48,6 @@ class ReportApi {
                     resolve(false);
                 } else {
                     console.log("REPORT DOESN'T EXIST - INSERT TO DB");
-                    // console.log("INSERT", ir.getFullDbObject());
                     // ToDo - handle insert error
                     let res = await collection.insertOne(ir.getFullDbObject());
                     resolve(true);

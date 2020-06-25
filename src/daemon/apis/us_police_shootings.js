@@ -17,7 +17,6 @@ class USPoliceShootings extends ReportApi {
     async run() {
         let self = this;
         console.log("start", SOURCE_NAME);
-        console.log("limit", this.limit);
 
         return new Promise((resolve) => {
             Promise.all([fetchData(BASE_DATA_URL + '/export?exportFormat=csv')]).then((values) => {

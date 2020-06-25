@@ -100,6 +100,14 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
             await ir_collection.createIndex({ addedToMerkleTree: 1  }, { collation: { locale: "en" } });
             console.log("done");
 
+            console.log("create beaconTimestampId index on", incidentReportCollectionName);
+            await ir_collection.createIndex({ beaconTimestampId: 1  }, { collation: { locale: "en" } });
+            console.log("done");
+
+            console.log("create beaconTimestampId, addedToMerkleTree index on", incidentReportCollectionName);
+            await ir_collection.createIndex({ beaconTimestampId: 1, addedToMerkleTree: 1  }, { collation: { locale: "en" } });
+            console.log("done");
+
             console.log("create beaconHash, addedToMerkleTree index on", incidentReportCollectionName);
             await ir_collection.createIndex({ beaconHash: 1, addedToMerkleTree: 1  }, { collation: { locale: "en" } });
             console.log("done");

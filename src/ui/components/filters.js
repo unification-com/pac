@@ -11,6 +11,7 @@ export default function Filters({categories, selectedPage}) {
             <FilterCategory data={categories.years} label="Year" id="year" />
             <FilterCategory data={categories.months} label="Month" id="month" />
             <FilterCategory data={categories.armed} label="Armed" id="armed" />
+            <FilterCategory data={categories.sources} label="Data Source" id="source" />
             <input type="hidden" value={selectedPage} id="filter-current-page" name="filter_current_page" />
         </form>
         <a href='/' key='clear_filters'>Clear</a>

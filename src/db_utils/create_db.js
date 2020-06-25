@@ -60,6 +60,18 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
             await ir_collection.createIndex({ victimName: "text" }, {collation: {locale: "simple"} } );
             console.log("done");
 
+            console.log("create year index on", incidentReportCollectionName);
+            await ir_collection.createIndex({ year: 1 }, {collation: {locale: "en"} } );
+            console.log("done");
+
+            console.log("create year month on", incidentReportCollectionName);
+            await ir_collection.createIndex({ month: 1 }, {collation: {locale: "en"} } );
+            console.log("done");
+
+            console.log("create source month on", incidentReportCollectionName);
+            await ir_collection.createIndex({ source: 1 }, {collation: {locale: "en"} } );
+            console.log("done");
+
             console.log("create locationStateCode, victimRace, victimAge, victimGender index on", incidentReportCollectionName);
             await ir_collection.createIndex({ locationStateCode: 1, victimRace: 1, victimAge: 1, victimGender: 1  }, { collation: { locale: "en" } });
             console.log("done");
@@ -78,6 +90,10 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
 
             console.log("create locationStateCode, victimRace, victimAge, victimGender, victimArmed, year, month index on", incidentReportCollectionName);
             await ir_collection.createIndex({ locationStateCode: 1, victimRace: 1, victimAge: 1, victimGender: 1, victimArmed: 1, year: 1, month: 1  }, { collation: { locale: "en" } });
+            console.log("done");
+
+            console.log("create locationStateCode, victimRace, victimAge, victimGender, victimArmed, year, month, source index on", incidentReportCollectionName);
+            await ir_collection.createIndex({ locationStateCode: 1, victimRace: 1, victimAge: 1, victimGender: 1, victimArmed: 1, year: 1, month: 1, source: 1  }, { collation: { locale: "en" } });
             console.log("done");
 
             console.log("create addedToMerkleTree index on", incidentReportCollectionName);

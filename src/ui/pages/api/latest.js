@@ -49,6 +49,11 @@ handler.get(async (req, res) => {
         dbQuery.victimGender = gender;
     }
 
+    if('source' in req.query) {
+        let { source } = req.query;
+        dbQuery.source = source;
+    }
+
     if('armed' in req.query) {
         let { armed } = req.query;
 

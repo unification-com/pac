@@ -45,6 +45,10 @@ handler.get(async (req, res) => {
             vals = await req.db.collection('incident_reports').distinct( 'month' );
             categories.month = vals;
             break;
+        case 'source':
+            vals = await req.db.collection('incident_reports').distinct( 'source' );
+            categories.source = vals;
+            break;
         case 'all':
         default:
             vals = await req.db.collection('incident_reports').distinct( 'victimAge' );
@@ -59,6 +63,7 @@ handler.get(async (req, res) => {
             categories.country = vals;
             vals = await req.db.collection('incident_reports').distinct( 'year' );
 
+
             realYears = [];
             for(let i = 0; i < vals.length; i++) {
                 if(vals[i] > 1973) {
@@ -68,6 +73,8 @@ handler.get(async (req, res) => {
             categories.year = realYears;
             vals = await req.db.collection('incident_reports').distinct( 'month' );
             categories.month = vals;
+            vals = await req.db.collection('incident_reports').distinct( 'source' );
+            categories.source = vals;
             break;
     }
     res.json(categories);

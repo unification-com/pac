@@ -69,8 +69,10 @@ A Next.js (REACT) front-end that reads data from the MongoDB database.
 A MongoDB service is required, either running locally or via the cloud.
 
 1. Run `npm install`
-2. Copy `example.env` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
-3. Run `npm run start-dev-stack`
+2. Copy `example.env` to `.env` and modify MongoDB settings etc. as required. 
+3. Copy `.env` to `src/ui/.env.local`
+4. Run `node src/db_utils/create_db.js` to create DB, collections and indexes
+5. Run `npm run start-dev-stack`
 
 ## Static data attribution
 

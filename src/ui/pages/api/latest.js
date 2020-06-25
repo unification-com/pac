@@ -85,6 +85,7 @@ handler.get(async (req, res) => {
         .limit(parseInt(limit)).toArray();
 
     let dataResults = {
+        dbQuery: dbQuery,
         data: data,
         pages: {
             totalPages: numPages,

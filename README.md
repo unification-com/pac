@@ -85,7 +85,7 @@ and included here for convenience.
 The data used in `src/daemon/apis` is currently sourced from the following. More will be added over time.
 
 - [Police Brutality](https://github.com/2020PB/police-brutality)
-- [Felon Encounters](https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE)
+- [fatalencounters.org](https://fatalencounters.org)
 - [The Guardian](https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/about-the-counted)
 - [Killed By Police](https://killedbypolice.net)
 - [Mapping Police Violence](https://mappingpoliceviolence.org)

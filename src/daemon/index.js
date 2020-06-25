@@ -9,7 +9,7 @@ const UndClient = require('@unification-com/und-js');
 
 // APIs & Data sources
 const PoliceBrutality2020 = require('./apis/2020pb');
-const FelonEncounters = require('./apis/felon_encounters');
+const FatalEncountersDotOrg = require('./apis/fatal_encounters');
 const GuardianTheCounted = require('./apis/guardian_the_counted');
 const KilledByPolice = require('./apis/killed_by_police');
 const MappingPoliceViolence = require('./apis/mapping_police_violence');
@@ -69,7 +69,7 @@ const runDbUpdates = async () => {
 
     let pb = new PoliceBrutality2020(dbOptions, API_LIMIT);
     let wp = new WashingtonPost(dbOptions, API_LIMIT);
-    let fe = new FelonEncounters(dbOptions, API_LIMIT);
+    let fe = new FatalEncountersDotOrg(dbOptions, API_LIMIT);
     let kbp = new KilledByPolice(dbOptions, API_LIMIT);
     let usps = new USPoliceShootings(dbOptions, API_LIMIT);
     let mpv = new MappingPoliceViolence(dbOptions, API_LIMIT);

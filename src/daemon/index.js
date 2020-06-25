@@ -1,46 +1,35 @@
-require('dotenv').config()
+require('dotenv').config();
+
 const assert = require('assert').strict;
-const merkle_mod = require('merkle-tree');
 const fs = require('fs');
+const merkle_mod = require('merkle-tree');
 const MongoClient = require('mongodb').MongoClient;
 const mongo = require('mongodb');
 const UndClient = require('@unification-com/und-js');
 
-const IncidentReport = require('../common/incident_report.js');
-
+// APIs & Data sources
 const PoliceBrutality2020 = require('./apis/2020pb');
-const WashingtonPost = require('./apis/washington_post');
 const FelonEncounters = require('./apis/felon_encounters');
-const KilledByPolice = require('./apis/killed_by_police');
-const USPoliceShootings = require('./apis/us_police_shootings');
-const MappingPoliceViolence = require('./apis/mapping_police_violence');
 const GuardianTheCounted = require('./apis/guardian_the_counted');
+const KilledByPolice = require('./apis/killed_by_police');
+const MappingPoliceViolence = require('./apis/mapping_police_violence');
+const USPoliceShootings = require('./apis/us_police_shootings');
+const WashingtonPost = require('./apis/washington_post');
 
+// Common classes
+const IncidentReport = require('../common/incident_report.js');
 const MerkleTree = require('../common/merkle_tree');
-const {mongoDbUrl, sleepFor} = require('../common/utils');
-const {dbBackUp} = require('../db_utils/backup');
 
-// Database Name
+// specific functions
+const {dbBackUp} = require('../db_utils/backup');
+const {mongoDbUrl, sleepFor} = require('../common/utils');
+
+// Collection Names
 const incidentReportCollectionName = 'incident_reports';
 const merkleTreeCollectionName = 'merkle_tree';
 
+// Defaults
 const DEFAULT_UPDATE_FREQUENCY = 3600000;
-
-// create database
-MongoClient.connect(mongoDbUrl(true), function (err, db) {
-    if (err) throw err;
-    console.log(process.env.MONGODB_DBNAME, "database created!");
-    var dbo = db.db(process.env.MONGODB_DBNAME);
-    dbo.createCollection(incidentReportCollectionName, function (err, res) {
-        if (err) throw err;
-        console.log("Collection created!", incidentReportCollectionName);
-        dbo.createCollection(merkleTreeCollectionName, {capped: true, size: 999999, max: 1}, function (err, res) {
-            if (err) throw err;
-            console.log("Collection created!", merkleTreeCollectionName);
-            db.close();
-        });
-    });
-});
 
 // Create a new MongoClient
 const mongoClient = new MongoClient(mongoDbUrl(true));
@@ -192,7 +181,6 @@ const submitBeaconHashes = async () => {
     console.log("BEACON batch done. Run Merkle tree.")
     BEACON_UPDATE_RUNNING = false;
     await generateMerkleTree();
-    // await mongoClient.close();
 }
 
 const saveMerkleToDb = async (root) => {

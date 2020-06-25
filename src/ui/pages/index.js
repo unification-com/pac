@@ -16,6 +16,7 @@ export async function getServerSideProps(context) {
     let race = '';
     let gender = '';
     let armed = '';
+    let source = '';
 
     if('page' in context.query) {
         page = parseInt(context.query.page);
@@ -64,6 +65,11 @@ export async function getServerSideProps(context) {
         filterParams = filterParams + '&armed=' + armed;
     }
 
+    if('source' in context.query) {
+        source = context.query.source;
+        filterParams = filterParams + '&source=' + source;
+    }
+
     const res = await fetch('http://localhost:3000/api/latest' + pageQuery + filterParams)
     const allPostsData = await res.json()
 
@@ -80,6 +86,7 @@ export async function getServerSideProps(context) {
         months: { selected: month, values: catsData.month },
         years: { selected: year, values: catsData.year },
         armed: { selected: armed, values: armedFilter },
+        sources: { selected: source, values: catsData.source },
     }
 
     return {

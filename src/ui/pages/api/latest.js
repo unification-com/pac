@@ -1,6 +1,8 @@
 import nextConnect from 'next-connect';
 import middleware from '../../middleware/database';
 
+const PAC_CONFIG = require('../../../common/constants');
+
 const handler = nextConnect();
 
 handler.use(middleware);
@@ -75,10 +77,10 @@ handler.get(async (req, res) => {
     let limit = 20;
     let skip = ( pageNo - 1 ) * limit
 
-    let numRows = await req.db.collection('incident_reports').find(dbQuery).count();
+    let numRows = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).find(dbQuery).count();
     let numPages = Math.floor(numRows / limit);
 
-    let data = await req.db.collection('incident_reports')
+    let data = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION)
         .find(dbQuery)
         .sort({ sourceDatetime: -1 })
         .skip(parseInt(skip))

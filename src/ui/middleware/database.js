@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 import nextConnect from 'next-connect';
 const {mongoDbUrl} = require('../../common/utils');
 
-const client = new MongoClient(mongoDbUrl(), {
+const client = new MongoClient(mongoDbUrl(true), {
     useUnifiedTopology: true,
 });
 

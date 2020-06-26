@@ -12,6 +12,10 @@ const runQuery = async () => {
         await client.connect();
         const db = client.db(process.env.MONGODB_DBNAME);
         const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
+        const ipfsCollection = db.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION);
+
+        let ipfsSubmits = await ipfsCollection.find().sort({timestamp: -1}).toArray();
+        console.log(ipfsSubmits)
 
         // console.log("cross references");
         // let crossReferences = await collection.find({
@@ -23,12 +27,12 @@ const runQuery = async () => {
         //     console.log(cr.crossReferences);
         // }
 
-        let beaconsSubmitted = await collection.find({
-            beaconTimestampId: {$gt: 0},
-        }).toArray();
-        for(let b of beaconsSubmitted) {
-            console.log(b.beaconTimestampId, ":", b.beaconHash);
-        }
+        // let beaconsSubmitted = await collection.find({
+        //     beaconTimestampId: {$gt: 0},
+        // }).toArray();
+        // for(let b of beaconsSubmitted) {
+        //     console.log(b.beaconTimestampId, ":", b.beaconHash);
+        // }
 
         // await collection.updateMany(
         //     {},

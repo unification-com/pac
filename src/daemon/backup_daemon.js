@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const IPFS = require('ipfs')
 const tar = require('tar');
@@ -12,11 +13,14 @@ class BackupDaemon {
         const db = this.mongoClient.db(process.env.MONGODB_DBNAME);
         this.collection = db.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION);
         this.ipfsNode = null
+        this.backupToIPFS = (parseInt(process.env.BACKUP_TO_IPFS) || 0)
     }
 
     async backupDb() {
         console.log("run DB backup");
-        this.ipfsNode = await IPFS.create()
+        if(this.backupToIPFS === 1) {
+            this.ipfsNode = await IPFS.create()
+        }
         let self = this;
         dbBackUp('./data/backup/pac_mongodb_backup', function (backupDir) {
             if (fs.existsSync(backupDir)) {
@@ -62,7 +66,11 @@ class BackupDaemon {
         ).then(_ => {
             console.log("tarball created in ", archiveFile, ". Remove dir", backupDir)
             self.removeDir(backupDir)
-            self.saveToIpfs(archiveFile)
+            if(this.backupToIPFS === 1) {
+                self.saveToIpfs(archiveFile)
+            } else {
+                console.log("IPFS backup disabled in .env")
+            }
         })
     }
 

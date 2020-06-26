@@ -12,8 +12,8 @@ const SOURCE_NAME = "KilledByPolice";
 const BASE_DATA_URL = "https://killedbypolice.net";
 
 class KilledByPolice extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {

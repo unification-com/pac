@@ -23,13 +23,7 @@ const MerkleTree = require('../common/merkle_tree');
 // specific functions
 const {dbBackUp} = require('../db_utils/backup');
 const {mongoDbUrl, sleepFor} = require('../common/utils');
-
-// Collection Names
-const incidentReportCollectionName = 'incident_reports';
-const merkleTreeCollectionName = 'merkle_tree';
-
-// Defaults
-const DEFAULT_UPDATE_FREQUENCY = 3600000;
+const PAC_CONFIG = require('../common/constants');
 
 // Create a new MongoClient
 const mongoClient = new MongoClient(mongoDbUrl(true));
@@ -58,22 +52,16 @@ const runDbUpdates = async () => {
 
     const start = new Date();
 
-    let dbOptions = {
-        client: mongoClient,
-        dbName: process.env.MONGODB_DBNAME,
-        collectionName: incidentReportCollectionName
-    }
-
     // ToDo - remove limit
     let API_LIMIT = -1;
 
-    let pb = new PoliceBrutality2020(dbOptions, API_LIMIT);
-    let wp = new WashingtonPost(dbOptions, API_LIMIT);
-    let fe = new FatalEncountersDotOrg(dbOptions, API_LIMIT);
-    let kbp = new KilledByPolice(dbOptions, API_LIMIT);
-    let usps = new USPoliceShootings(dbOptions, API_LIMIT);
-    let mpv = new MappingPoliceViolence(dbOptions, API_LIMIT);
-    let gtc = new GuardianTheCounted(dbOptions, API_LIMIT);
+    let pb = new PoliceBrutality2020(mongoClient, API_LIMIT);
+    let wp = new WashingtonPost(mongoClient, API_LIMIT);
+    let fe = new FatalEncountersDotOrg(mongoClient, API_LIMIT);
+    let kbp = new KilledByPolice(mongoClient, API_LIMIT);
+    let usps = new USPoliceShootings(mongoClient, API_LIMIT);
+    let mpv = new MappingPoliceViolence(mongoClient, API_LIMIT);
+    let gtc = new GuardianTheCounted(mongoClient, API_LIMIT);
 
     Promise.all([
         pb.run(),
@@ -99,7 +87,6 @@ const runDbUpdates = async () => {
         const timeTaken = (end.getTime() - start.getTime()) / 1000;
 
         console.log("api updates complete in ", timeTaken, "seconds");
-        backupDbToIpfs();
     }).catch(function (err) {
         console.error(err);
 
@@ -122,11 +109,11 @@ const submitBeaconHashes = async () => {
     BEACON_UPDATE_RUNNING = true;
 
     const db = mongoClient.db(process.env.MONGODB_DBNAME);
-    const collection = db.collection(incidentReportCollectionName);
+    const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
 
     console.log("timestamps to submit");
 
-    let batchLimit = parseInt((process.env.BEACON_SUBMIT_IN_BATCH || 10));
+    let batchLimit = parseInt((process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH));
 
     let beaconsToSubmit = await collection.find({
         beaconTimestampId: 0,
@@ -183,16 +170,16 @@ const submitBeaconHashes = async () => {
     await generateMerkleTree();
 }
 
-const saveMerkleToDb = async (root) => {
+const saveMerkleToDb = async (rootHash) => {
     const db = mongoClient.db(process.env.MONGODB_DBNAME);
-    const collection = db.collection(merkleTreeCollectionName);
+    const collection = db.collection(PAC_CONFIG.MERKLE_TREE_COLLECTION);
     const undClient = await getUndClient();
     const now = new Date();
     const timestamp = Math.round(now.getTime() / 1000);
 
     let subRes = await undClient.recordBeaconTimestamp(
         process.env.BEACON_ID,
-        root,
+        rootHash,
         timestamp
     );
 
@@ -202,7 +189,7 @@ const saveMerkleToDb = async (root) => {
         let tsId = subRes.result.data;
         let tsIdInt = parseInt(tsId, 16);
         let merkleTree = {
-            rootHash: root,
+            rootHash: rootHash,
             beaconTimestampId: 0,
             mainchainTxHash: '',
             mainchainBlockHeight: 0,
@@ -219,20 +206,19 @@ const saveMerkleToDb = async (root) => {
         let res = await collection.insertOne(merkleTree);
         console.log("merkleTree", merkleTree);
     }
-    let numRows = await collection.find({}).count();
 }
 
 const generateMerkleTree = async () => {
 
     const db = mongoClient.db(process.env.MONGODB_DBNAME);
-    const collection = db.collection(incidentReportCollectionName);
+    const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
 
     let config = new merkle_mod.Config({N: 256, M: 256});
     let myTree = new MerkleTree(config);
 
     let beaconsForMerkle = await collection.find({
         beaconTimestampId: {$gt: 0},
-    }).toArray();
+    }).sort({beaconTimestampId: 1}).toArray();
 
     let numHashes = beaconsForMerkle.length;
     let i = 0;
@@ -272,15 +258,15 @@ const runDaemon = async () => {
     runDbUpdates();
     submitBeaconHashes();
 
-    let dbUpdateFrequency = process.env.DB_UPDATE_FREQUENCY || DEFAULT_UPDATE_FREQUENCY;
-    if (dbUpdateFrequency < DEFAULT_UPDATE_FREQUENCY) {
-        dbUpdateFrequency = DEFAULT_UPDATE_FREQUENCY;
+    let dbUpdateFrequency = process.env.DB_UPDATE_FREQUENCY || PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY;
+    if (dbUpdateFrequency < PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY) {
+        dbUpdateFrequency = PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY;
     }
-    let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || 10) * 7 * 1000;
+    let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 7 * 1000;
     setInterval(() => runDbUpdates(), dbUpdateFrequency);
     setInterval(() => submitBeaconHashes(), beaconUpdateFrequency);
 
-    let dbBackupFrequency = (process.env.DB_BACKUP_FREQUENCY || 86400) * 1000;
+    let dbBackupFrequency = (process.env.DB_BACKUP_FREQUENCY || PAC_CONFIG.DEFAULT_DB_BACKUP_FREQUENCY) * 1000;
     setInterval(() => backupDbToIpfs(), dbBackupFrequency);
 };
 

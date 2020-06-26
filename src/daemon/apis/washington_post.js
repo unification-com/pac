@@ -11,8 +11,8 @@ const SOURCE_NAME = "WashingtonPost";
 const BASE_DATA_URL = "https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv";
 
 class WashingtonPost extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {

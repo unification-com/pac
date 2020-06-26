@@ -1,11 +1,13 @@
 require('dotenv').config();
 const mongo = require('mongodb');
 
+const PAC_CONFIG = require('../../common/constants');
+
 class ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        this.dbOptions = _dbOptions;
-        const db = this.dbOptions.client.db(this.dbOptions.dbName);
-        this.collection = db.collection(this.dbOptions.collectionName);
+    constructor(_mongoClient, _limit = -1) {
+        this.mongoClient = _mongoClient;
+        const db = this.mongoClient.db(process.env.MONGODB_DBNAME);
+        this.collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
         this.baseData = null;
         this.limit = _limit; // used in testing to grab a few records from each source
     }
@@ -13,13 +15,10 @@ class ReportApi {
     async addReportToDb (ir) {
         return new Promise(async (resolve, reject) => {
             try {
-                const db = this.dbOptions.client.db(process.env.MONGODB_DBNAME);
-                const collection = db.collection('incident_reports');
-
                 if (ir.victimName !== '' && ir.victimName.length > 0) {
                     // before inserting, check for cross references - might be included from another source
                     console.log("check potential cross references before inserting, with params:", ir.victimName, ir.sourceDatetime, ir.locationStateCode);
-                    let crossReferences = await collection.find({
+                    let crossReferences = await this.collection.find({
                         $and: [{victimName: ir.victimName}, {sourceDatetime: ir.sourceDatetime}, {locationStateCode: ir.locationStateCode}],
                     }).toArray();
 
@@ -39,7 +38,7 @@ class ReportApi {
                 ir.setBeacon(0, 0, '', 0);
 
                 // already checked in PB, but double check by beacon hash.
-                let checkExists = collection.find({
+                let checkExists = this.collection.find({
                     beaconHash: ir.beaconHash,
                 }).limit(1).toArray();
 
@@ -49,7 +48,7 @@ class ReportApi {
                 } else {
                     console.log("REPORT DOESN'T EXIST - INSERT TO DB");
                     // ToDo - handle insert error
-                    let res = await collection.insertOne(ir.getFullDbObject());
+                    let res = await this.collection.insertOne(ir.getFullDbObject());
                     resolve(true);
                 }
             } catch (err) {
@@ -62,10 +61,8 @@ class ReportApi {
     async updateCrossReferences(_id) {
         return new Promise(async (resolve) => {
             try {
-                const db = this.dbOptions.client.db(process.env.MONGODB_DBNAME);
-                const collection = db.collection('incident_reports');
 
-                let report = await collection.find({
+                let report = await this.collection.find({
                     _id: new mongo.ObjectID(_id),
                 }).limit(1).toArray();
 
@@ -84,7 +81,7 @@ class ReportApi {
                 let initialSize = reportCrs.length;
                 console.log("search potential cross references with params:", thisReport.victimName, thisReport.sourceDatetime, thisReport.locationStateCode);
 
-                let crossReferences = await collection.find({
+                let crossReferences = await this.collection.find({
                     $and: [{victimName: thisReport.victimName}, {sourceDatetime: thisReport.sourceDatetime}, {locationStateCode: thisReport.locationStateCode}],
                 }).toArray();
 
@@ -119,7 +116,7 @@ class ReportApi {
                     // update
                     if (reportCrs.length > initialSize) {
                         // ToDo - handle update error
-                        var results = await collection.updateOne(
+                        var results = await this.collection.updateOne(
                             {_id: new mongo.ObjectID(_id)},
                             {$set: {crossReferences: reportCrs, hasCrossReferences: true}}, {
                                 upsert: true

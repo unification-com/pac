@@ -10,8 +10,8 @@ const SOURCE_NAME = "USPoliceShootings";
 const BASE_DATA_URL = "https://docs.google.com/spreadsheets/d/1cEGQ3eAFKpFBVq1k2mZIy5mBPxC6nBTJHzuSWtZQSVw";
 
 class USPoliceShootings extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {

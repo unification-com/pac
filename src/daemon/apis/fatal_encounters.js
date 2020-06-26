@@ -10,8 +10,8 @@ const SOURCE_NAME = "FatalEncountersDotOrg";
 const BASE_DATA_URL = "https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE";
 
 class FatalEncountersDotOrg extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {

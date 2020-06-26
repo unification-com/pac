@@ -11,8 +11,8 @@ const SOURCE_NAME = "GuardianTheCounted";
 const BASE_DATA_URL = "https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/about-the-counted";
 
 class GuardianTheCounted extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {

@@ -3,7 +3,7 @@
 A public database tracking accountibility from various sources and APIs. Optionally submits BEACON hashes to
 FUND Mainchain.
 
-## Development
+## Development - Quick Start
 
 Docker, Docker Compose and `make` are the recommended minimum requirements for development.
 
@@ -63,16 +63,16 @@ of Docker.
 
 There are currently 4 Daemons which can be run independently:
 
-1. Data Daemon - gathers data from APIs and data sources, and standardises it into a common
+1. **Data Daemon** - gathers data from APIs and data sources, and standardises it into a common
 data structure before inserting into the MongoDB collection. If an indident report exists, the
 daemon will check from cross references and update the record with links to the duplicate data
 as required.
-2. BEACON Daemon - if BEACON variables have been configured in `.env`, this daemon will
+2. **BEACON Daemon** - if BEACON variables have been configured in `.env`, this daemon will
 periodically submit the data hashes in batches to the Unification Mainchain. The hashes submitted
 are generated from the standardised data.
-3. Merkle Tree Daemon - generates a Merkle tree from the hashes that have been submitted to
+3. **Merkle Tree Daemon** - generates a Merkle tree from the hashes that have been submitted to
 Unification Mainchain. The root hash is also submitted to Mainchain.
-4. Backup Daemon - creates a full backup of all collections in the MongoDb database. This backup
+4. **Backup Daemon** - creates a full backup of all collections in the MongoDb database. This backup
 will eventually be saved to IPFS offering an immutible copy of the entire database to be
 available at all times.
 
@@ -92,6 +92,10 @@ A MongoDB service is required, either running locally or via the cloud.
 
 **Note**: the `start-dev-stack` script will only run the UI and Data Daemon. It is intended
 for developers who wish to add data sources, or modify the UI.
+
+## Running in Production
+
+TODO
 
 ## Static data attribution
 

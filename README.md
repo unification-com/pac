@@ -37,6 +37,10 @@ Once up, the front-end UI can be accessed via [http://localhost:3000](http://loc
 
 Changes can now be made, and will be hot loaded in the Docker environment.
 
+**Note**: the Docker composition internally runs the `start-dev-stack` script,
+which only runs the UI and Data Daemon. It is intended for developers who wish to 
+add data sources, or modify the UI.
+
 To bring the composition down, hit Ctrl+C, then run:
 
 ```bash 
@@ -57,8 +61,20 @@ of Docker.
 
 ### src/daemon
 
-The Daemon runs as a service gathering data from the available APIs. Data is standardised and structured
-before being inserted into the MongoDB database.
+There are currently 4 Daemons which can be run independently:
+
+1. Data Daemon - gathers data from APIs and data sources, and standardises it into a common
+data structure before inserting into the MongoDB collection. If an indident report exists, the
+daemon will check from cross references and update the record with links to the duplicate data
+as required.
+2. BEACON Daemon - if BEACON variables have been configured in `.env`, this daemon will
+periodically submit the data hashes in batches to the Unification Mainchain. The hashes submitted
+are generated from the standardised data.
+3. Merkle Tree Daemon - generates a Merkle tree from the hashes that have been submitted to
+Unification Mainchain. The root hash is also submitted to Mainchain.
+4. Backup Daemon - creates a full backup of all collections in the MongoDb database. This backup
+will eventually be saved to IPFS offering an immutible copy of the entire database to be
+available at all times.
 
 ### src/ui
 
@@ -73,6 +89,9 @@ A MongoDB service is required, either running locally or via the cloud.
 3. Copy `.env` to `src/ui/.env.local`
 4. Run `node src/db_utils/create_db.js` to create DB, collections and indexes
 5. Run `npm run start-dev-stack`
+
+**Note**: the `start-dev-stack` script will only run the UI and Data Daemon. It is intended
+for developers who wish to add data sources, or modify the UI.
 
 ## Static data attribution
 

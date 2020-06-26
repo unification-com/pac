@@ -47,7 +47,7 @@ const runDaemon = async () => {
             setInterval(() => merkleDaemon.generateMerkleTree(), merkleUpdateFrequency);
             break
         case 'backup':
-            const backupDaemon = new BackupDaemon();
+            const backupDaemon = new BackupDaemon(mongoClient);
             backupDaemon.backupDb()
             let dbBackupFrequency = (process.env.DB_BACKUP_FREQUENCY || PAC_CONFIG.DEFAULT_DB_BACKUP_FREQUENCY) * 1000;
             setInterval(() => backupDbToIpfs(), dbBackupFrequency);

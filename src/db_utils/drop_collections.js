@@ -13,11 +13,15 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
     let dbo = db.db(process.env.MONGODB_DBNAME);
     dbo.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).drop(function(err, delOK) {
         if (err) throw err;
-        if (delOK) console.log("Collection deleted");
+        if (delOK) console.log(PAC_CONFIG.INCIDENT_REPORT_COLLECTION, "Collection deleted");
         dbo.collection(PAC_CONFIG.MERKLE_TREE_COLLECTION).drop(function(err, delOK) {
             if (err) throw err;
-            if (delOK) console.log("Collection deleted");
-            db.close();
+            if (delOK) console.log(PAC_CONFIG.MERKLE_TREE_COLLECTION, "Collection deleted");
+            dbo.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION).drop(function(err, delOK) {
+                if (err) throw err;
+                if (delOK) console.log(PAC_CONFIG.IPFS_HISTORY_COLLECTION, "Collection deleted");
+                db.close();
+            });
         });
     });
 });

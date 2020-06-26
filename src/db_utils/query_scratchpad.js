@@ -2,18 +2,16 @@ require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
 const {mongoDbUrl} = require('../common/utils');
-
-// Database Name
-const collectionName = 'incident_reports';
+const PAC_CONFIG = require('../common/constants');
 
 // Create a new MongoClient
-const client = new MongoClient(mongoDbUrl());
+const client = new MongoClient(mongoDbUrl(true));
 
 const runQuery = async () => {
     try {
         await client.connect();
         const db = client.db(process.env.MONGODB_DBNAME);
-        const collection = db.collection(collectionName);
+        const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
 
         // console.log("cross references");
         // let crossReferences = await collection.find({
@@ -25,12 +23,12 @@ const runQuery = async () => {
         //     console.log(cr.crossReferences);
         // }
 
-        // let beaconsSubmitted = await collection.find({
-        //     beaconTimestampId: 0// {$gt: 0},
-        // }).toArray();
-        // for(let b of beaconsSubmitted) {
-        //     console.log(b.beaconTimestampId, ":", b.beaconHash);
-        // }
+        let beaconsSubmitted = await collection.find({
+            beaconTimestampId: {$gt: 0},
+        }).toArray();
+        for(let b of beaconsSubmitted) {
+            console.log(b.beaconTimestampId, ":", b.beaconHash);
+        }
 
         // await collection.updateMany(
         //     {},
@@ -44,9 +42,9 @@ const runQuery = async () => {
         // }
         // console.log(beaconsMerkled.length, "merkled");
         //
-        // let numRows = await collection.find({}).count();
+        let numRows = await collection.find({}).count();
 
-        // console.log("total rows:", numRows);
+        console.log("total rows:", numRows);
 
     } catch (err) {
         console.log(err.stack);

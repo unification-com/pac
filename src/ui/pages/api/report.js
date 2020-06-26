@@ -1,5 +1,8 @@
 import nextConnect from 'next-connect';
 import middleware from '../../middleware/database';
+
+const PAC_CONFIG = require('../../../common/constants');
+
 const handler = nextConnect();
 
 handler.use(middleware);
@@ -7,7 +10,7 @@ handler.use(middleware);
 handler.get(async (req, res) => {
     const { beaconHash } = req.query;
     let ret = {};
-    let doc = await req.db.collection('incident_reports').findOne({beaconHash: beaconHash});
+    let doc = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).findOne({beaconHash: beaconHash});
     if(doc) {
         ret.status = true;
         ret.error = '';

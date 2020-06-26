@@ -62,7 +62,7 @@ before being inserted into the MongoDB database.
 
 ### src/ui
 
-A Next.js (REACT) front-end that reads data from the MongoDB database.
+A Next.js (React) front-end that reads data from the MongoDB database.
 
 ## Developing/testing outside Docker environment
 

@@ -11,8 +11,8 @@ const SOURCE_NAME = "MappingPoliceViolence";
 const BASE_DATA_URL = "https://mappingpoliceviolence.org";
 
 class MappingPoliceViolence extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
         this.baseDataPath = './data/mapping_police_violence.xlsx';
     }
 
@@ -149,7 +149,7 @@ class MappingPoliceViolence extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("mpv-id:", d.ID, "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);

@@ -12,8 +12,8 @@ const SOURCE_NAME = "KilledByPolice";
 const BASE_DATA_URL = "https://killedbypolice.net";
 
 class KilledByPolice extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {
@@ -201,7 +201,7 @@ class KilledByPolice extends ReportApi {
                         ir.setEvidenceAdditional(evidence);
 
                         try {
-                            let dbInsRes = await this.addReportToBb(ir);
+                            let dbInsRes = await this.addReportToDb(ir);
                             console.log("kbp-id:", d.sourceId, "inserted into db:", dbInsRes);
                         } catch(dbErr) {
                             console.log("db inster err:", dbErr);

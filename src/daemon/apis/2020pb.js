@@ -13,8 +13,8 @@ const GEO_DATA_API_URL = "https://api.846policebrutality.com/api/incidents/";
 const IPFS_ARCHIVE_URL = "https://gateway.temporal.cloud/ipfs/QmVP7hHyBVzQrDkdTUYww793oa6p4jNBD3c6AqgWvkn1Mp/pb2020";
 
 class PoliceBrutality2020 extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
         this.ipfsArchive = null;
     }
 
@@ -199,7 +199,7 @@ class PoliceBrutality2020 extends ReportApi {
                                 }
                             }
                             try {
-                                let dbInsRes = await this.addReportToBb(ir);
+                                let dbInsRes = await this.addReportToDb(ir);
                                 console.log("pb-id:", d.id, "inserted into db:", dbInsRes);
                             } catch (dbErr) {
                                 console.log("db inster err:", dbErr);

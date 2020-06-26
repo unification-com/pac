@@ -1,0 +1,15 @@
+.block {
+    display: block;
+}
+
+.timeLocation {
+    margin: 1.07rem 1.07rem 0;
+    color: #999;
+    font-size: 0.857rem;
+}
+
+.reportHeading {
+    margin: 0.357rem 1.07rem;
+    font-size: 1.14rem;
+    font-weight: 600;
+}

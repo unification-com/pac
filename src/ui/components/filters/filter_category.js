@@ -1,4 +1,6 @@
-export default function FilterCategory({data, label, id}) {
+import FCStyles from './filter_category.module.css'
+
+export default function FilterCategory({ data, label, id }) {
 
     let defaultOption = <option value="" key={ id + '_default'}>Select</option>
     let categoryList = [defaultOption];
@@ -12,12 +14,13 @@ export default function FilterCategory({data, label, id}) {
         }
     }
 
-    return <div>
-        <label>Filter by {label}: </label>
+    return <div className={FCStyles.filter}>
+        <label>{label === 'Date' || label === 'Location' ? 'By ' : ''}{label}</label>
         <select name={"select_"+id}
                 id={"select-"+id}
                 data-param={id}
                 defaultValue={data.selected}
+                className={FCStyles.filterSelect}
         >
             {categoryList}
         </select>

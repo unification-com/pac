@@ -1,0 +1,34 @@
+.filters {
+    border-bottom: 1.5px solid #dddfdf;
+    padding: 0 0 0.57rem;
+}
+
+.filtersHeading {
+    margin: 0 0 1.2rem;
+    color: #323070;
+    font-weight: 600;
+}
+
+.filter {
+    display: inline-block;
+    width: 15.36%;
+    margin: 0 1.5% 0 0;
+}
+
+.filter:last-of-type {
+    margin: 0;
+}
+
+.filterSelect {
+    width: 100%;
+}
+
+.sorting {
+    margin: 0 1.4rem 0 0.9rem;
+    cursor: pointer;
+}
+
+.sortingIcon {
+    margin: 0 0 0 0.7rem;
+    vertical-align: top;
+}

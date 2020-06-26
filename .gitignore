@@ -111,3 +111,9 @@ dist
 /data/mapping_police_violence.xlsx
 /src/ui/.env.local
 /data/backup
+
+# Custom Next.js config
+next.config.js
+
+# Visual Studio cache/options directory
+.vs/

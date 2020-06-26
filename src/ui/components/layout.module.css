@@ -1,23 +1,95 @@
-.container {
-    max-width: 55rem;
-    padding: 0 1rem;
-    margin: 3rem auto 3rem;
-}
+.container {}
 
-.header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.header {}
+
+.headerMain {
+    float: left;
+    width: 84%;
+    border-bottom: 1.5px solid #e0e0e0;
+    padding: 0.3rem 2% 0.3rem 8%;
+    background: #fff;
+    text-align: center;
 }
 
 .headerImage {
-    width: 6rem;
-    height: 6rem;
+    float: left;
+    width: 2.3rem;
+    height: 2.3rem;
+    margin: 0.3571rem 0.87% 0 0;
 }
 
-.headerHomeImage {
-    width: 8rem;
-    height: 8rem;
+.headingContainer {
+    float: left;
+}
+
+.headerText {
+    margin: 0;
+    color: #bfbfbf;
+    font-size: 0.7143rem;
+    line-height: 0.8;
+    text-align: left;
+}
+
+.search {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.searchField {
+    width: 25rem;
+    border: 1.5px solid #e8e8e8;
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    padding: 0.5rem 10% 0.5rem 2.2rem;
+    background: url(/assets/img/search.svg) 0.9rem 0.65rem no-repeat;
+}
+
+.searchButton {
+    border: 1.5px solid #cbcbcb;
+    border-radius: 0 2px 2px 0;
+    padding: 0.5rem 3.98%;
+    background: #e6e6e6;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.create {
+    float: right;
+    border: 0;
+    border-radius: 2px;
+    margin: 0.4rem 0;
+    padding: 0.53rem 0.87%;
+    background: #323070;
+    color: #fff;
+    cursor: pointer;
+}
+
+.totalContainer {
+    float: right;
+    width: 16%;
+    padding: 0.3915rem 0 0.3rem 1.7%;
+    border-bottom: 1.5px solid #e0e0e0;
+    background: #484848;
+    color: #fff;
+    font-size: 0.7143em;
+    font-weight: 600;
+    line-height: 1.278;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.total {
+    float: left;
+    width: 5.8rem;
+}
+
+.totalNumber {
+    font-size: 1.7rem;
+    white-space: nowrap;
+}
+
+.main {
+    padding: 5rem 8.5%;
 }
 
 .backToHome {

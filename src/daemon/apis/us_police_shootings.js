@@ -143,7 +143,7 @@ class USPoliceShootings extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("uspsh-id:", sourceId, "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);

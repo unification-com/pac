@@ -126,7 +126,7 @@ class GuardianTheCounted extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("gtc-id:", d.uid, "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);

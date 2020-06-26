@@ -10,7 +10,7 @@ class ReportApi {
         this.limit = _limit; // used in testing to grab a few records from each source
     }
 
-    async addReportToBb (ir) {
+    async addReportToDb (ir) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = this.dbOptions.client.db(process.env.MONGODB_DBNAME);

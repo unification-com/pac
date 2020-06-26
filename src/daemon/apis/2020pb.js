@@ -199,7 +199,7 @@ class PoliceBrutality2020 extends ReportApi {
                                 }
                             }
                             try {
-                                let dbInsRes = await this.addReportToBb(ir);
+                                let dbInsRes = await this.addReportToDb(ir);
                                 console.log("pb-id:", d.id, "inserted into db:", dbInsRes);
                             } catch (dbErr) {
                                 console.log("db inster err:", dbErr);

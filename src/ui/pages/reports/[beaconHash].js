@@ -13,7 +13,6 @@ import Beacon from '../../components/report/beacon'
 import CrossReferences from '../../components/report/cross_references'
 import Map from "../../components/report/map";
 import IncidentReport from '../../../common/incident_report'
-import Link from "next/link";
 
 export async function getServerSideProps(context) {
     const res = await fetch('http://localhost:3000/api/report?beaconHash=' + context.params.beaconHash)
@@ -66,11 +65,11 @@ export default function Report({incidentReport}) {
         map = <Map lat={incidentReport.locationLat} long={incidentReport.locationLong}/>
     }
 
-    return <Layout>
+    return <Layout total={incidentReport.totalPages}>
         <Head>
             <title>{incidentReport.title}</title>
         </Head>
-        <article>
+        <article className={utilStyles.article}>
             <h1 className={utilStyles.headingXl}>{incidentReport.title}</h1>
             <div className={utilStyles.lightText}>
                 <Date timestamp={incidentReport.sourceDatetime}/>

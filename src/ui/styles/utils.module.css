@@ -41,14 +41,22 @@
     margin: 1.4rem 0 0;
 }
 
+.article,
+.listItem {
+    border: 1.5px solid #e1e1e1;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.article {
+    padding: 0 99px;
+}
+
 .listItem {
     float: left;
     width: 23.5%;
     height: 23rem;
-    border: 1.5px solid #e1e1e1;
-    border-radius: 5px;
     margin: 0 1.35% 1.25rem 0;
-    background: #fff;
     overflow: hidden;
 }
 

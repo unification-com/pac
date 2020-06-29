@@ -95,6 +95,10 @@
     margin: 3rem 0 0;
 }
 
+.link {
+    color: #333;
+}
+
 .footer {
     border-top: 1px solid #e0e0e0;
     padding: 15px 8.5% 18px;
@@ -110,8 +114,4 @@
 .footerLogo {
     height: 16px;
     vertical-align: text-bottom;
-}
-
-.footerLink {
-    color: #333;
 }

@@ -8,7 +8,7 @@ export const siteTitle = 'Public Accountability Chain'
 export default function Layout({ children, home, total }) {
 
     return (
-        <div className={styles.container}>
+        <>
             <Head>
                 <link rel="icon" href="/favicon.ico"/>
                 <meta
@@ -51,25 +51,28 @@ export default function Layout({ children, home, total }) {
                 </div>
                 <div className={styles.totalContainer}>
                     <div className={styles.total}>
-                        Total incidents <span className={styles.totalNumber}>{total.toLocaleString('fr-FR')}</span>
+                        {total ? (
+                            <>
+                                Total incidents <span className={styles.totalNumber}>{total.toLocaleString('fr-FR')}</span>
+                            </>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             </header>
             {!home && (
                 <div className={styles.backToHome}>
                     <Link href="/">
-                        <a>← Back to home</a>
+                        <a>← Back to all Sources</a>
                     </Link>
                 </div>
             )}
             <main className={styles.main}>{children}</main>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
-        </div>
+            <footer className={styles.footer}>
+                <p className={styles.footerLeft}>Powered by <a href="https://unification.com/" target="_blank"><img src="/assets/img/unification-logo.png" className={styles.footerLogo} alt="Unification" /></a></p>
+                <a href="https://github.com/unification-com/pac" className={styles.footerLink} target="_blank">Github</a> | <a href="#" className={styles.footerLink}>Request to add sources</a>
+            </footer>
+        </>
     )
 }

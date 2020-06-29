@@ -10,6 +10,16 @@
 
 .reportHeading {
     margin: 0.357rem 1.07rem;
+    color: #323070;
     font-size: 1.14rem;
     font-weight: 600;
+}
+
+.previewImg {
+    margin: 0 0.7rem 0.7rem;
+}
+
+.content {
+    margin: 0 1.07rem;
+    color: #333;
 }

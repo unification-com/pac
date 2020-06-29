@@ -1,5 +1,3 @@
-.container {}
-
 .header {}
 
 .headerMain {
@@ -93,5 +91,27 @@
 }
 
 .backToHome {
+    clear: both;
     margin: 3rem 0 0;
+}
+
+.footer {
+    border-top: 1px solid #e0e0e0;
+    padding: 15px 8.5% 18px;
+    text-align: center;
+}
+
+.footerLeft {
+    position: absolute;
+    margin: 0;
+    color: #999;
+}
+
+.footerLogo {
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+.footerLink {
+    color: #333;
 }

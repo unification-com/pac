@@ -52,6 +52,10 @@
     overflow: hidden;
 }
 
+.paginationContainer {
+    text-align: center;
+}
+
 .lightText {
     color: #999;
 }

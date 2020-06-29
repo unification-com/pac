@@ -40,6 +40,20 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "Gilroy";
+    src: url("/assets/fonts/Gilroy-Bold.eot");
+    src: local("Gilroy Bold"),
+         local("Gilroy-Bold"),
+         url("/assets/fonts/Gilroy-Bold.eot?#iefix") format("embedded-opentype"),
+         url("/assets/fonts/Gilroy-Bold.woff2") format("woff2"),
+         url("/assets/fonts/Gilroy-Bold.woff") format("woff"),
+         url("/assets/fonts/Gilroy-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: auto;
+    font-style: normal;
+}
+
 html,
 body {
     padding: 0;
@@ -59,13 +73,9 @@ body {
     color: #999;
 }
 
-a {
-    color: #0070f3;
-    text-decoration: none;
-}
-
+a,
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 img {

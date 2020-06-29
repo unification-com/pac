@@ -10,7 +10,7 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
     if(evidenceAdditional.type === 'media' && evidenceAdditional.data !== null) {
         if(data.length > 0) {
             if (data[0].status === 'ok') {
-                image = (data[0].thumbnail !== null) ? <img src={data[0].thumbnail.replace('?name=orig', '')}/> : <></>
+                image = (data[0].thumbnail !== null) ? <img src={data[0].thumbnail.replace('?name=orig', '')} className={previewStyles.previewImg} /> : <></>
             }
         }
     }
@@ -22,6 +22,9 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
             </p>
             <h3 className={previewStyles.reportHeading}>{title}</h3>
             {image}
+            <div className={previewStyles.content}>
+                {content}
+            </div>
         </a>
     </Link>
 }

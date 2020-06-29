@@ -118,7 +118,7 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                     ))}
                 </ul>
             </section>
-            <section>
+            <section className={utilStyles.paginationContainer}>
                 <Pagination pageData={allPostsData.pages} filterParams={filterParams} path='/' />
             </section>
         </Layout>

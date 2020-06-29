@@ -51,15 +51,29 @@
     cursor: pointer;
 }
 
+.createContainer {
+    float: right;
+    margin: 0.4rem 0;
+}
+
 .create {
     float: right;
     border: 0;
     border-radius: 2px;
-    margin: 0.4rem 0;
-    padding: 0.53rem 0.87%;
+    padding: 0.53rem 12%;
     background: #323070;
     color: #fff;
     cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background: #323070;
+}
+
+.dropdownLink {
+    color: #fff;
 }
 
 .totalContainer {

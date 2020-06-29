@@ -37,7 +37,21 @@ export default function Layout({ children, home, total }) {
                         <input type="text" className={styles.searchField} placeholder="Search Incident or Unification Mainchain Tx" />
                         <input type="submit" className={styles.searchButton} value="Search" />
                     </form>
-                    <input type="button" className={styles.create} value="Create News" onClick={dropdown} />
+                    <div className={styles.createContainer}>
+                        <button className={styles.create} onClick={dropdown}>Create News</button>
+                        <ul className={styles.dropdown}>
+                            <li>
+                                <Link href="/new/[obj]">
+                                    <a>Report new incident</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/new/[obj]">
+                                    <a>Report new source</a>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className={styles.totalContainer}>
                     <div className={styles.total}>

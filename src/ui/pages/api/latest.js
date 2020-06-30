@@ -10,7 +10,7 @@ handler.use(middleware);
 handler.get(async (req, res) => {
     let { page } = req.query;
     let pageNo = parseInt(page)
-    if(pageNo < 0 || pageNo === 0) {
+    if(!pageNo) {
         pageNo = 1
     }
 

@@ -41,7 +41,7 @@ handler.get(async (req, res) => {
                     realYears.push(vals[i]);
                 }
             }
-            categories.year = realYears;
+            categories.year = realYears.reverse();
             break;
         case 'month':
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'month' );
@@ -72,7 +72,7 @@ handler.get(async (req, res) => {
                     realYears.push(vals[i]);
                 }
             }
-            categories.year = realYears;
+            categories.year = realYears.reverse();
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'month' );
             categories.month = vals;
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'source' );

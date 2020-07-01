@@ -14,8 +14,8 @@ const runQuery = async () => {
         const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
         const ipfsCollection = db.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION);
 
-        let ipfsSubmits = await ipfsCollection.find().sort({timestamp: -1}).toArray();
-        console.log(ipfsSubmits)
+        // let ipfsSubmits = await ipfsCollection.find().sort({timestamp: -1}).toArray();
+        // console.log(ipfsSubmits)
 
         // console.log("cross references");
         // let crossReferences = await collection.find({
@@ -46,6 +46,10 @@ const runQuery = async () => {
         // }
         // console.log(beaconsMerkled.length, "merkled");
         //
+
+        let sources = await collection.distinct( 'source' );
+        console.log(sources);
+
         let numRows = await collection.find({}).count();
 
         console.log("total rows:", numRows);

@@ -11,7 +11,7 @@ import Source from '../../components/report/source'
 import AdditionalEvidence from '../../components/report/additional_evidence'
 import Beacon from '../../components/report/beacon'
 import CrossReferences from '../../components/report/cross_references'
-import Map from "../../components/report/map";
+import Map from '../../components/report/map';
 import IncidentReport from '../../../common/incident_report'
 
 export async function getServerSideProps(context) {
@@ -69,11 +69,11 @@ export default function Report({incidentReport}) {
         <Head>
             <title>{incidentReport.title}</title>
         </Head>
-        <article className={utilStyles.article}>
-            <h1 className={utilStyles.headingXl}>{incidentReport.title}</h1>
+        <article className={utilStyles.section}>
             <div className={utilStyles.lightText}>
-                <Date timestamp={incidentReport.sourceDatetime}/>
+                <Date timestamp={incidentReport.sourceDatetime} />
             </div>
+            <h2 className={utilStyles.headingXl}>{incidentReport.title}</h2>
 
             <Location locationCity={incidentReport.locationCity}
                       locationCountry={incidentReport.locationCountry}

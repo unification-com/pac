@@ -2,12 +2,18 @@ import Head from 'next/head'
 import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { useState } from 'react'
 
-const dropdown = function () {}
 
 export const siteTitle = 'Public Accountability Chain'
 
 export default function Layout({ children, home, total }) {
+
+    const [show, setDisplay] = useState(false);
+
+    function dropdown() {
+        setDisplay(!show);
+    }
 
     return (
         <>
@@ -38,16 +44,16 @@ export default function Layout({ children, home, total }) {
                         <input type="submit" className={styles.searchButton} value="Search" />
                     </form>
                     <div className={styles.createContainer}>
-                        <button className={styles.create} onClick={dropdown}>Create News</button>
-                        <ul className={styles.dropdown}>
+                        <button type="button" className={styles.create} onClick={dropdown}>Create News</button>
+                        <ul className={styles.dropdown} style={{display: show ? 'block' : 'none'}}>
                             <li>
-                                <Link href="/new/[obj]">
-                                    <a>Report new incident</a>
+                                <Link href="/new/[obj]" as="/new/incident">
+                                    <a className={styles.dropdownLink}>Report new incident</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/new/[obj]">
-                                    <a>Report new source</a>
+                                <Link href="/new/[obj]" as="/new/source">
+                                    <a className={styles.dropdownLink}>Report new source</a>
                                 </Link>
                             </li>
                         </ul>

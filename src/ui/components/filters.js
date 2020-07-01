@@ -1,11 +1,12 @@
 import FilterCategory from './filters/filter_category'
 import filterStyles from './filters.module.css'
+import utilStyles from '../styles/utils.module.css'
 
 export default function Filters({ categories, selectedPage }) {
 
     return <div>
         <form id="report-filters" className={filterStyles.filters}>
-            <h2 className={filterStyles.filtersHeading}>Filters</h2>
+            <h2 className={utilStyles.headingLg}>Filters</h2>
             <FilterCategory data={categories.years} label="Date" id="year" />
             <FilterCategory data={categories.states} label="Location" id="state" />
             <FilterCategory data={categories.genders} label="Gender" id="gender" />

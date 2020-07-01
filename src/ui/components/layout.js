@@ -69,7 +69,7 @@ export default function Layout({ children, home, total }) {
                     <div className={styles.total}>
                         {total ? (
                             <>
-                                Total incidents <span className={styles.totalNumber}>{total.toLocaleString('fr-FR')}</span>
+                                Total incidents <span className={styles.totalNumber}>{total.toLocaleString('en')}</span>
                             </>
                         ) : (
                             <></>

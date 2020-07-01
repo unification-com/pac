@@ -25,7 +25,7 @@ class MappingPoliceViolence extends ReportApi {
                     console.log("file downloaded OK");
                     let buf = fs.readFileSync(this.baseDataPath);
                     let wb = XLSX.read(buf, {type: 'buffer'});
-                    let data = XLSX.utils.sheet_to_csv(wb.Sheets['2013-2019 Police Killings']);
+                    let data = XLSX.utils.sheet_to_csv(wb.Sheets['2013-2020 Police Killings']);
                     this.baseData = CSVParse(data, {
                         columns: true,
                         skip_empty_lines: true
@@ -102,18 +102,18 @@ class MappingPoliceViolence extends ReportApi {
                         d.City
                     );
 
-                    if(d['Link to news article or photo of official document'].length > 0) {
-                        ir.addEvidenceLink(d['Link to news article or photo of official document']);
-                    }
-
                     if(d['URL of image of victim'].length > 0) {
                         ir.addEvidenceLink(d['URL of image of victim']);
+                    }
+
+                    if(d['Link to news article or photo of official document'].length > 0) {
+                        ir.addEvidenceLink(d['Link to news article or photo of official document']);
                     }
 
                     ir.setVictimRace(d["Victim's race"]);
                     ir.setVictimAge(d["Victim's age"]);
                     ir.setVictimGender(d["Victim's gender"]);
-                    ir.setVictimArmed(d.Unarmed);
+                    ir.setVictimArmed(d["Unarmed/Did Not Have a Weapon"]);
 
                     let additionalEvidence = {
                         victim_name: d["Victim's name"],
@@ -130,8 +130,8 @@ class MappingPoliceViolence extends ReportApi {
                         official_disposition_of_death: d['Official disposition of death (justified or other)'],
                         criminal_charges: d['Criminal Charges?'],
                         mental_illness: d['Symptoms of mental illness?'],
-                        unarmed: d.Unarmed,
-                        alleged_weapon: d['Alleged Weapon (Source: WaPo)'],
+                        unarmed: d["Unarmed/Did Not Have a Weapon"],
+                        alleged_weapon: d['Alleged Weapon (Source: WaPo and Review of Cases Not Included in WaPo Database)'],
                         alleged_threat_level: d['Alleged Threat Level (Source: WaPo)'],
                         fleeing: d['Fleeing (Source: WaPo)'],
                         body_camera: d['Body Camera (Source: WaPo)'],

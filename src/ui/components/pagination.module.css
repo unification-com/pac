@@ -3,18 +3,15 @@
 }
 
 .pagination a {
-    color: black;
     float: left;
-    padding: 8px 16px;
+    padding: 5px 13px;
+    color: #333;
     text-decoration: none;
-    border: 1px solid #ddd; /* Gray */
 }
 
 .pagination a.active {
-    background-color: #0070f3;
-    color: white;
-}
-
-.pagination a:hover:not(.active) {
-    background-color: #ddd;
-}
+    background-color: #323070;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: 700;
+   }

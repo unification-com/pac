@@ -1,25 +1,146 @@
-.container {
-    max-width: 55rem;
-    padding: 0 1rem;
-    margin: 3rem auto 3rem;
-}
+.header {}
 
-.header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.headerMain {
+    float: left;
+    width: 84%;
+    border-bottom: 1.5px solid #e0e0e0;
+    padding: 0.3rem 2% 0.3rem 8%;
+    background: #fff;
+    text-align: center;
 }
 
 .headerImage {
-    width: 6rem;
-    height: 6rem;
+    float: left;
+    height: 2.3rem;
+    margin: 0.3571rem 0.87% 0 0;
 }
 
-.headerHomeImage {
-    width: 8rem;
-    height: 8rem;
+.headingContainer {
+    float: left;
+}
+
+.headerText {
+    margin: 0;
+    color: #bfbfbf;
+    font-size: 0.7143rem;
+    line-height: 0.8;
+    text-align: left;
+}
+
+.search {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.searchField {
+    width: 25rem;
+    border: 1.5px solid #e8e8e8;
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    padding: 0.5rem 10%;
+    background: url(/assets/img/search.svg) 0.9rem 0.65rem no-repeat;
+}
+
+.searchButton {
+    border: 1.5px solid #cbcbcb;
+    border-radius: 0 2px 2px 0;
+    padding: 0.5rem 3.98%;
+    background: #e6e6e6;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.createContainer {
+    float: right;
+    width: 11%;
+    margin: 0.4rem 0;
+}
+
+.create {
+    width: 100%;
+    border: 0;
+    border-radius: 2px;
+    padding: 0.53rem 0;
+    background: #323070;
+    color: #fff;
+    font-size: 0.9524em;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: absolute;
+    width: 14%;
+    margin: 0 0 0 -2.91%;
+    padding: 0 0 0 1.5%;
+    background: #323070;
+    list-style: none;
+    text-align: left;
+}
+
+.dropdownLink {
+    color: #fff;
+    font-weight: 500;
+}
+
+.totalContainer {
+    float: right;
+    width: 16%;
+    padding: 0.3915rem 0 4.33px 1.7%;
+    border-bottom: 1.5px solid #e0e0e0;
+    background: #484848;
+    color: #fff;
+    font-size: 0.7143em;
+    font-weight: 600;
+    line-height: 1.24;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.total {
+    float: left;
+    width: 5.8rem;
+}
+
+.totalNumber {
+    font-size: 1.7rem;
+    white-space: nowrap;
+}
+
+.main {
+    padding: 5rem 8.5%;
 }
 
 .backToHome {
+    clear: both;
     margin: 3rem 0 0;
+}
+
+.link {
+    color: #333;
+}
+
+.footer {
+    border-top: 1px solid #e0e0e0;
+    padding: 15px 8.5% 18px;
+    text-align: center;
+}
+
+.footerLeft {
+    position: absolute;
+    margin: 0;
+    color: #999;
+}
+
+.footerLogo {
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+@media (max-width: 985px) {
+
+    .headerImage {
+        height: 22px;
+    }
+
 }

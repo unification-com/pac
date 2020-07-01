@@ -1,27 +1,124 @@
+@font-face {
+    font-family: "Gilroy";
+    src: url("/assets/fonts/Gilroy-Regular.eot");
+    src: local("Gilroy Regular"),
+         local("Gilroy-Regular"),
+         url("/assets/fonts/Gilroy-Regular.eot?#iefix") format("embedded-opentype"),
+         url("/assets/fonts/Gilroy-Regular.woff2") format("woff2"),
+         url("/assets/fonts/Gilroy-Regular.woff") format("woff"),
+         url("/assets/fonts/Gilroy-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: auto;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Gilroy";
+    src: url("/assets/fonts/Gilroy-Medium.eot");
+    src: local("Gilroy Medium"),
+         local("Gilroy-Medium"),
+         url("/assets/fonts/Gilroy-Medium.eot?#iefix") format("embedded-opentype"),
+         url("/assets/fonts/Gilroy-Medium.woff2") format("woff2"),
+         url("/assets/fonts/Gilroy-Medium.woff") format("woff"),
+         url("/assets/fonts/Gilroy-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: auto;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Gilroy";
+    src: url("/assets/fonts/Gilroy-Semibold.eot");
+    src: local("Gilroy Semibold"),
+         local("Gilroy-Semibold"),
+         url("/assets/fonts/Gilroy-Semibold.eot?#iefix") format("embedded-opentype"),
+         url("/assets/fonts/Gilroy-Semibold.woff2") format("woff2"),
+         url("/assets/fonts/Gilroy-Semibold.woff") format("woff"),
+         url("/assets/fonts/Gilroy-Semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-display: auto;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Gilroy";
+    src: url("/assets/fonts/Gilroy-Bold.eot");
+    src: local("Gilroy Bold"),
+         local("Gilroy-Bold"),
+         url("/assets/fonts/Gilroy-Bold.eot?#iefix") format("embedded-opentype"),
+         url("/assets/fonts/Gilroy-Bold.woff2") format("woff2"),
+         url("/assets/fonts/Gilroy-Bold.woff") format("woff"),
+         url("/assets/fonts/Gilroy-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: auto;
+    font-style: normal;
+}
+
 html,
 body {
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
-    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background: #f2f4f5;
+    color: #333;
+    font-family: "Gilroy", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     line-height: 1.6;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 * {
     box-sizing: border-box;
 }
 
-a {
-    color: #0070f3;
-    text-decoration: none;
+::placeholder {
+    color: #999;
 }
 
+a,
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 img {
     max-width: 100%;
+}
+
+input {
+    margin: 0.3em 0;
+    padding: 0.5rem 0;
+    color: #333;
+    font: 14px "Gilroy", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+select {
+    border: 0;
+    border-radius: 2px;
+    margin: 0.4rem 0 0;
+    padding: 0.4rem 0 0.4rem 0.7rem;
+    color: #333;
+    font: 14px "Gilroy", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+textarea {
+    width: 100%;
+    background: #f2f4f5;
+}
+
+button {
+    font-family: "Gilroy", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+label {
     display: block;
+    color: #323070;
+    font-size: 0.857rem;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+legend {
+    padding: 0;
 }

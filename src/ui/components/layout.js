@@ -2,12 +2,21 @@ import Head from 'next/head'
 import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { useState } from 'react'
+
 
 export const siteTitle = 'Public Accountability Chain'
 
-export default function Layout({children, home}) {
+export default function Layout({ children, home, total }) {
+
+    const [show, setDisplay] = useState(false);
+
+    function dropdown() {
+        setDisplay(!show);
+    }
+
     return (
-        <div className={styles.container}>
+        <>
             <Head>
                 <link rel="icon" href="/favicon.ico"/>
                 <meta
@@ -24,35 +33,58 @@ export default function Layout({children, home}) {
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
             <header className={styles.header}>
-                {home ? (
-                    <>
+                <div className={styles.headerMain}>
+                    <img src="/assets/img/logo.png" alt="Public Accountability Chain Logo" className={styles.headerImage} />
+                    <div className={styles.headingContainer}>
                         <h1 className={utilStyles.heading2Xl}>{siteTitle}</h1>
-                    </>
-                ) : (
-                    <>
-                        <h2 className={utilStyles.headingLg}>
-                            <Link href="/">
-                                <a className={utilStyles.colorInherit}>{siteTitle}</a>
-                            </Link>
-                        </h2>
-                    </>
-                )}
+                        <p className={styles.headerText}>Powered by Unification</p>
+                    </div>
+                    <form className={styles.search}>
+                        <input type="text" className={styles.searchField} placeholder="Search Incident or Unification Mainchain Tx" />
+                        <input type="submit" className={styles.searchButton} value="Search" />
+                    </form>
+                    <div className={styles.createContainer}>
+                        <button type="button" className={styles.create} onClick={dropdown}>Create News</button>
+                        <ul className={styles.dropdown} style={{display: show ? 'block' : 'none'}}>
+                            <li>
+                                <Link href="/new/[obj]" as="/new/incident">
+                                    <a className={styles.dropdownLink}>Report new incident</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/new/[obj]" as="/new/source">
+                                    <a className={styles.dropdownLink}>Report new source</a>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div className={styles.totalContainer}>
+                    <div className={styles.total}>
+                        {total ? (
+                            <>
+                                Total incidents <span className={styles.totalNumber}>{total.toLocaleString('fr-FR')}</span>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </div>
             </header>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
-            <main>{children}</main>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
-        </div>
+            <main className={styles.main}>
+                {!home && (
+                    <div className={styles.backToHome}>
+                        <Link href="/">
+                            <a className={styles.link}>← Back to all Sources</a>
+                        </Link>
+                    </div>
+                )}
+                {children}
+            </main>
+            <footer className={styles.footer}>
+                <p className={styles.footerLeft}>Powered by <a href="https://unification.com/" target="_blank"><img src="/assets/img/unification-logo.png" className={styles.footerLogo} alt="Unification" /></a></p>
+                <a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a> | <a href="#" className={styles.link}>Request to add sources</a>
+            </footer>
+        </>
     )
 }

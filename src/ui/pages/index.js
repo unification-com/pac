@@ -18,49 +18,49 @@ export async function getServerSideProps(context) {
     let armed = '';
     let source = '';
 
-    if('page' in context.query) {
+    if ('page' in context.query) {
         page = parseInt(context.query.page);
     }
 
-    let pageQuery = '?page='+page;
+    let pageQuery = '?page=' + page;
     let filterParams = '';
 
-    if('age' in context.query) {
+    if ('age' in context.query) {
         age = parseInt(context.query.age);
         filterParams = filterParams + '&age=' + age;
     }
 
-    if('year' in context.query) {
+    if ('year' in context.query) {
         year = parseInt(context.query.year);
         filterParams = filterParams + '&year=' + year;
     }
 
-    if('month' in context.query) {
+    if ('month' in context.query) {
         month = parseInt(context.query.month);
         filterParams = filterParams + '&month=' + month;
     }
 
-    if('country' in context.query) {
+    if ('country' in context.query) {
         country = context.query.country;
         filterParams = filterParams + '&country=' + country;
     }
 
-    if('state' in context.query) {
+    if ('state' in context.query) {
         state = context.query.state;
         filterParams = filterParams + '&state=' + state;
     }
 
-    if('race' in context.query) {
+    if ('race' in context.query) {
         race = context.query.race;
         filterParams = filterParams + '&race=' + race;
     }
 
-    if('gender' in context.query) {
+    if ('gender' in context.query) {
         gender = context.query.gender;
         filterParams = filterParams + '&gender=' + gender;
     }
 
-    if('armed' in context.query) {
+    if ('armed' in context.query) {
         armed = context.query.armed;
         filterParams = filterParams + '&armed=' + armed;
     }
@@ -99,11 +99,10 @@ export async function getServerSideProps(context) {
     }
 }
 
+export default function Home({ allPostsData, selectedPage, categories, filterParams }) {
 
-
-export default function Home({allPostsData, selectedPage, categories, filterParams}) {
     return (
-        <Layout home>
+        <Layout home total={allPostsData.pages.total}>
             <Head>
                 <title>{siteTitle}</title>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" />
@@ -112,7 +111,6 @@ export default function Home({allPostsData, selectedPage, categories, filterPara
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
                 <Filters categories={categories} selectedPage={selectedPage}/>
 
-                <h2 className={utilStyles.headingLg}>Latest Reports ({allPostsData.pages.total} found)</h2>
                 <ul className={utilStyles.list}>
                     {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional}) => (
                         <li className={utilStyles.listItem} key={beaconHash}>
@@ -127,7 +125,7 @@ export default function Home({allPostsData, selectedPage, categories, filterPara
                     ))}
                 </ul>
             </section>
-            <section>
+            <section className={utilStyles.paginationContainer}>
                 <Pagination pageData={allPostsData.pages} filterParams={filterParams} path='/' />
             </section>
         </Layout>

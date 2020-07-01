@@ -1,3 +1,4 @@
+import previewStyles from './preview_block.module.css'
 import Link from "next/link";
 import Date from "./date";
 import {formatSource} from "../utils/source";
@@ -18,11 +19,17 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
         }
     }
 
-    return <div>
-        <Link href="/reports/[beaconHash]" as={`/reports/${beaconHash}`}>
-            <a>{title}</a>
-        </Link>
-        {image}
-        <Date timestamp={sourceDatetime}/>, {formatSource(source)}
-    </div>
+    return <Link href="/reports/[beaconHash]" as={`/reports/${beaconHash}`}>
+        <a className={previewStyles.previewBlock}>
+            <p className={previewStyles.timeLocation}>
+                <Date timestamp={sourceDatetime} />{(data.city ? ' | ' + data.city : '') + (data.city && data.state ? ', ' : '') + (data.state || '')}
+            </p>
+            <h3 className={previewStyles.reportHeading}>{title}</h3>
+            {image}
+            <div className={previewStyles.content}>
+                {content}
+            </div>
+            <div className={previewStyles.overlay}></div>
+       </a>
+    </Link>
 }

@@ -1,13 +1,11 @@
 .heading2Xl {
-    font-size: 2.5rem;
-    line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: -0.05rem;
-    margin: 1rem 0;
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .headingXl {
-    font-size: 2rem;
+    font-size: 1.7143em;
     line-height: 1.3;
     font-weight: 800;
     letter-spacing: -0.05rem;
@@ -15,13 +13,12 @@
 }
 
 .headingLg {
-    font-size: 1.5rem;
-    line-height: 1.4;
-    margin: 1rem 0;
+    margin: 0 0 1.2rem;
+    color: #323070;
+    font-weight: 600;
 }
 
 .headingMd {
-    font-size: 1.2rem;
     line-height: 1.5;
 }
 
@@ -38,15 +35,85 @@
 }
 
 .list {
+    width: 102%;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 1.4rem 0 0;
+}
+
+.section,
+.listItem {
+    border: 1.5px solid #e1e1e1;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.section {
+    padding: 30px 99px;
 }
 
 .listItem {
-    margin: 0 0 1.25rem;
+    float: left;
+    width: 23.5%;
+    height: 23rem;
+    margin: 0 1.35% 1.25rem 0;
+    overflow: hidden;
+}
+
+.paginationContainer {
+    text-align: center;
 }
 
 .lightText {
     color: #999;
+}
+
+.inputContainer {
+    position: relative;
+    padding: 0 3.71em 0 0;
+}
+
+.input {
+    width: 100%;
+    border: 0.108em solid #e8e8e8;
+    border-radius: 2px;
+    margin: 0;
+    padding: 0.508em 0.7143em;
+    font-weight: 500;
+}
+
+.addRemove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0.072em solid #323070;
+    border-radius: 2px;
+    margin: 0;
+    padding: 0.1495em 0.47em;
+    background: transparent;
+    color: #323070;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.submitContainer {
+    padding: 0 3.71em 0 0;
+    text-align: right;
+}
+
+.submit {
+    border: 0;
+    border-radius: 2px;
+    padding: 7.6px 20px;
+    background: #05b74c;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+@media (max-width: 985px) {
+
+    .heading2Xl {
+        font-size: 9px;
+    }
 }

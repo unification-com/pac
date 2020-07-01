@@ -10,14 +10,13 @@ const SOURCE_NAME = "USPoliceShootings";
 const BASE_DATA_URL = "https://docs.google.com/spreadsheets/d/1cEGQ3eAFKpFBVq1k2mZIy5mBPxC6nBTJHzuSWtZQSVw";
 
 class USPoliceShootings extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {
         let self = this;
         console.log("start", SOURCE_NAME);
-        console.log("limit", this.limit);
 
         return new Promise((resolve) => {
             Promise.all([fetchData(BASE_DATA_URL + '/export?exportFormat=csv')]).then((values) => {
@@ -144,7 +143,7 @@ class USPoliceShootings extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("uspsh-id:", sourceId, "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);

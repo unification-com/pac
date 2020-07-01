@@ -16,15 +16,25 @@ import IncidentReport from '../../../common/incident_report'
 
 export async function getServerSideProps(context) {
     const res = await fetch('http://localhost:3000/api/report?beaconHash=' + context.params.beaconHash)
-    let incidentReport = await res.json()
-    if (incidentReport !== null) {
+    let incidentReportResult = await res.json()
+    let incidentReport = {
+        status: incidentReportResult.status,
+        error: incidentReportResult.error,
+    };
+    if (incidentReportResult.status) {
+        incidentReport = incidentReportResult.result;
+        incidentReport.status = incidentReportResult.status;
+        incidentReport.error = '';
         let beaconTx = {}
         let crossReferences = []
         for (let i = 0; i < incidentReport.crossReferences.length; i++) {
             let cr = incidentReport.crossReferences[i];
             const crRes = await fetch('http://localhost:3000/api/report?beaconHash=' + cr.beaconHash)
             let crResJson = await crRes.json()
-            cr.title = crResJson.title
+            cr.title = ''
+            if(crResJson.status) {
+                cr.title = crResJson.result.title
+            }
             crossReferences.push(cr)
         }
         incidentReport.crossReferences = crossReferences
@@ -48,14 +58,13 @@ export async function getServerSideProps(context) {
 }
 
 export default function Report({incidentReport}) {
-
-    if (incidentReport === null) {
+    if (!incidentReport.status) {
         return <Layout>
             <Head>
-                <title>Not Found</title>
+                <title>{incidentReport.error}</title>
             </Head>
             <article>
-                <h1>Not found</h1>
+                <h1>{incidentReport.error}</h1>
             </article>
         </Layout>
     }

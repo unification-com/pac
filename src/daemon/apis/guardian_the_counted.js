@@ -11,8 +11,8 @@ const SOURCE_NAME = "GuardianTheCounted";
 const BASE_DATA_URL = "https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/about-the-counted";
 
 class GuardianTheCounted extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {
@@ -126,7 +126,7 @@ class GuardianTheCounted extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("gtc-id:", d.uid, "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);

@@ -13,8 +13,8 @@ const GEO_DATA_API_URL = "https://api.846policebrutality.com/api/incidents/";
 const IPFS_ARCHIVE_URL = "https://gateway.temporal.cloud/ipfs/QmVP7hHyBVzQrDkdTUYww793oa6p4jNBD3c6AqgWvkn1Mp/pb2020";
 
 class PoliceBrutality2020 extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
         this.ipfsArchive = null;
     }
 
@@ -117,52 +117,89 @@ class PoliceBrutality2020 extends ReportApi {
                         if(doInsert === true) {
                             ir.setGeoLocation(geoLocation.lat, geoLocation.long);
                             if (evidenceArray) {
-
-                                let videos = [];
+                                let media = [];
                                 for(let j = 0; j < evidenceArray.length; j++) {
-                                    let vidArray = evidenceArray[j];
-                                    let videoObj = new Media('video');
-                                    videoObj.setTitle(vidArray.video[0].title);
-                                    videoObj.setDescription(vidArray.video[0].description);
-                                    videoObj.setUrl(vidArray.url);
-                                    videoObj.setStatus(vidArray.video_status);
-                                    let vidSourceSite = vidArray.video[0].site;
-                                    if(vidSourceSite !== null) {
-                                        let n = vidSourceSite.search("tiktok.com");
-                                        if (n > -1) {
-                                            vidSourceSite = 'tiktok';
-                                        }
-                                    }
-                                    videoObj.setSourceSite(vidSourceSite);
-                                    videoObj.setThumbnail(vidArray.video[0].thumbnail);
-                                    if(vidArray.video[0].tags !== null) {
-                                        if (vidArray.video[0].tags.length > 0) {
-                                            for (let k = 0; k < vidArray.video[0].tags.length; k++) {
-                                                videoObj.addTag(vidArray.video[0].tags[k]);
+                                    let mediaArray = evidenceArray[j];
+
+                                    let mediaObj = new Media();
+
+                                    switch(mediaArray.video_status) {
+                                        case 'ok':
+                                            // some deeper checking
+                                            if(mediaArray.video[0].title === 'Failed to get info'
+                                                || mediaArray.video[0].title === 'The URL is not supported'
+                                                || mediaArray.video[0].title === 'Unsupported') {
+                                                mediaObj.setType('link');
+                                                mediaObj.setUrl(mediaArray.url);
+                                                mediaObj.setStatus('ok');
+                                                mediaObj.setSourceSite(mediaArray.video[0].site);
+                                            } else {
+                                                if(!mediaArray.video[0].streams) {
+                                                    mediaObj.setType('link');
+                                                    mediaObj.setTitle(mediaArray.video[0].title);
+                                                    mediaObj.setUrl(mediaArray.url);
+                                                    mediaObj.setStatus('ok');
+                                                    mediaObj.setSourceSite(mediaArray.video[0].site);
+                                                } else {
+                                                    mediaObj.setType('video');
+                                                    mediaObj.setTitle(mediaArray.video[0].title);
+                                                    mediaObj.setDescription(mediaArray.video[0].description);
+                                                    mediaObj.setUrl(mediaArray.url);
+                                                    mediaObj.setStatus(mediaArray.video_status);
+                                                    let vidSourceSite = mediaArray.video[0].site;
+                                                    if (vidSourceSite !== null && mediaArray.video[0].url) {
+                                                        let n = mediaArray.video[0].url.search("tiktok.com");
+                                                        if (n > -1) {
+                                                            vidSourceSite = 'tiktok';
+                                                        }
+                                                    }
+                                                    mediaObj.setSourceSite(vidSourceSite);
+
+                                                    mediaObj.setThumbnail(mediaArray.video[0].thumbnail);
+
+                                                    if (mediaArray.video[0].tags) {
+                                                        if (mediaArray.video[0].tags.length > 0) {
+                                                            for (let k = 0; k < mediaArray.video[0].tags.length; k++) {
+                                                                mediaObj.addTag(mediaArray.video[0].tags[k]);
+                                                            }
+                                                        }
+                                                    }
+                                                    if (mediaArray.video[0].streams) {
+                                                        for (let l = 0; l < mediaArray.video[0].streams.length; l++) {
+                                                            mediaObj.addMedia(mediaArray.video[0].streams[l].url, mediaArray.video[0].streams[l].format, 'video');
+                                                        }
+                                                    }
+                                                }
                                             }
-                                        }
+                                            break;
+                                        case 'Failed to get info':
+                                        case 'The URL is not supported':
+                                        default:
+                                            // fallback to just adding the link
+                                            mediaObj.setType('link');
+                                            mediaObj.setUrl(mediaArray.url);
+                                            mediaObj.setStatus('ok');
+                                            if(mediaArray.video) {
+                                                mediaObj.setSourceSite(mediaArray.video[0].site);
+                                            }
+                                            break;
                                     }
-                                    if(vidArray.video[0].streams !== null) {
-                                        for (let l = 0; l < vidArray.video[0].streams.length; l++) {
-                                            videoObj.addMedia(vidArray.video[0].streams[l].url, vidArray.video[0].streams[l].format, 'video');
-                                        }
-                                        videos.push(videoObj.getMediaObj());
-                                    }
+                                    media.push(mediaObj.getMediaObj());
                                 }
 
                                 let evidence = {
                                     type: "media",
-                                    data: videos
+                                    data: media
                                 }
                                 ir.setEvidenceAdditional(evidence);
                             }
-                            if (values[1] !== null && typeof values[1] === 'object') {
+                            if (values[1] && typeof values[1] === 'object') {
                                 for (let i = 0; i < values[1].length; i++) {
                                     ir.addEvidenceIpfsArchiveLink(values[1][i])
                                 }
                             }
                             try {
-                                let dbInsRes = await this.addReportToBb(ir);
+                                let dbInsRes = await this.addReportToDb(ir);
                                 console.log("pb-id:", d.id, "inserted into db:", dbInsRes);
                             } catch (dbErr) {
                                 console.log("db inster err:", dbErr);

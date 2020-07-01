@@ -20,7 +20,7 @@ services:
       - mongo
     command: >
       /bin/sh -c "
-        sleep 5
+        sleep 2
         cp /usr/src/pac/.env /usr/src/pac/src/ui/.env.local
         node /usr/src/pac/src/db_utils/create_db.js
         npm run start-dev-stack

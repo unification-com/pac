@@ -5,13 +5,13 @@ const IncidentReport = require('../../common/incident_report.js');
 const {fetchData, sleepFor} = require('../../common/utils');
 const ReportApi = require('./api');
 
-const SOURCE_NAME = "FelonEncounters";
+const SOURCE_NAME = "FatalEncountersDotOrg";
 
 const BASE_DATA_URL = "https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE";
 
-class FelonEncounters extends ReportApi {
-    constructor(_dbOptions, _limit = -1) {
-        super(_dbOptions, _limit);
+class FatalEncountersDotOrg extends ReportApi {
+    constructor(_mongoClient, _limit = -1) {
+        super(_mongoClient, _limit);
     }
 
     async run() {
@@ -144,7 +144,7 @@ class FelonEncounters extends ReportApi {
                     ir.setEvidenceAdditional(evidence);
 
                     try {
-                        let dbInsRes = await this.addReportToBb(ir);
+                        let dbInsRes = await this.addReportToDb(ir);
                         console.log("fe-id:", d['Unique ID'], "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);
@@ -158,4 +158,4 @@ class FelonEncounters extends ReportApi {
     }
 }
 
-module.exports = FelonEncounters;
+module.exports = FatalEncountersDotOrg;

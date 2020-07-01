@@ -12,12 +12,8 @@ export default function Filters({ categories, selectedPage }) {
             <FilterCategory data={categories.genders} label="Gender" id="gender" />
             <FilterCategory data={categories.ages} label="Age" id="age" />
             <FilterCategory data={categories.races} label="Race" id="race" />
-            <div className={filterStyles.filter}>
-                <label>Mainchain Tx</label>
-                <select className={filterStyles.filterSelect}>
-                    <option value="">Select</option>
-                </select>
-            </div>
+            <FilterCategory data={categories.armed} label="Armed" id="armed" />
+            <FilterCategory data={categories.sources} label="Data Source" id="source" />
             <input type="hidden" value={selectedPage} id="filter-current-page" name="filter_current_page" />
             <span className={filterStyles.sorting}>Sort by Area <img src="/assets/img/a-z.svg" alt="Sort alphabetically" className={filterStyles.sortingIcon} /></span>
             <span className={filterStyles.sorting}>Sort by Date <img src="/assets/img/0-9-active.svg" alt="Sort numerically" className={filterStyles.sortingIcon} /></span>

@@ -1,7 +1,7 @@
 class Media {
-    constructor(_type) {
+    constructor() {
         this.url = '';
-        this.mediaType = _type;
+        this.mediaType = 'unknown';
         this.status = '';
         this.title = '';
         this.description = '';
@@ -9,6 +9,10 @@ class Media {
         this.tags = [];
         this.thumbnail = '';
         this.media = [];
+    }
+
+    setType(_type) {
+        this.mediaType = _type;
     }
 
     setUrl(_url) {

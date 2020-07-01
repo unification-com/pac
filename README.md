@@ -3,7 +3,7 @@
 A public database tracking accountibility from various sources and APIs. Optionally submits BEACON hashes to
 FUND Mainchain.
 
-## Development
+## Development - Quick Start
 
 Docker, Docker Compose and `make` are the recommended minimum requirements for development.
 
@@ -37,6 +37,10 @@ Once up, the front-end UI can be accessed via [http://localhost:3000](http://loc
 
 Changes can now be made, and will be hot loaded in the Docker environment.
 
+**Note**: the Docker composition internally runs the `start-dev-stack` script,
+which only runs the UI and Data Daemon. It is intended for developers who wish to 
+add data sources, or modify the UI.
+
 To bring the composition down, hit Ctrl+C, then run:
 
 ```bash 
@@ -57,20 +61,41 @@ of Docker.
 
 ### src/daemon
 
-The Daemon runs as a service gathering data from the available APIs. Data is standardised and structured
-before being inserted into the MongoDB database.
+There are currently 4 Daemons which can be run independently:
+
+1. **Data Daemon** - gathers data from APIs and data sources, and standardises it into a common
+data structure before inserting into the MongoDB collection. If an indident report exists, the
+daemon will check from cross references and update the record with links to the duplicate data
+as required.
+2. **BEACON Daemon** - if BEACON variables have been configured in `.env`, this daemon will
+periodically submit the data hashes in batches to the Unification Mainchain. The hashes submitted
+are generated from the standardised data.
+3. **Merkle Tree Daemon** - generates a Merkle tree from the hashes that have been submitted to
+Unification Mainchain. The root hash is also submitted to Mainchain.
+4. **Backup Daemon** - creates a full backup of all collections in the MongoDb database. This backup
+will eventually be saved to IPFS offering an immutible copy of the entire database to be
+available at all times.
 
 ### src/ui
 
-A Next.js (REACT) front-end that reads data from the MongoDB database.
+A Next.js (React) front-end that reads data from the MongoDB database.
 
 ## Developing/testing outside Docker environment
 
 A MongoDB service is required, either running locally or via the cloud.
 
 1. Run `npm install`
-2. Copy `example.env` to `.env` and edit. Copy `.env` to `src/ui/.env.local`
-3. Run `npm run start-dev-stack`
+2. Copy `example.env` to `.env` and modify MongoDB settings etc. as required. 
+3. Copy `.env` to `src/ui/.env.local`
+4. Run `node src/db_utils/create_db.js` to create DB, collections and indexes
+5. Run `npm run start-dev-stack`
+
+**Note**: the `start-dev-stack` script will only run the UI and Data Daemon. It is intended
+for developers who wish to add data sources, or modify the UI.
+
+## Running in Production
+
+TODO
 
 ## Static data attribution
 
@@ -83,7 +108,7 @@ and included here for convenience.
 The data used in `src/daemon/apis` is currently sourced from the following. More will be added over time.
 
 - [Police Brutality](https://github.com/2020PB/police-brutality)
-- [Felon Encounters](https://docs.google.com/spreadsheets/d/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE)
+- [fatalencounters.org](https://fatalencounters.org)
 - [The Guardian](https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/about-the-counted)
 - [Killed By Police](https://killedbypolice.net)
 - [Mapping Police Violence](https://mappingpoliceviolence.org)

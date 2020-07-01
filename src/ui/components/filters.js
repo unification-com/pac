@@ -17,11 +17,11 @@ export default function Filters({categories, selectedPage}) {
             <FilterCategory data={categories.sources} label="By Source" id="source"/>
             <input type="hidden" value={selectedPage} id="filter-current-page" name="filter_current_page"/>
 
-            <Link href="/">
+            <a href="/">
                 <span className={filterStyles.sorting}>
                     Clear Filters
                 </span>
-            </Link>
+            </a>
 
             <span className={filterStyles.sorting}>Sort by Date <img src="/assets/img/0-9-active.svg"
                                                                      alt="Sort numerically"

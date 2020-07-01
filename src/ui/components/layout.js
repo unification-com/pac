@@ -34,16 +34,21 @@ export default function Layout({ children, home, total }) {
             </Head>
             <header className={styles.header}>
                 <div className={styles.headerMain}>
-                    <img src="/assets/img/logo.png" alt="Public Accountability Chain Logo" className={styles.headerImage} />
+                    <Link href="/">
+                        <img src="/assets/img/logo.png" alt="Public Accountability Chain Logo" className={styles.headerImage} />
+                    </Link>
                     <div className={styles.headingContainer}>
-                        <h1 className={utilStyles.heading2Xl}>{siteTitle}</h1>
+                        <Link href="/">
+                            <h1 className={utilStyles.heading2Xl}>{siteTitle}</h1>
+                        </Link>
                         <p className={styles.headerText}>Powered by Unification</p>
                     </div>
-                    <form className={styles.search}>
-                        <input type="text" className={styles.searchField} placeholder="Search Incident or Unification Mainchain Tx" />
-                        <input type="submit" className={styles.searchButton} value="Search" />
+                    <form className={styles.search} id="site-search-form">
+                        <input id="site-search-term" type="text" className={styles.searchField} placeholder="Search Incident or Unification Mainchain Tx" />
+                        <input id="site-search-btn" type="submit" className={styles.searchButton} value="Search" />
                     </form>
                     <div className={styles.createContainer}>
+                        {/*
                         <button type="button" className={styles.create} onClick={dropdown}>Create News</button>
                         <ul className={styles.dropdown} style={{display: show ? 'block' : 'none'}}>
                             <li>
@@ -57,6 +62,7 @@ export default function Layout({ children, home, total }) {
                                 </Link>
                             </li>
                         </ul>
+                        */}
                     </div>
                 </div>
                 <div className={styles.totalContainer}>

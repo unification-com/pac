@@ -17,6 +17,7 @@ export async function getServerSideProps(context) {
     let gender = '';
     let armed = '';
     let source = '';
+    let sort = -1; // default to descending
 
     if ('page' in context.query) {
         page = parseInt(context.query.page);
@@ -24,6 +25,13 @@ export async function getServerSideProps(context) {
 
     let pageQuery = '?page=' + page;
     let filterParams = '';
+
+    if ('sort' in context.query) {
+        if(parseInt(context.query.sort) === 1) {
+            sort = 1;
+        }
+        filterParams = filterParams + '&sort=' + sort;
+    }
 
     if ('age' in context.query) {
         age = parseInt(context.query.age);
@@ -109,10 +117,10 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 <script type="text/javascript" src="/assets/js/filter.js" />
             </Head>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-                <Filters categories={categories} selectedPage={selectedPage}/>
+                <Filters categories={categories} selectedPage={selectedPage} sort={filterParams.sort}/>
 
                 <ul className={utilStyles.list}>
-                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional}) => (
+                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity}) => (
                         <li className={utilStyles.listItem} key={beaconHash}>
                             <PreviewBlock title={title}
                                           sourceDatetime={sourceDatetime}
@@ -120,6 +128,8 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                                           source={source}
                                           content={content}
                                           evidenceAdditional={evidenceAdditional}
+                                          locationState={locationState}
+                                          locationCity={locationCity}
                             />
                         </li>
                     ))}

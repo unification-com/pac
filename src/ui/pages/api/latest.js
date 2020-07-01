@@ -16,6 +16,14 @@ handler.get(async (req, res) => {
 
     let dbQuery = {};
 
+    let sort = -1;
+    if('sort' in req.query) {
+        if(parseInt(req.query.sort) === 1) {
+            sort = 1;
+        }
+    }
+
+
     if('age' in req.query) {
         let { age } = req.query;
         dbQuery.victimAge = parseInt(age);
@@ -82,7 +90,7 @@ handler.get(async (req, res) => {
 
     let data = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION)
         .find(dbQuery)
-        .sort({ sourceDatetime: -1 })
+        .sort({ sourceDatetime: sort })
         .skip(parseInt(skip))
         .limit(parseInt(limit)).toArray();
 

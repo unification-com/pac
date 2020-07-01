@@ -1,9 +1,8 @@
 import previewStyles from './preview_block.module.css'
 import Link from "next/link";
 import Date from "./date";
-import {formatSource} from "../utils/source";
 
-export default function PreviewBlock({title, sourceDatetime, beaconHash, source, content, evidenceAdditional}) {
+export default function PreviewBlock({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity}) {
 
     let image = '';
     if(evidenceAdditional.type === 'media' && evidenceAdditional.data !== null) {
@@ -22,7 +21,7 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
     return <Link href="/reports/[beaconHash]" as={`/reports/${beaconHash}`}>
         <a className={previewStyles.previewBlock}>
             <p className={previewStyles.timeLocation}>
-                <Date timestamp={sourceDatetime} />{(data.city ? ' | ' + data.city : '') + (data.city && data.state ? ', ' : '') + (data.state || '')}
+                <Date timestamp={sourceDatetime} />{(locationCity ? ' | ' + locationCity : ' | ') + (locationCity && locationState ? ', ' : ' ') + (locationState || ' | ')}
             </p>
             <h3 className={previewStyles.reportHeading}>{title}</h3>
             {image}

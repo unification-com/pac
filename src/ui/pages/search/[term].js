@@ -35,7 +35,7 @@ export default function SearchResults({searchPostsData, term}) {
             <Head>
                 <title>{siteTitle}</title>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" />
-                <script type="text/javascript" src="/assets/js/filter.js" />
+                <script type="text/javascript" src="/assets/js/search.js" />
             </Head>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
                 <h2 className={utilStyles.headingLg}>Search Results: {searchPostsData.pages.total} found</h2>

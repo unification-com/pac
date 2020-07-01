@@ -77,6 +77,8 @@ export default function Report({incidentReport}) {
     return <Layout total={incidentReport.totalPages}>
         <Head>
             <title>{incidentReport.title}</title>
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" />
+            <script type="text/javascript" src="/assets/js/search.js" />
         </Head>
         <article className={utilStyles.section}>
             <div className={utilStyles.lightText}>

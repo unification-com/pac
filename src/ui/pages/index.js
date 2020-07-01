@@ -77,7 +77,7 @@ export async function getServerSideProps(context) {
         source = context.query.source;
         filterParams = filterParams + '&source=' + source;
     }
-console.log('http://localhost:3000/api/latest' + pageQuery + filterParams)
+
     const res = await fetch('http://localhost:3000/api/latest' + pageQuery + filterParams)
     const allPostsData = await res.json()
 

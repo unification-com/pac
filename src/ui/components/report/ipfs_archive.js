@@ -1,3 +1,5 @@
+import utilStyles from '../../styles/utils.module.css'
+
 export default function IPFSArchive({ links }) {
     if(links.length === 0) {
         return <div></div>
@@ -5,16 +7,16 @@ export default function IPFSArchive({ links }) {
         let archiveLinks = [];
         for(let i = 0; i < links.length; i++) {
             let link = <li key={links[i]}>
-                <a href={'https://gateway.temporal.cloud/' + links[i]} target="_blank">
+                <a href={'https://gateway.temporal.cloud/' + links[i]} className={utilStyles.link} target="_blank">
                     {links[i]}
                 </a>
             </li>
             archiveLinks.push(link)
         }
-        return <div>
-            <h4>Evidence IPFS Archive</h4>
+        return <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+            <h4 className={utilStyles.headingXs}>Evidence IPFS Archive</h4>
             <p>The images and videos are available permanently via IPFS:</p>
-            <ul>
+            <ul className={utilStyles.nbPadding}>
                 {archiveLinks}
             </ul>
         </div>

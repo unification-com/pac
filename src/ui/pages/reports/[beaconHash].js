@@ -50,14 +50,16 @@ export async function getServerSideProps(context) {
         incidentReport.dataHashed = ir.getDataToHash(true)
         incidentReport.generatedHash = ir.hash()
     }
+    const total = await fetch('http://localhost:3000/api/total');
     return {
         props: {
-            incidentReport
+            incidentReport,
+            total: await total.json()
         }
     }
 }
 
-export default function Report({incidentReport}) {
+export default function Report({ incidentReport, total }) {
     if (!incidentReport.status) {
         return <Layout>
             <Head>
@@ -74,7 +76,7 @@ export default function Report({incidentReport}) {
         map = <Map lat={incidentReport.locationLat} long={incidentReport.locationLong}/>
     }
 
-    return <Layout total={incidentReport.totalPages}>
+    return <Layout total={total}>
         <Head>
             <title>{incidentReport.title}</title>
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" />
@@ -83,59 +85,39 @@ export default function Report({incidentReport}) {
         <article className={utilStyles.section}>
             <div className={utilStyles.lightText}>
                 <Date timestamp={incidentReport.sourceDatetime} />
+                <Location locationCity={incidentReport.locationCity}
+                          locationState={incidentReport.locationState}
+                />
             </div>
             <h2 className={utilStyles.headingXl}>{incidentReport.title}</h2>
 
-            <Location locationCity={incidentReport.locationCity}
-                      locationCountry={incidentReport.locationCountry}
-                      locationState={incidentReport.locationState}
-                      locationStateCode={incidentReport.locationStateCode}
-            />
+            <h3 className={utilStyles.headingSm}>Details</h3>
+            {incidentReport.content}
 
-            <div>
-                <h2>Details</h2>
-                <div dangerouslySetInnerHTML={{__html: incidentReport.content}}/>
+            <EvidenceLinks links={incidentReport.evidenceLinks}/>
 
-                <Victim name={incidentReport.victimName}
-                        race={incidentReport.victimRace}
-                        age={incidentReport.victimAge}
-                        gender={incidentReport.victimGender}
-                        image={
-                            (incidentReport.source === 'FelonEncounters' || incidentReport.source === 'MappingPoliceViolence')?
-                                incidentReport.evidenceAdditional.image_of_victim : ''
-                        }/>
+            <AdditionalEvidence additionalEvidence={incidentReport.evidenceAdditional} />
 
-                <EvidenceLinks links={incidentReport.evidenceLinks}/>
+            <IPFSArchive links={incidentReport.evidenceIpfsArchive}/>
 
-                {map}
-
-                <AdditionalEvidence additionalEvidence={incidentReport.evidenceAdditional}/>
-
-                <IPFSArchive links={incidentReport.evidenceIpfsArchive}/>
-
-            </div>
-
-
-            <div>
-                <Source source={incidentReport.source}
-                        sourceAdditionalData={incidentReport.sourceAdditionalData}
-                        sourceId={incidentReport.sourceId}
-                        sourceUrl={incidentReport.sourceUrl}/>
-            </div>
+            <Source source={incidentReport.source}
+                    sourceAdditionalData={incidentReport.sourceAdditionalData}
+                    sourceId={incidentReport.sourceId}
+                    sourceUrl={incidentReport.sourceUrl}/>
             
             <CrossReferences hasCrossReferences={incidentReport.hasCrossReferences}
                              crossReferences={incidentReport.crossReferences}/>
 
-            <div>
-                <Beacon beaconHash={incidentReport.beaconHash}
-                        beaconTimestamp={incidentReport.beaconTimestamp}
-                        beaconTimestampId={incidentReport.beaconTimestampId}
-                        mainchainTxHash={incidentReport.mainchainTxHash}
-                        mainchainBlockHeight={incidentReport.mainchainBlockHeight}
-                        beaconTx={incidentReport.beaconTx}
-                        dataHashed={incidentReport.dataHashed}
-                        generatedHash={incidentReport.generatedHash}/>
-            </div>
+            {map}
+
+            <Beacon beaconHash={incidentReport.beaconHash}
+                    beaconTimestamp={incidentReport.beaconTimestamp}
+                    beaconTimestampId={incidentReport.beaconTimestampId}
+                    mainchainTxHash={incidentReport.mainchainTxHash}
+                    mainchainBlockHeight={incidentReport.mainchainBlockHeight}
+                    beaconTx={incidentReport.beaconTx}
+                    dataHashed={incidentReport.dataHashed}
+                    generatedHash={incidentReport.generatedHash}/>
 
         </article>
     </Layout>

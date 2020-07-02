@@ -1,3 +1,5 @@
+import utilStyles from '../../styles/utils.module.css'
+
 const checkURLIsImage = (url) => {
     return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 };
@@ -55,20 +57,24 @@ export default function AdditionalEvidence({additionalEvidence}) {
             let contentList = [];
             for (let [key, value] of Object.entries(additionalEvidence.data)) {
                 let keyName = key.replace(/_/g, ' ').replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
-                let item = <li key={key}>
-                    {keyName}: {value}
+                let item = <li className={utilStyles.liFloat} key={key}>
+                    <label className={utilStyles.label}>{keyName}</label>
+                    <span className={[utilStyles.input, utilStyles.spanField].join(' ')}>{value}</span>
                 </li>
                 contentList.push(item);
             }
-            content = (contentList.length >0) ? <ul>{contentList}</ul> : ''
+            content = (contentList.length > 0) ? <ul className={utilStyles.nb}>
+                {contentList}
+                <li className={utilStyles.clearLeft}></li>
+            </ul> : ''
             break;
         default:
             content = <pre>JSON.stringify(additionalEvidence, null, 1)}</pre>
             break;
     }
 
-    return (content !== '')? <div>
-        <h4>Additional Evidence</h4>
+    return content ? <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+        <h4 className={utilStyles.headingXs}>Additional Evidence</h4>
         <div>
             {content}
         </div>

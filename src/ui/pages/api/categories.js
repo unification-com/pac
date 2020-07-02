@@ -11,11 +11,18 @@ handler.get(async (req, res) => {
     let { cat } = req.query;
     let categories = {};
     let realYears = [];
+    let realAge = [];
     let vals;
     switch(cat) {
         case 'age':
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimAge' );
-            categories.age = vals;
+            realAge = [];
+            for(let i = 0; i < vals.length; i++) {
+                if(vals[i] >= 18 && vals[i] <= 80) {
+                    realAge.push(vals[i]);
+                }
+            }
+            categories.age = realAge;
             break;
         case 'race':
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimRace' );
@@ -54,7 +61,14 @@ handler.get(async (req, res) => {
         case 'all':
         default:
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimAge' );
-            categories.age = vals;
+            realAge = [];
+            for(let i = 0; i < vals.length; i++) {
+                if(vals[i] >= 18 && vals[i] <= 80) {
+                    realAge.push(vals[i]);
+                }
+            }
+            categories.age = realAge;
+            
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimRace' );
             categories.race = vals;
             vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimGender' );

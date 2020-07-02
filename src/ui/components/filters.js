@@ -3,7 +3,19 @@ import FilterCategory from './filters/filter_category'
 import filterStyles from './filters.module.css'
 import utilStyles from '../styles/utils.module.css'
 
-export default function Filters({categories, selectedPage}) {
+export default function Filters({categories, selectedPage, filterParams, sort}) {
+
+    let newSort = 0 - sort
+    let sortImg = '/assets/img/0-9.png';
+    if(newSort > 0) {
+        sortImg = '/assets/img/0-9-active.svg';
+    }
+    let q = '';
+    if(filterParams) {
+        q = '?page=1' + filterParams + '&sort=' + newSort
+    } else {
+        q = '?sort=' + newSort
+    }
 
     return <div>
         <h2 className={utilStyles.headingLg}>Filters</h2>
@@ -25,9 +37,13 @@ export default function Filters({categories, selectedPage}) {
                 </span>
             </a>
 
-            <span className={filterStyles.sorting}>Sort by Date <img src="/assets/img/0-9-active.svg"
-                                                                     alt="Sort numerically"
-                                                                     className={filterStyles.sortingIcon}/></span>
+            <span className={filterStyles.sorting}>Sort by Date
+                <Link href={'/' + q}>
+                    <img src={sortImg}
+                         alt="Sort numerically"
+                         className={filterStyles.sortingIcon}/>
+                </Link>
+            </span>
             {/*
             <span className={filterStyles.sorting}>Sort by Area <img src="/assets/img/a-z.svg" alt="Sort alphabetically" className={filterStyles.sortingIcon} /></span>
             <span className={filterStyles.sorting}>Sort by Video Source <img src="/assets/img/a-z.svg" alt="Sort alphabetically" className={filterStyles.sortingIcon} /></span>

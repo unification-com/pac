@@ -30,7 +30,6 @@ export async function getServerSideProps(context) {
         if(parseInt(context.query.sort) === 1) {
             sort = 1;
         }
-        filterParams = filterParams + '&sort=' + sort;
     }
 
     if ('age' in context.query) {
@@ -78,7 +77,7 @@ export async function getServerSideProps(context) {
         filterParams = filterParams + '&source=' + source;
     }
 
-    const res = await fetch('http://localhost:3000/api/latest' + pageQuery + filterParams)
+    const res = await fetch('http://localhost:3000/api/latest' + pageQuery + filterParams + '&sort=' + sort)
     const allPostsData = await res.json()
 
     const catsRes = await fetch('http://localhost:3000/api/categories?cat=all');
@@ -103,11 +102,12 @@ export async function getServerSideProps(context) {
             selectedPage: page,
             categories: categories,
             filterParams: filterParams,
+            sort: sort,
         }
     }
 }
 
-export default function Home({ allPostsData, selectedPage, categories, filterParams }) {
+export default function Home({ allPostsData, selectedPage, categories, filterParams, sort }) {
 
     return (
         <Layout home total={allPostsData.pages.total}>
@@ -118,7 +118,7 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 <script type="text/javascript" src="/assets/js/filter.js" />
             </Head>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-                <Filters categories={categories} selectedPage={selectedPage} sort={filterParams.sort}/>
+                <Filters categories={categories} selectedPage={selectedPage} filterParams={filterParams} sort={sort}/>
 
                 <ul className={utilStyles.list}>
                     {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity}) => (
@@ -137,7 +137,7 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 </ul>
             </section>
             <section className={utilStyles.paginationContainer}>
-                <Pagination pageData={allPostsData.pages} filterParams={filterParams} path='/' />
+                <Pagination pageData={allPostsData.pages} filterParams={filterParams} sort={sort} path='/' />
             </section>
         </Layout>
     )

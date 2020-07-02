@@ -13,6 +13,8 @@ import Beacon from '../../components/report/beacon'
 import CrossReferences from '../../components/report/cross_references'
 import Map from '../../components/report/map';
 import IncidentReport from '../../../common/incident_report'
+import SocialButtons from "../../components/social_buttons";
+
 
 export async function getServerSideProps(context) {
     const res = await fetch('http://localhost:3000/api/report?beaconHash=' + context.params.beaconHash)
@@ -60,6 +62,13 @@ export async function getServerSideProps(context) {
 }
 
 export default function Report({ incidentReport, total }) {
+
+    let shareUrl = '';
+
+    if (process.browser) {
+        shareUrl = window.location.href;
+    }
+
     if (!incidentReport.status) {
         return <Layout>
             <Head>
@@ -95,6 +104,8 @@ export default function Report({ incidentReport, total }) {
             {incidentReport.content}
 
             <EvidenceLinks links={incidentReport.evidenceLinks}/>
+
+            <SocialButtons title={incidentReport.title} url={shareUrl} />
 
             <AdditionalEvidence additionalEvidence={incidentReport.evidenceAdditional} />
 

@@ -6,16 +6,18 @@ import utilStyles from '../styles/utils.module.css'
 export default function Filters({categories, selectedPage}) {
 
     return <div>
+        <h2 className={utilStyles.headingLg}>Filters</h2>
         <form id="report-filters" className={filterStyles.filters}>
-            <h2 className={utilStyles.headingLg}>Filters</h2>
-            <FilterCategory data={categories.years} label="Date" id="year"/>
-            <FilterCategory data={categories.states} label="Location" id="state"/>
-            <FilterCategory data={categories.genders} label="Gender" id="gender"/>
-            <FilterCategory data={categories.ages} label="Age" id="age"/>
-            <FilterCategory data={categories.races} label="Race" id="race"/>
-            <FilterCategory data={categories.armed} label="Armed" id="armed"/>
-            <FilterCategory data={categories.sources} label="By Source" id="source"/>
-            <input type="hidden" value={selectedPage} id="filter-current-page" name="filter_current_page"/>
+            <div className={filterStyles.filterCategories}>
+                <FilterCategory data={categories.years} label="Date" id="year"/>
+                <FilterCategory data={categories.states} label="Location" id="state"/>
+                <FilterCategory data={categories.genders} label="Gender" id="gender"/>
+                <FilterCategory data={categories.ages} label="Age" id="age"/>
+                <FilterCategory data={categories.races} label="Race" id="race"/>
+                <FilterCategory data={categories.armed} label="Armed" id="armed"/>
+                <FilterCategory data={categories.sources} label="By Source" id="source"/>
+                <input type="hidden" value={selectedPage} id="filter-current-page" name="filter_current_page" />
+            </div>
 
             <a href="/">
                 <span className={filterStyles.sorting}>

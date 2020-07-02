@@ -171,4 +171,9 @@
     .heading2Xl {
         font-size: 9px;
     }
+
+    .listItem {
+        width: 100%;
+    }
+
 }

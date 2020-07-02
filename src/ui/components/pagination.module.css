@@ -15,3 +15,11 @@
     color: #fff;
     font-weight: 700;
    }
+
+@media (max-width: 985px) {
+
+    .pagination a {
+        padding: 5px 10.47px;
+        font-size: 9px;
+    }
+}

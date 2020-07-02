@@ -7,3 +7,10 @@
 .filterSelect {
     width: 100%;
 }
+
+@media (max-width: 985px) {
+
+    .filter {
+        width: 100%;
+    }
+}

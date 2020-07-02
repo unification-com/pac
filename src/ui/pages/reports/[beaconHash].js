@@ -100,12 +100,17 @@ export default function Report({ incidentReport, total }) {
             </div>
             <h2 className={utilStyles.headingXl}>{incidentReport.title}</h2>
 
+            <SocialButtons title={incidentReport.title} url={shareUrl} />
+
+            <Victim gender={incidentReport.victimGender}
+                    age={incidentReport.victimAge}
+                    race={incidentReport.victimRace}
+                    name={incidentReport.victimName} />
+
             <h3 className={utilStyles.headingSm}>Details</h3>
             {incidentReport.content}
 
             <EvidenceLinks links={incidentReport.evidenceLinks}/>
-
-            <SocialButtons title={incidentReport.title} url={shareUrl} />
 
             <AdditionalEvidence additionalEvidence={incidentReport.evidenceAdditional} />
 

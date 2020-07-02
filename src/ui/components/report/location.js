@@ -1,9 +1,4 @@
-export default function Location({ locationCity, locationCountry, locationState, locationStateCode }) {
+export default function Location({ locationCity, locationState }) {
 
-    return <div>
-
-        {( locationCity !== '')? locationCity + ', ': ''}
-
-        {locationState}, {locationCountry}
-    </div>
+    return locationCity || locationState ? ' | ' + (locationCity ? locationCity + ', ' : '') + locationState : ''
 }

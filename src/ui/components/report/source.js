@@ -1,4 +1,5 @@
-import {formatSource} from '../../utils/source'
+import { formatSource } from '../../utils/source'
+import utilStyles from '../../styles/utils.module.css'
 
 export default function Source({ source, sourceAdditionalData, sourceId, sourceUrl }) {
 
@@ -7,14 +8,14 @@ export default function Source({ source, sourceAdditionalData, sourceId, sourceU
     if(sourceAdditionalData.length > 0) {
         for(let i = 0; i < sourceAdditionalData.length; i++) {
             let link = <li key={sourceAdditionalData[i]}>
-                <a href={sourceAdditionalData[i]} target="_blank">
+                <a href={sourceAdditionalData[i]} className={utilStyles.link} target="_blank">
                     {sourceAdditionalData[i]}
                 </a>
             </li>
             sourceAdditionalLinksArray.push(link)
         }
         sourceAdditionalLinks = <div><strong>Additional Source Links: </strong>
-            <ul>
+            <ul className={utilStyles.nbPadding}>
                 {sourceAdditionalLinksArray}
             </ul>
         </div>
@@ -22,11 +23,9 @@ export default function Source({ source, sourceAdditionalData, sourceId, sourceU
 
     let sourceName = formatSource(source);
 
-    return <div className="source-container">
-        <h4>Source</h4>
-        <p>
-            <a href={sourceUrl} target="_blank">{sourceName}</a> - <strong>Source ID: </strong> {sourceId}
-        </p>
+    return <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+        <h4 className={utilStyles.headingXs}>Source</h4>
+        <p>Source ID: <strong>{sourceId}</strong> - <a href={sourceUrl} className={utilStyles.link} target="_blank">{sourceName}</a></p>
         {sourceAdditionalLinks}
     </div>
 }

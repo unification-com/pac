@@ -5,11 +5,11 @@
 }
 
 .headingXl {
+    margin: 5px 0;
+    color: #323070;
     font-size: 1.7143em;
+    font-weight: 600;
     line-height: 1.3;
-    font-weight: 800;
-    letter-spacing: -0.05rem;
-    margin: 1rem 0;
 }
 
 .headingLg {
@@ -22,6 +22,19 @@
     line-height: 1.5;
 }
 
+.headingSm {
+    color: #323070;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+.headingXs {
+    margin: 0 0 10px;
+    color: #323070;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
 .borderCircle {
     border-radius: 9999px;
 }
@@ -32,6 +45,10 @@
 
 .padding1px {
     padding-top: 1px;
+}
+
+.clearLeft {
+    clear: left;
 }
 
 .list {
@@ -60,8 +77,40 @@
     overflow: hidden;
 }
 
+.label {
+    margin: 15px 0 6px;
+}
+
 .paginationContainer {
     text-align: center;
+}
+
+.innerSection {
+    margin: 0 0 1em;
+    padding: 15px;
+}
+
+.nb {
+    padding: 0;
+    list-style: none;
+}
+
+.nbPadding {
+    margin: 15px 0;
+    padding: 0 12px;
+    list-style: none;
+}
+
+.link {
+    color: #1DA1F2;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.spanField {
+    display: inline-block;
+    color: #333;
+    line-height: 1.2;
 }
 
 .lightText {
@@ -79,7 +128,13 @@
     border-radius: 2px;
     margin: 0;
     padding: 0.508em 0.7143em;
+    font-size: 14px;
     font-weight: 500;
+}
+
+.liFloat {
+    float: left;
+    margin: 0 15px 0 0;
 }
 
 .addRemove {
@@ -116,4 +171,9 @@
     .heading2Xl {
         font-size: 9px;
     }
+
+    .listItem {
+        width: 100%;
+    }
+
 }

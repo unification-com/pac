@@ -30,7 +30,7 @@ export default function Report({ obj, total }) {
         <h2 className={utilStyles.headingLg}>{title}</h2>
         <section className={utilStyles.section}>
             <form>
-                <h3>Instructions</h3>
+                <h3 className={utilStyles.headingSm}>Instructions</h3>
                 {obj === 'incident' ? (
                     <>
                         <p>Add the key information about the incident under the headings Location, Date, Description and Links below and then click the green "Submit new issue" button.</p>
@@ -47,6 +47,6 @@ export default function Report({ obj, total }) {
                 </fieldset>
                 <p className={utilStyles.submitContainer}><input type="submit" className={utilStyles.submit} value={'Submit new ' + (obj === 'source' ? obj : 'issue')} /></p>
             </form>
-       </section>
+        </section>
     </Layout>
 }

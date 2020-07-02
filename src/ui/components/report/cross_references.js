@@ -1,9 +1,10 @@
 import {formatSource} from '../../utils/source'
-import Link from "next/link";
+import Link from 'next/link';
+import utilStyles from '../../styles/utils.module.css'
 
 export default function CrossReferences({hasCrossReferences, crossReferences}) {
 
-    if(!hasCrossReferences) {
+    if (!hasCrossReferences) {
         return <div></div>
     }
 
@@ -13,17 +14,17 @@ export default function CrossReferences({hasCrossReferences, crossReferences}) {
         let cr = <li key={crossReferences[i].beaconHash}>
             {formatSource(crossReferences[i].source)} -
             <Link href="/reports/[beaconHash]" as={`/reports/${crossReferences[i].beaconHash}`}>
-                <a>{crossReferences[i].title}</a>
+                <a className={utilStyles.link}>{crossReferences[i].title}</a>
             </Link>
 
         </li>
         crArray.push(cr)
     }
 
-    return <div>
-        <h4>Cross References</h4>
+    return <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+        <h4 className={utilStyles.headingXs}>Cross References</h4>
         <p>This report has possible entries from multiple sources</p>
-        <ul>
+        <ul className={utilStyles.nbPadding}>
             {crArray}
         </ul>
     </div>

@@ -26,3 +26,11 @@
     margin: 0 0 0 0.7rem;
     vertical-align: top;
 }
+
+@media (max-width: 985px) {
+
+    .filterCategories {
+        columns: 2;
+    }
+
+}

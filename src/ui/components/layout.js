@@ -45,7 +45,7 @@ export default function Layout({ children, home, total }) {
                     </div>
                     <form className={styles.search} id="site-search-form">
                         <input id="site-search-term" type="text" className={styles.searchField} placeholder="Search Incident or Unification Mainchain Tx" />
-                        <input id="site-search-btn" type="submit" className={styles.searchButton} value="Search" />
+                        <button id="site-search-btn" type="submit" className={styles.searchButton}><span className={styles.searchButtonText}>Search</span></button>
                     </form>
                     <div className={styles.createContainer}>
                         {/*
@@ -89,7 +89,7 @@ export default function Layout({ children, home, total }) {
             </main>
             <footer className={styles.footer}>
                 <p className={styles.footerLeft}>Powered by <a href="https://unification.com/" target="_blank"><img src="/assets/img/unification-logo.png" className={styles.footerLogo} alt="Unification" /></a></p>
-                <a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a> | <a href="#" className={styles.link}>Request to add sources</a>
+                <span className={styles.footerLinks}><a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a> <span className={styles.separator}>|</span> <a href="#" className={styles.link}>Request to add sources</a></span>
             </footer>
         </>
     )

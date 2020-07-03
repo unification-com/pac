@@ -121,17 +121,21 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 <Filters categories={categories} selectedPage={selectedPage} filterParams={filterParams} sort={sort}/>
 
                 <ul className={utilStyles.list}>
-                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity}) => (
+                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName}) => (
                         <li className={utilStyles.listItem} key={beaconHash}>
                             <PreviewBlock title={title}
-                                          sourceDatetime={sourceDatetime}
-                                          beaconHash={beaconHash}
-                                          source={source}
-                                          content={content}
-                                          evidenceAdditional={evidenceAdditional}
-                                          locationState={locationState}
-                                          locationCity={locationCity}
-                            />
+                                sourceDatetime={sourceDatetime}
+                                beaconHash={beaconHash}
+                                source={source}
+                                content={content}
+                                evidenceAdditional={evidenceAdditional}
+                                locationState={locationState}
+                                locationCity={locationCity}
+                                race={victimRace}
+                                gender={victimGender}
+                                age={victimAge}
+                                name={victimName}
+                           />
                         </li>
                     ))}
                 </ul>

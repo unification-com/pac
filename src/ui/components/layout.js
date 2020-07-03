@@ -18,6 +18,7 @@ export default function Layout({ children, home, total }) {
     return (
         <>
             <Head>
+                <meta name="viewport" content="width=device-width" />
                 <link rel="icon" href="/favicon.ico"/>
                 <meta
                     name="description"

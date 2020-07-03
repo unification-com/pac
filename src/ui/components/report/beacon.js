@@ -10,7 +10,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
     let hasMainchain = false;
     if(mainchainTxHash === '' || mainchainTxHash === null  || mainchainTxHash === undefined) {
         hashesMatch = (hashesAreEqual(beaconHash, generatedHash))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
-        mainchainTxInfo = <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+        mainchainTxInfo = <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
             <h4 className={utilStyles.headingXs}>Mainchain details</h4>
             <p>
                 Hash {beaconHash} not yet submitted to Mainchain
@@ -20,7 +20,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
         hasMainchain = true
         hashesMatch = (hashesAreEqual(beaconHash, generatedHash, beaconTx.logs[0].events[1].attributes[2].value))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
         mainchainTxInfo = <>
-            <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+            <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Mainchain details</h4>
                 <p>
                     Database row was hashed and submitted to Mainchain on <Date timestamp={beaconTimestamp} withTime='true'/>.
@@ -30,7 +30,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                 </p>
             </div>
 
-            <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+            <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Transaction details</h4>
                 <p>
                     Tx <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a><br />
@@ -47,22 +47,24 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
     return <>
         <h3 className={utilStyles.headingSm}>BEACON Data</h3>
         {mainchainTxInfo}
-        <div className={[utilStyles.section, utilStyles.innerSection].join(' ')}>
+        <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
             <h4 className={utilStyles.headingXs}>Hash Comparison</h4>
-            <strong>Hash stored in database: </strong>{beaconHash} <br/>
+            <p><strong>Hash stored in database: </strong>{beaconHash}</p>
 
             { hasMainchain ? (
                 <>
-                    <strong>Hash from&nbsp;
-                    <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">
-                        Mainchain Tx
-                    </a>: </strong>{beaconTx.logs[0].events[1].attributes[2].value}<br />
+                    <p>
+                        <strong>Hash from&nbsp;
+                        <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">
+                                    Mainchain Tx
+                        </a>: </strong>{beaconTx.logs[0].events[1].attributes[2].value}
+                    </p>
                 </>
                 ) : (
                 <></>
                 )}
 
-            <strong>Dynamically generated hash: </strong>{generatedHash} <br/>
+            <p><strong>Dynamically generated hash: </strong>{generatedHash}</p>
             <strong>Hashes Match? </strong> {hashesMatch}
         </div>
 
@@ -70,8 +72,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
             <h4 className={utilStyles.headingXs}>How is the comparison calculated?</h4>
             <p>The hash stored in the database is used as the identifier for this report, and can be seen in the URL. The hash
             from the Mainchain Tx is the hash sent to and stored on Mainchain. Finally, the "generated hash" is generated each
-            time this page is loaded, using the same data used for the hash submitted to Mainchain.
-            </p>
+            time this page is loaded, using the same data used for the hash submitted to Mainchain.</p>
 
             <p>
                 <strong>Raw data used to generate the hash, using the Node.js crypto.createHash('sha256') algorithm: </strong>

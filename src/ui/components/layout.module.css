@@ -141,7 +141,12 @@
 
 @media (max-width: 985px) {
 
-    .headerMain,
+    .headerMain {
+        float: none;
+        width: 100%;
+        text-align: right;
+    }
+
     .totalContainer,
     .total {
         float: none;
@@ -169,6 +174,14 @@
 
     .totalContainer {
         padding: 0.3915rem 0 4.33px;
+    }
+
+    .main {
+        padding: 20px 8.5%;
+    }
+
+    .backToHome {
+        margin: 0;
     }
 
     .footer {

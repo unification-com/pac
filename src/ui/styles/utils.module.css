@@ -69,6 +69,10 @@
     padding: 30px 99px;
 }
 
+.section > p {
+    overflow: hidden;
+}
+
 .listItem {
     float: left;
     width: 23.5%;
@@ -79,6 +83,10 @@
 
 .label {
     margin: 15px 0 6px;
+}
+
+.breakWord {
+    overflow-wrap: break-word;
 }
 
 .paginationContainer {
@@ -98,6 +106,7 @@
 .nbPadding {
     margin: 15px 0;
     padding: 0 12px;
+    overflow: hidden;
     list-style: none;
 }
 
@@ -172,8 +181,20 @@
         font-size: 9px;
     }
 
+    .headingXl {
+        font-size: 16px;
+    }
+
     .listItem {
         width: 100%;
+    }
+
+    .section {
+        padding: 15px 10px;
+    }
+
+    .lightText {
+        font-size: 12px;
     }
 
 }

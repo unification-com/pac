@@ -12,5 +12,6 @@
 
     .filter {
         width: 100%;
+        margin: 0 1.5% 20px 0;
     }
 }

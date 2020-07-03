@@ -1,4 +1,5 @@
 import utilStyles from '../../styles/utils.module.css'
+import RenderImage from '../utils/render_image'
 
 const checkURLIsImage = (url) => {
     return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -21,13 +22,15 @@ export default function AdditionalEvidence({additionalEvidence}) {
                 switch(data.mediaType) {
                     case 'video':
                         if(data.status === 'ok') {
-                            m = <li key={data.media[0].url}>
-                                <a href={data.media[0].url} target="_blank">{data.title}</a><br/>
+                            let url = (data.media.length > 0) ? data.media[0].url : data.url
+                            let mediaType = (data.media.length > 0) ? data.media[0].type : ''
+                            m = <li key={url}>
+                                <a href={url} target="_blank">{data.title}</a><br/>
                                 {data.description}<br/>
-                                Type: {data.sourceSite} {data.media[0].type}<br/>
+                                Type: {data.sourceSite} {mediaType}<br/>
                                 {(data.thumbnail && data.sourceSite !== 'tiktok')?
-                                <a href={data.media[0].url} target="_blank">
-                                    <img src={data.thumbnail.replace('?name=orig', '')}/>
+                                <a href={url} target="_blank">
+                                    {RenderImage(data.thumbnail.replace('?name=orig', ''), '', false)}
                                 </a>
                                 : <></>}
                             </li>
@@ -37,7 +40,7 @@ export default function AdditionalEvidence({additionalEvidence}) {
                         if(checkURLIsImage(data.url)) {
                             m = <li key={data.url}>
                                 <a href={data.url} target="_blank">
-                                    <img src={data.url}/>
+                                    {RenderImage(data.url, '', false)}
                                 </a>
                             </li>
                         } else {
@@ -51,7 +54,7 @@ export default function AdditionalEvidence({additionalEvidence}) {
 
                 mediaArray.push(m)
             }
-            content = (mediaArray.length >0) ? <ul>{mediaArray}</ul> : ''
+            content = (mediaArray.length >0) ? <ul className={utilStyles.nb}>{mediaArray}</ul> : ''
             break;
         case 'text':
             let contentList = [];

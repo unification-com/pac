@@ -46,7 +46,7 @@ class BeaconDaemon {
 
         let beaconsToSubmit = await collection.find({
             beaconTimestampId: 0,
-        }).limit(batchLimit).toArray();
+        }).sort({ sourceDatetime: -1 }).limit(batchLimit).toArray();
 
         await this.getUndClient();
 

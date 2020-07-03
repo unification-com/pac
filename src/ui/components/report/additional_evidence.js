@@ -1,4 +1,5 @@
 import utilStyles from '../../styles/utils.module.css'
+import RenderImage from '../utils/render_image'
 
 const checkURLIsImage = (url) => {
     return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -29,7 +30,7 @@ export default function AdditionalEvidence({additionalEvidence}) {
                                 Type: {data.sourceSite} {mediaType}<br/>
                                 {(data.thumbnail && data.sourceSite !== 'tiktok')?
                                 <a href={url} target="_blank">
-                                    <img src={data.thumbnail.replace('?name=orig', '')}/>
+                                    {RenderImage(data.thumbnail.replace('?name=orig', ''), '', false)}
                                 </a>
                                 : <></>}
                             </li>
@@ -39,7 +40,7 @@ export default function AdditionalEvidence({additionalEvidence}) {
                         if(checkURLIsImage(data.url)) {
                             m = <li key={data.url}>
                                 <a href={data.url} target="_blank">
-                                    <img src={data.url}/>
+                                    {RenderImage(data.url, '', false)}
                                 </a>
                             </li>
                         } else {

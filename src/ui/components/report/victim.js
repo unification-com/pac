@@ -1,4 +1,5 @@
 import utilStyles from "../../styles/utils.module.css";
+import RenderImage from '../utils/render_image'
 
 export default function Victim({ name, race, gender, age, image = '' }) {
     if(name === '') {
@@ -10,7 +11,8 @@ export default function Victim({ name, race, gender, age, image = '' }) {
             <div>
             {
                 (image !== '') ?
-                    <img src={image} /> :
+                    RenderImage(image, '', false)
+                    :
                     <></>
             }
             <ul className={utilStyles.nb}>

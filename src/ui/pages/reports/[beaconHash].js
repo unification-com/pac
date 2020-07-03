@@ -13,7 +13,7 @@ import Beacon from '../../components/report/beacon'
 import CrossReferences from '../../components/report/cross_references'
 import Map from '../../components/report/map';
 import IncidentReport from '../../../common/incident_report'
-import SocialButtons from "../../components/social_buttons";
+import SocialButtons from '../../components/social_buttons';
 
 
 export async function getServerSideProps(context) {

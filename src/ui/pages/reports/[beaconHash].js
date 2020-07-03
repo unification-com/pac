@@ -82,7 +82,7 @@ export default function Report({ incidentReport, total }) {
 
     let map = '';
     if (incidentReport.locationHasGeo) {
-        map = <Map lat={incidentReport.locationLat} long={incidentReport.locationLong}/>
+        map = <Map lat={incidentReport.locationLat} long={incidentReport.locationLong} height="440"/>
     }
 
     return <Layout total={total}>

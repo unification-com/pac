@@ -108,7 +108,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({ allPostsData, selectedPage, categories, filterParams, sort }) {
-
+    console.log(allPostsData.data);
     return (
         <Layout home total={allPostsData.pages.total}>
             <Head>
@@ -121,7 +121,7 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 <Filters categories={categories} selectedPage={selectedPage} filterParams={filterParams} sort={sort}/>
 
                 <ul className={utilStyles.list}>
-                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName}) => (
+                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName, locationLat, locationLong}) => (
                         <li className={utilStyles.listItem} key={beaconHash}>
                             <PreviewBlock title={title}
                                 sourceDatetime={sourceDatetime}
@@ -135,6 +135,8 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                                 gender={victimGender}
                                 age={victimAge}
                                 name={victimName}
+                                lat={locationLat}
+                                long={locationLong}
                            />
                         </li>
                     ))}

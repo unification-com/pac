@@ -1,3 +1,7 @@
+.filtersContainer {
+    margin: 0 0 20px;
+}
+
 .filters {
     border-bottom: 1.5px solid #dddfdf;
     padding: 0 0 0.57rem;

@@ -184,6 +184,10 @@
         margin: 0;
     }
 
+    .link {
+        display: block;
+    }
+
     .footer {
         text-align: right;
     }
@@ -191,11 +195,6 @@
     .footerLeft {
         width: 100px;
         text-align: left;
-    }
-
-    .footerLinks {
-        display: inline-block;
-        width: 155px;
     }
 
     .separator {

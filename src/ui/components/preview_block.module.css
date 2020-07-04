@@ -22,11 +22,3 @@
     margin: 0 0.37rem;
     color: #333;
 }
-
-.overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 40px;
-    background: linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
-}

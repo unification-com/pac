@@ -76,7 +76,7 @@ export default function Layout({ children, home, total }) {
                 {!home && (
                     <div className={styles.backToHome}>
                         <Link href="/">
-                            <a className={styles.link}>← Back to all Sources</a>
+                            <a className={styles.link}>&larr; Back to all Sources</a>
                         </Link>
                     </div>
                 )}
@@ -84,12 +84,11 @@ export default function Layout({ children, home, total }) {
             </main>
             <footer className={styles.footer}>
                 <p className={styles.footerLeft}>Powered by <a href="https://unification.com/" target="_blank"><img src="/assets/img/unification-logo.png" className={styles.footerLogo} alt="Unification" /></a></p>
-                <span className={styles.footerLinks}><a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a>
-                    <span className={styles.separator}> | </span>
-                    <a href="#" className={styles.link}>Request to add sources</a>
-                    <span className={styles.separator}> | </span>
-                    <a href="/about" className={styles.link}>About</a>
-                </span>
+                <a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a>
+                <span className={styles.separator}> | </span>
+                <a href="#" className={styles.link}>Request to add sources</a>
+                <span className={styles.separator}> | </span>
+                <a href="/about" className={styles.link}>About</a>
             </footer>
         </>
     )

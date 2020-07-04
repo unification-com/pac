@@ -119,27 +119,32 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
                 <Filters categories={categories} selectedPage={selectedPage} filterParams={filterParams} sort={sort}/>
 
-                <ul className={utilStyles.list}>
-                    {allPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName, locationLat, locationLong}) => (
-                        <li className={utilStyles.listItem} key={beaconHash}>
-                            <PreviewBlock title={title}
-                                sourceDatetime={sourceDatetime}
-                                beaconHash={beaconHash}
-                                source={source}
-                                content={content}
-                                evidenceAdditional={evidenceAdditional}
-                                locationState={locationState}
-                                locationCity={locationCity}
-                                race={victimRace}
-                                gender={victimGender}
-                                age={victimAge}
-                                name={victimName}
-                                lat={locationLat}
-                                long={locationLong}
-                           />
-                        </li>
-                    ))}
-                </ul>
+                {allPostsData.data.map(({ }, i) => {
+                    let j = i ? i + 1 : i;
+                    if (!(j % 4) && i < 19) {
+                        return <ul className={utilStyles.list}>
+                            {allPostsData.data.slice(j, j + 4).map(({ title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName, locationLat, locationLong }) => (
+                                <li className={utilStyles.listItem} key={beaconHash}>
+                                    <PreviewBlock title={title}
+                                        sourceDatetime={sourceDatetime}
+                                        beaconHash={beaconHash}
+                                        source={source}
+                                        content={content}
+                                        evidenceAdditional={evidenceAdditional}
+                                        locationState={locationState}
+                                        locationCity={locationCity}
+                                        race={victimRace}
+                                        gender={victimGender}
+                                        age={victimAge}
+                                        name={victimName}
+                                        lat={locationLat}
+                                        long={locationLong}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                })}
             </section>
             <section className={utilStyles.paginationContainer}>
                 <Pagination pageData={allPostsData.pages} filterParams={filterParams} sort={sort} path='/' />

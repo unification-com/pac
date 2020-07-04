@@ -61,7 +61,9 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
             </div>
             {empty}
 
-            <div className={previewStyles.overlay}></div>
+            <div className={utilStyles.overlay}>
+                <span className={utilStyles.overlayText}>Read Source &rarr;</span>
+            </div>
        </a>
     </Link>
 }

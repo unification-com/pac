@@ -51,11 +51,28 @@
     clear: left;
 }
 
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    margin: 0 0 0 -0.7em;
+    padding: 17px 0 0;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 100%);
+    text-align: center;
+}
+
+.overlayText {
+    display: none;
+    color: #333;
+}
+
 .list {
     width: 102%;
-    list-style: none;
+    height: 23rem;
+    margin: 0 0 20px;
     padding: 0;
-    margin: 1.4rem 0 0;
+    list-style: none;
 }
 
 .section,
@@ -74,11 +91,27 @@
 }
 
 .listItem {
-    float: left;
+    display: inline-block;
     width: 23.5%;
     height: 23rem;
     margin: 0 1.35% 1.25rem 0;
     overflow: hidden;
+    vertical-align: top;
+}
+
+.listItem:hover {
+    position: relative;
+    z-index: 1;
+    height: 29rem;
+}
+
+.listItem:hover .overlay {
+    height: 50px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 0) 100%);
+}
+
+.listItem:hover .overlayText {
+    display: inline;
 }
 
 .label {
@@ -185,8 +218,27 @@
         font-size: 16px;
     }
 
+    .overlay,
+    .listItem:hover .overlay {
+        height: 50px;
+        background: linear-gradient(0deg, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .overlayText {
+        display: inline;
+    }
+
+    .list {
+        height: auto;
+        margin: 0;
+    }
+    
     .listItem {
         width: 100%;
+    }
+
+    .listItem:hover {
+        height: 23rem;
     }
 
     .section {
@@ -196,5 +248,4 @@
     .lightText {
         font-size: 12px;
     }
-
 }

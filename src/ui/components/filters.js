@@ -17,7 +17,7 @@ export default function Filters({categories, selectedPage, filterParams, sort}) 
         q = '?sort=' + newSort
     }
 
-    return <div>
+    return <div className={filterStyles.filtersContainer}>
         <h2 className={utilStyles.headingLg}>Filters</h2>
         <form id="report-filters" className={filterStyles.filters}>
             <div className={filterStyles.filterCategories}>

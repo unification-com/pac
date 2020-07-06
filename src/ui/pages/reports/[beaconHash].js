@@ -53,15 +53,21 @@ export async function getServerSideProps(context) {
         incidentReport.generatedHash = ir.hash()
     }
     const total = await fetch('http://localhost:3000/api/total');
+
+    const mainchainRest = process.env.MAINCHAIN_REST;
+    const mainchainExplorer = process.env.MAINCHAIN_EXPLORER;
+
     return {
         props: {
             incidentReport,
-            total: await total.json()
+            total: await total.json(),
+            mainchainRest: mainchainRest,
+            mainchainExplorer: mainchainExplorer
         }
     }
 }
 
-export default function Report({ incidentReport, total }) {
+export default function Report({ incidentReport, total, mainchainRest, mainchainExplorer }) {
 
     let shareUrl = '';
 
@@ -133,7 +139,9 @@ export default function Report({ incidentReport, total }) {
                     mainchainBlockHeight={incidentReport.mainchainBlockHeight}
                     beaconTx={incidentReport.beaconTx}
                     dataHashed={incidentReport.dataHashed}
-                    generatedHash={incidentReport.generatedHash}/>
+                    generatedHash={incidentReport.generatedHash}
+                    mainchainRest={mainchainRest}
+                    mainchainExplorer={mainchainExplorer}/>
 
         </article>
     </Layout>

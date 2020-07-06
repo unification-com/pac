@@ -58,7 +58,9 @@ class BeaconDaemon {
                 let subRes = await this.undClient.recordBeaconTimestamp(
                     process.env.BEACON_ID,
                     b.beaconHash,
-                    timestamp
+                    timestamp,
+                    process.env.BEACON_OWNER_ADDRESS,
+                    150000
                 );
 
                 if ('data' in subRes.result && 'height' in subRes.result) {

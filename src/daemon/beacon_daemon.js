@@ -96,9 +96,8 @@ class BeaconDaemon {
             console.log("wait a second...")
             await sleepFor(1000);
         }
-        console.log("BEACON batch done. Run Merkle tree.")
+        console.log("BEACON batch done.")
         this.BEACON_UPDATE_RUNNING = false;
-        //await generateMerkleTree();
     }
 }
 

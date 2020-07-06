@@ -14,6 +14,10 @@ class MappingPoliceViolence extends ReportApi {
     constructor(_mongoClient, _limit = -1) {
         super(_mongoClient, _limit);
         this.baseDataPath = './data/mapping_police_violence.xlsx';
+        if (fs.existsSync(this.baseDataPath)) {
+            console.log("delete old", this.baseDataPath)
+            fs.unlinkSync(this.baseDataPath)
+        }
     }
 
     async run() {
@@ -46,7 +50,12 @@ class MappingPoliceViolence extends ReportApi {
                 i++;
                 // first search the collection to see if it's already been recorded
                 if(d.ID < 1 || d.State.length === 0 || d.State === '' || d["Victim's name"].length === 0 || d["Victim's name"] === '') {
-                    console.log("no data. skipping");
+                    if(d.ID < 1) {
+                        console.log("no source ID found. Skip until data source updated with ID.")
+                    } else {
+                        console.log("no name/state data found. Skip until populated.");
+                    }
+
                     continue;
                 }
                 if(this.limit > 0 && this.limit === i) {

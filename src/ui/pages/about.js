@@ -15,7 +15,33 @@ export default function Home() {
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
                 <h2 className={utilStyles.headingLg}>About</h2>
 
-                <h3>Data Sources</h3>
+                <p>
+                Public Accountability Chain (PAC) at <a href="https://pac.foundation">pac.foundation</a> serves its constituents by
+                </p>
+
+                <ol>
+                    <li>Searching publicly available databases & info sources of police misconduct</li>
+                    <li>Standardising the data into the same format (so it can be indexed and searched)</li>
+                    <li>backs up the full database to IPFS which is a distributed, decentralised storage network -  so it is not in a single source of failure  (to keep a non-destructible, reconcilable record of the data)</li>
+                    <li>Provides a sortable, sharable front-end to share this information easily & publicly</li>
+                    <li>Submits a BEACON timestamp hash to the Unification Mainchain for each new entry added & stamps the intermittent feed regularly to the Unification mainnet (to keep immutable verifiable hash link of the data)</li>
+                    <li>Provides a public data access API to query the data and puts up a frontend for a non-technical user to be able to search and access the data  (to allow full sovereignty of the data)</li>
+                </ol>
+
+                <p>
+                The next steps for the PAC foundation are to
+                </p>
+
+                <ol>
+                    <li>Allows citizens to submit new stories and new sources into PAC. New additions will be cross-verified in a staging server before being added to PAC.  This will make new source additions such as the government proposed database</li>
+                    <li>add new sources and APIs</li>
+                </ol>
+
+                <p>
+                    We encourage those interested to review, and contribute to the project technically <a href="https://github.com/unification-com/pac" target="_blank">https://github.com/unification-com/pac</a>.
+                </p>
+
+                <h3>Current Data Sources</h3>
 
                 <ul>
                     <li>Police Brutality: <a href="https://github.com/2020PB/police-brutality"

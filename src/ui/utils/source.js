@@ -4,8 +4,8 @@ export function formatSource(source) {
         case '2020PoliceBrutality':
             sourceName = '2020 Police Brutality';
             break;
-        case 'FelonEncounters':
-            sourceName = 'Felon Encounters';
+        case 'FatalEncountersDotOrg':
+            sourceName = 'Fatal Encounters';
             break;
         case 'GuardianTheCounted':
             sourceName = 'Guardian - The Counted';

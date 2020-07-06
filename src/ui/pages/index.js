@@ -106,6 +106,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({ allPostsData, selectedPage, categories, filterParams, sort }) {
+
     return (
         <Layout home total={allPostsData.pages.total}>
             <Head>

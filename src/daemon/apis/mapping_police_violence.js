@@ -14,6 +14,10 @@ class MappingPoliceViolence extends ReportApi {
     constructor(_mongoClient, _limit = -1) {
         super(_mongoClient, _limit);
         this.baseDataPath = './data/mapping_police_violence.xlsx';
+        if (fs.existsSync(this.baseDataPath)) {
+            console.log("delete old", this.baseDataPath)
+            fs.unlinkSync(this.baseDataPath)
+        }
     }
 
     async run() {

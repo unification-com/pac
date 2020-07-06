@@ -56,18 +56,20 @@ export async function getServerSideProps(context) {
 
     const mainchainRest = process.env.MAINCHAIN_REST;
     const mainchainExplorer = process.env.MAINCHAIN_EXPLORER;
+    const beaconId = process.env.BEACON_ID;
 
     return {
         props: {
             incidentReport,
             total: await total.json(),
             mainchainRest: mainchainRest,
-            mainchainExplorer: mainchainExplorer
+            mainchainExplorer: mainchainExplorer,
+            beaconId: beaconId
         }
     }
 }
 
-export default function Report({ incidentReport, total, mainchainRest, mainchainExplorer }) {
+export default function Report({ incidentReport, total, mainchainRest, mainchainExplorer, beaconId }) {
 
     let shareUrl = '';
 
@@ -141,7 +143,8 @@ export default function Report({ incidentReport, total, mainchainRest, mainchain
                     dataHashed={incidentReport.dataHashed}
                     generatedHash={incidentReport.generatedHash}
                     mainchainRest={mainchainRest}
-                    mainchainExplorer={mainchainExplorer}/>
+                    mainchainExplorer={mainchainExplorer}
+                    beaconId={beaconId}/>
 
         </article>
     </Layout>

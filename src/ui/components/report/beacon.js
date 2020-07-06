@@ -3,7 +3,7 @@ import Alert from '../alert';
 import {hashesAreEqual} from '../../utils/utils'
 import utilStyles from '../../styles/utils.module.css'
 
-export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, mainchainTxHash, mainchainBlockHeight, beaconTx, dataHashed, generatedHash}) {
+export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, mainchainTxHash, mainchainBlockHeight, beaconTx, dataHashed, generatedHash, mainchainRest, mainchainExplorer}) {
 
     let hashesMatch;
     let mainchainTxInfo = ''
@@ -24,17 +24,17 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                 <h4 className={utilStyles.headingXs}>Mainchain details</h4>
                 <p>
                     Database row was hashed and submitted to Mainchain on <Date timestamp={beaconTimestamp} withTime='true'/>.
-                    The Timestamp ID is <a href={process.env.MAINCHAIN_REST + '/beacon/' + process.env.BEACON_ID + '/timestamp/' + beaconTimestampId} target="_blank">{beaconTimestampId}</a>.
-                    Submitted in Mainchain Tx <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a>, at block
-                    height <a href={process.env.MAINCHAIN_EXPLORER + '/blocks/' + mainchainBlockHeight} target="_blank">{mainchainBlockHeight}</a>
+                    The Timestamp ID is <a href={mainchainRest + '/beacon/' + process.env.BEACON_ID + '/timestamp/' + beaconTimestampId} target="_blank">{beaconTimestampId}</a>.
+                    Submitted in Mainchain Tx <a href={mainchainExplorer + '/txs/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a>, at block
+                    height <a href={mainchainExplorer + '/blocks/' + mainchainBlockHeight} target="_blank">{mainchainBlockHeight}</a>
                 </p>
             </div>
 
             <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Transaction details</h4>
                 <p>
-                    Tx <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a><br />
-                    Sent from: <a href={process.env.MAINCHAIN_EXPLORER + '/account/' + beaconTx.logs[0].events[0].attributes[1].value} target="_blank">{beaconTx.logs[0].events[0].attributes[1].value}</a><br />
+                    Tx <a href={mainchainExplorer + '/txs/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a><br />
+                    Sent from: <a href={mainchainExplorer + '/account/' + beaconTx.logs[0].events[0].attributes[1].value} target="_blank">{beaconTx.logs[0].events[0].attributes[1].value}</a><br />
                     Public Key Type: {beaconTx.tx.value.signatures[0].pub_key.type}<br />
                     Public Key: {beaconTx.tx.value.signatures[0].pub_key.value}<br />
                     Signature: {beaconTx.tx.value.signatures[0].signature} <br/>
@@ -55,7 +55,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                 <>
                     <p>
                         <strong>Hash from&nbsp;
-                        <a href={process.env.MAINCHAIN_EXPLORER + '/txs/' + mainchainTxHash} target="_blank">
+                        <a href={mainchainExplorer + '/txs/' + mainchainTxHash} target="_blank">
                                     Mainchain Tx
                         </a>: </strong>{beaconTx.logs[0].events[1].attributes[2].value}
                     </p>

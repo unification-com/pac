@@ -83,8 +83,6 @@ export async function getServerSideProps(context) {
     const catsRes = await fetch('http://localhost:3000/api/categories?cat=all');
     const catsData = await catsRes.json();
 
-    let armedFilter = ['N/A', 'Armed', 'Unarmed', 'Unclear', 'Allegedly'];
-
     let categories = {
         races: { selected: race, values: catsData.race },
         ages: { selected: age, values: catsData.age },
@@ -92,7 +90,7 @@ export async function getServerSideProps(context) {
         states: { selected: state, values: catsData.state },
         months: { selected: month, values: catsData.month },
         years: { selected: year, values: catsData.year },
-        armed: { selected: armed, values: armedFilter },
+        armed: { selected: armed, values: catsData.armed },
         sources: { selected: source, values: catsData.source },
     }
 

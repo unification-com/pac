@@ -1,5 +1,7 @@
 import nextConnect from 'next-connect';
 import middleware from '../../middleware/database';
+const UsStates = require('us-state-codes');
+import { formatSource } from '../../utils/source'
 
 const PAC_CONFIG = require('../../../common/constants');
 
@@ -7,90 +9,116 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
-handler.get(async (req, res) => {
-    let { cat } = req.query;
-    let categories = {};
-    let realYears = [];
-    let realAge = [];
-    let vals;
+const processCategory = async(collection, cat) => {
+    let catVals = [];
+    let vals = await collection.distinct( cat );
+
     switch(cat) {
-        case 'age':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimAge' );
-            realAge = [];
+        case 'victimAge':
             for(let i = 0; i < vals.length; i++) {
                 if(vals[i] >= 18 && vals[i] <= 80) {
-                    realAge.push(vals[i]);
+                    let c = {
+                        val: vals[i],
+                        name: vals[i]
+                    }
+                    catVals.push(c);
                 }
             }
-            categories.age = realAge;
-            break;
-        case 'race':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimRace' );
-            categories.race = vals;
-            break;
-        case 'gender':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimGender' );
-            categories.gender = vals;
-            break;
-        case 'state':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'locationStateCode' );
-            categories.state = vals;
-            break;
-        case 'country':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'locationCountry' );
-            categories.country = vals;
             break;
         case 'year':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'year' );
-            realYears = [];
             for(let i = 0; i < vals.length; i++) {
                 if(vals[i] > 1973) {
-                    realYears.push(vals[i]);
+                    let c = {
+                        val: vals[i],
+                        name: vals[i]
+                    }
+                    catVals.push(c);
                 }
             }
-            categories.year = realYears.reverse();
-            break;
-        case 'month':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'month' );
-            categories.month = vals;
+            catVals = catVals.reverse();
             break;
         case 'source':
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'source' );
-            categories.source = vals;
+            for(let i = 0; i < vals.length; i++) {
+                let c = {
+                    val: vals[i],
+                    name: formatSource(vals[i])
+                }
+                catVals.push(c);
+            }
+            break;
+        case 'locationStateCode':
+            for(let i = 0; i < vals.length; i++) {
+                let c = {
+                    val: vals[i],
+                    name: UsStates.getStateNameByStateCode(vals[i])
+                }
+                catVals.push(c);
+            }
+            break;
+        default:
+            for(let i = 0; i < vals.length; i++) {
+                let c = {
+                    val: vals[i],
+                    name: vals[i]
+                }
+                catVals.push(c);
+            }
+            break;
+    }
+
+    return catVals;
+}
+
+handler.get(async (req, res) => {
+    let { cat } = req.query;
+    let collection = req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
+    let categories = {};
+    let armedFilter = [
+        {val: 'N/A', name: 'N/A'},
+        {val: 'Armed', name: 'Armed'},
+        {val: 'Unarmed', name: 'Unarmed'},
+        {val: 'Unclear', name: 'Unclear'},
+        {val: 'Allegedly', name: 'Allegedly'}
+    ];
+    switch(cat) {
+        case 'age':
+            categories.age = await processCategory(collection, 'victimAge');
+            break;
+        case 'race':
+            categories.race = await processCategory( collection, 'victimRace' );
+            break;
+        case 'gender':
+            categories.gender = await processCategory( collection, 'victimGender' );
+            break;
+        case 'armed':
+            categories.armed = armedFilter;
+            break;
+        case 'state':
+            categories.state = await processCategory( collection, 'locationStateCode' );
+            break;
+        case 'country':
+            categories.country = await processCategory( collection, 'locationCountry' );
+            break;
+        case 'year':
+            categories.year = await processCategory( collection, 'year' );
+            break;
+        case 'month':
+            categories.month = await processCategory( collection, 'month' );
+            break;
+        case 'source':
+            categories.source = await processCategory( collection, 'source' );
             break;
         case 'all':
         default:
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimAge' );
-            realAge = [];
-            for(let i = 0; i < vals.length; i++) {
-                if(vals[i] >= 18 && vals[i] <= 80) {
-                    realAge.push(vals[i]);
-                }
-            }
-            categories.age = realAge;
-            
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimRace' );
-            categories.race = vals;
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'victimGender' );
-            categories.gender = vals;
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'locationStateCode' );
-            categories.state = vals;
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'locationCountry' );
-            categories.country = vals;
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'year' );
-
-
-            realYears = [];
-            for(let i = 0; i < vals.length; i++) {
-                if(vals[i] > 1973) {
-                    realYears.push(vals[i]);
-                }
-            }
-            categories.year = realYears.reverse();
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'month' );
-            categories.month = vals;
-            vals = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION).distinct( 'source' );
-            categories.source = vals;
+            categories.age = await processCategory(collection, 'victimAge');
+            categories.race = await processCategory( collection, 'victimRace' );
+            categories.gender = await processCategory( collection, 'victimGender' );
+            categories.armed = armedFilter;
+            categories.state = await processCategory( collection, 'locationStateCode' );
+            categories.country = await processCategory( collection, 'locationCountry' );
+            categories.year = await processCategory( collection, 'year' );
+            categories.month = await processCategory( collection, 'month' );
+            categories.source = await processCategory( collection, 'source' );
             break;
     }
     res.json(categories);

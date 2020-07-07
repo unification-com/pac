@@ -48,7 +48,7 @@ export default function PreviewBlock({title, sourceDatetime, beaconHash, source,
         } else if (evidenceAdditional.data.length > 0 && evidenceAdditional.data[0].status === 'ok' && evidenceAdditional.data[0].thumbnail && evidenceAdditional.data[0].sourceSite === 'Reddit' && evidenceAdditional.data[0].title && !content) {
             content = evidenceAdditional.data[0].title
         } else if (evidenceAdditional.type === 'media' && lat && long ) {
-            empty = <Map lat={lat} long={long} height="340" />
+            empty = <img src="/assets/img/generic_map.png" height="340"/>
         }
     }
     return <Link href="/reports/[beaconHash]" as={`/reports/${beaconHash}`}>

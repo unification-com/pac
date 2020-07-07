@@ -36,7 +36,7 @@ const runDaemon = async () => {
         case 'beacon':
             const beaconDaemon = new BeaconDaemon(mongoClient);
             beaconDaemon.submitBeaconHashes();
-            let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 7 * 1000;
+            let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 10 * 1000;
             setInterval(() => beaconDaemon.submitBeaconHashes(), beaconUpdateFrequency);
             break
         case 'merkle':

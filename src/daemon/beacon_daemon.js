@@ -94,7 +94,7 @@ class BeaconDaemon {
                 console.log(err)
             }
             console.log("wait a second...")
-            await sleepFor(1000);
+            await sleepFor(3000);
         }
         console.log("BEACON batch done.")
         this.BEACON_UPDATE_RUNNING = false;

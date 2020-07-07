@@ -1,9 +1,16 @@
-import Link from "next/link";
+import Link from 'next/link';
 import FilterCategory from './filters/filter_category'
 import filterStyles from './filters.module.css'
 import utilStyles from '../styles/utils.module.css'
+import { useState } from 'react'
 
 export default function Filters({categories, selectedPage, filterParams, sort}) {
+
+    const [expand, setDisplay] = useState(false);
+
+    function dropdown() {
+        setDisplay(!expand);
+    }
 
     let newSort = 0 - sort
     let sortImg = '/assets/img/0-9.png';
@@ -18,8 +25,8 @@ export default function Filters({categories, selectedPage, filterParams, sort}) 
     }
 
     return <div className={filterStyles.filtersContainer}>
-        <h2 className={utilStyles.headingLg}>Filters</h2>
-        <form id="report-filters" className={filterStyles.filters}>
+        <h2 className={[utilStyles.headingLg, filterStyles.mobilePointer].join(' ')} onClick={dropdown}>Filters <span className={expand ? [filterStyles.arrow, filterStyles.up].join(' ') : filterStyles.arrow}>&#9207;</span></h2>
+        <form id="report-filters" className={expand ? filterStyles.filters : [filterStyles.filters, filterStyles.filtersCollapsed].join(' ')}>
             <div className={filterStyles.filterCategories}>
                 <FilterCategory data={categories.years} label="Date" id="year"/>
                 <FilterCategory data={categories.states} label="Location" id="state"/>

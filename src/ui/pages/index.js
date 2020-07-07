@@ -121,7 +121,7 @@ export default function Home({ allPostsData, selectedPage, categories, filterPar
                 {allPostsData.data.map(({ }, i) => {
                     let j = i ? i + 1 : i;
                     if (!(j % 4) && i < 19) {
-                        return <ul className={utilStyles.list}>
+                        return <ul className={utilStyles.list} key={'pbul-' + i}>
                             {allPostsData.data.slice(j, j + 4).map(({ title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName, locationLat, locationLong }) => (
                                 <li className={utilStyles.listItem} key={beaconHash}>
                                     <PreviewBlock title={title}

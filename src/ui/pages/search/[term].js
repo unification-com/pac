@@ -39,6 +39,8 @@ export default function SearchResults({searchPostsData, term, selectedPage}) {
                 <script type="text/javascript" src="/assets/js/search.js" />
             </Head>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+                
+                <h2>Results for "{term}"</h2>
                 {searchPostsData.data.map(({ }, i) => {
                     let j = i ? i + 1 : i;
                     if (!(j % 4) && i < 19) {

@@ -114,6 +114,10 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
                 await ir_collection.createIndex({ beaconHash: 1, addedToMerkleTree: 1  }, { collation: { locale: "en" } });
                 console.log("done");
 
+                console.log("create mainchainTxHash index on", PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
+                await ir_collection.createIndex({ mainchainTxHash: 1  }, { collation: { locale: "en" } });
+                console.log("done");
+
                 const ipfs_collection = await dbo.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION);
                 console.log("create timestamp index on", PAC_CONFIG.IPFS_HISTORY_COLLECTION);
                 await ipfs_collection.createIndex({ timestamp: 1 }, { collation: { locale: "en" } });

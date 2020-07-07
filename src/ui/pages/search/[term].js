@@ -4,6 +4,7 @@ import Head from "next/head";
 import PreviewBlock from "../../components/preview_block";
 import Pagination from "../../components/pagination";
 import fetch from "isomorphic-unfetch";
+import Filters from "../../components/filters";
 
 export async function getServerSideProps(context) {
     let page = 1;
@@ -29,7 +30,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default function SearchResults({searchPostsData, term}) {
+export default function SearchResults({searchPostsData, term, selectedPage}) {
     return (
         <Layout home>
             <Head>
@@ -38,20 +39,32 @@ export default function SearchResults({searchPostsData, term}) {
                 <script type="text/javascript" src="/assets/js/search.js" />
             </Head>
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-                <h2 className={utilStyles.headingLg}>Search Results: {searchPostsData.pages.total} found</h2>
-                <ul className={utilStyles.list}>
-                    {searchPostsData.data.map(({title, sourceDatetime, beaconHash, source, content, evidenceAdditional}) => (
-                        <li className={utilStyles.listItem} key={beaconHash}>
-                            <PreviewBlock title={title}
-                                          sourceDatetime={sourceDatetime}
-                                          beaconHash={beaconHash}
-                                          source={source}
-                                          content={content}
-                                          evidenceAdditional={evidenceAdditional}
-                            />
-                        </li>
-                    ))}
-                </ul>
+                {searchPostsData.data.map(({ }, i) => {
+                    let j = i ? i + 1 : i;
+                    if (!(j % 4) && i < 19) {
+                        return <ul className={utilStyles.list} key={'pbul-' + i}>
+                            {searchPostsData.data.slice(j, j + 4).map(({ title, sourceDatetime, beaconHash, source, content, evidenceAdditional, locationState, locationCity, victimRace, victimGender, victimAge, victimName, locationLat, locationLong }) => (
+                                <li className={utilStyles.listItem} key={beaconHash}>
+                                    <PreviewBlock title={title}
+                                                  sourceDatetime={sourceDatetime}
+                                                  beaconHash={beaconHash}
+                                                  source={source}
+                                                  content={content}
+                                                  evidenceAdditional={evidenceAdditional}
+                                                  locationState={locationState}
+                                                  locationCity={locationCity}
+                                                  race={victimRace}
+                                                  gender={victimGender}
+                                                  age={victimAge}
+                                                  name={victimName}
+                                                  lat={locationLat}
+                                                  long={locationLong}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                })}
             </section>
             <section>
                 <Pagination pageData={searchPostsData.pages} path={'/search/' + term} filterParams='' />

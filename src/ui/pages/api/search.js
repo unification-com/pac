@@ -18,7 +18,7 @@ handler.get(async (req, res) => {
 
     if('term' in req.query) {
         let { term } = req.query;
-        if(term.length === 32 && term.match(/^[0-9a-z]+$/)) {
+        if(term.length === 64 && term.match(/^[0-9A-Z]+$/)) {
             dbQuery.mainchainTxHash = term;
         } else {
             dbQuery = {

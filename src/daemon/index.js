@@ -36,14 +36,15 @@ const runDaemon = async () => {
         case 'beacon':
             const beaconDaemon = new BeaconDaemon(mongoClient);
             beaconDaemon.submitBeaconHashes();
-            let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 10 * 1000;
+            let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 36 * 1000;
+            beaconUpdateFrequency = beaconUpdateFrequency + 6000
             setInterval(() => beaconDaemon.submitBeaconHashes(), beaconUpdateFrequency);
             break
         case 'merkle':
             const merkleDaemon = new MerkleDaemon(mongoClient);
             merkleDaemon.generateMerkleTree();
-            let merkleUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 7 * 1000;
-            merkleUpdateFrequency = merkleUpdateFrequency + 1000 // extra second
+            let merkleUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 36 * 1000;
+            merkleUpdateFrequency = merkleUpdateFrequency + 6000 // extra few seconds
             setInterval(() => merkleDaemon.generateMerkleTree(), merkleUpdateFrequency);
             break
         case 'backup':

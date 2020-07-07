@@ -3,8 +3,12 @@
 }
 
 .filters {
+    max-height: 331px;
     border-bottom: 1.5px solid #dddfdf;
     padding: 0 0 0.57rem;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in,
+                padding 0.4s ease-in;
 }
 
 .filter {
@@ -21,6 +25,16 @@
     width: 100%;
 }
 
+.arrow {
+    display: none;
+    transform-origin: 50% 58%;
+    transition: transform 0.4s;
+}
+
+.up {
+    transform: rotate(180deg);
+}
+
 .sorting {
     margin: 0 1.4rem 0 0.9rem;
     cursor: pointer;
@@ -35,6 +49,19 @@
 
     .filterCategories {
         columns: 2;
+    }
+
+    .filtersCollapsed {
+        max-height: 0;
+        padding: 0;
+    }
+
+    .arrow {
+        display: inline-block;
+    }
+
+    .mobilePointer {
+        cursor: pointer;
     }
 
 }

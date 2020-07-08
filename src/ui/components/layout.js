@@ -86,9 +86,13 @@ export default function Layout({ children, home, total }) {
                 <p className={styles.footerLeft}>Powered by <a href="https://unification.com/" target="_blank"><img src="/assets/img/unification-logo.png" className={styles.footerLogo} alt="Unification" /></a></p>
                 <a href="https://github.com/unification-com/pac" className={styles.link} target="_blank">Github</a>
                 <span className={styles.separator}> | </span>
-                <a href="#" className={styles.link}>Request to add sources</a>
+                <a href="https://github.com/unification-com/pac/issues" className={styles.link}>Request to add sources</a>
                 <span className={styles.separator}> | </span>
                 <a href="/about" className={styles.link}>About</a>
+                <span className={styles.separator}> | </span>
+                <a href="/usage" className={styles.link}>User Agreement</a>
+                <span className={styles.separator}> | </span>
+                <a href="/privacy" className={styles.link}>Privacy Policy</a>
             </footer>
         </>
     )

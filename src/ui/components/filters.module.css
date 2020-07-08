@@ -27,7 +27,12 @@
 
 .arrow {
     display: none;
-    transform-origin: 50% 58%;
+    width: 0;
+    height: 0;
+    border-top: 8px solid #323070;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    vertical-align: middle;
     transition: transform 0.4s;
 }
 

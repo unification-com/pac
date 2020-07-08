@@ -25,7 +25,7 @@ export default function Filters({categories, selectedPage, filterParams, sort}) 
     }
 
     return <div className={filterStyles.filtersContainer}>
-        <h2 className={[utilStyles.headingLg, filterStyles.mobilePointer].join(' ')} onClick={dropdown}>Filters <span className={expand ? [filterStyles.arrow, filterStyles.up].join(' ') : filterStyles.arrow}>&#9207;</span></h2>
+        <h2 className={[utilStyles.headingLg, filterStyles.mobilePointer].join(' ')} onClick={dropdown}>Filters <span className={expand ? [filterStyles.arrow, filterStyles.up].join(' ') : filterStyles.arrow}></span></h2>
         <form id="report-filters" className={expand ? filterStyles.filters : [filterStyles.filters, filterStyles.filtersCollapsed].join(' ')}>
             <div className={filterStyles.filterCategories}>
                 <FilterCategory data={categories.years} label="Date" id="year"/>

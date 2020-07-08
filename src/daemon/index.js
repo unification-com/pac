@@ -27,10 +27,7 @@ const runDaemon = async () => {
         case 'data':
             const dataDaemon = new DataDaemon(mongoClient);
             dataDaemon.runDbUpdates();
-            let dbUpdateFrequency = process.env.DB_UPDATE_FREQUENCY || PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY;
-            if (dbUpdateFrequency < PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY) {
-                dbUpdateFrequency = PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY;
-            }
+            let dbUpdateFrequency = (process.env.DB_UPDATE_FREQUENCY || PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY) * 1000;
             setInterval(() => dataDaemon.runDbUpdates(), dbUpdateFrequency);
             break
         case 'beacon':

@@ -27,6 +27,11 @@
 
 .arrow {
     display: none;
+    width: 0;
+    height: 0;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #323070;
+    border-left: 8px solid transparent;
     transform-origin: 50% 58%;
     transition: transform 0.4s;
 }

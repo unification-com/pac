@@ -38,7 +38,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                     Public Key Type: {beaconTx.tx.value.signatures[0].pub_key.type}<br />
                     Public Key: {beaconTx.tx.value.signatures[0].pub_key.value}<br />
                     Signature: {beaconTx.tx.value.signatures[0].signature} <br/>
-                    Signed data: <textarea defaultValue={beaconTx.raw_log}/>
+                    Raw Tx data: <textarea defaultValue={beaconTx.tx}/>
                 </p>
             </div>
         </>

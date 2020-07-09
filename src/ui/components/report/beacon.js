@@ -18,7 +18,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
         </div>
     } else {
         hasMainchain = true
-        hashesMatch = (hashesAreEqual(beaconHash, generatedHash, beaconTx.logs[0].events[1].attributes[2].value))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
+        hashesMatch = (hashesAreEqual(beaconHash, generatedHash, beaconTx.tx.value.msg[0].value.hash))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
         mainchainTxInfo = <>
             <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Mainchain details</h4>

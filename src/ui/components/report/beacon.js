@@ -57,7 +57,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                         <strong>Hash from&nbsp;
                         <a href={mainchainExplorer + '/transactions/' + mainchainTxHash} target="_blank">
                                     Mainchain Tx
-                        </a>: </strong>{beaconTx.logs[0].events[1].attributes[2].value}
+                        </a>: </strong>{beaconTx.tx.value.msg[0].value.hash}
                     </p>
                 </>
                 ) : (

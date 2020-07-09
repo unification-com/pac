@@ -24,7 +24,11 @@ export default function Layout({ children, home, total }) {
                     name="description"
                     content="Public Accountability Chain"
                 />
-                <meta name="og:title" content={siteTitle}/>
+                <meta property="og:title" content={siteTitle}/>
+                <meta property="og:image" content="https://miro.medium.com/max/300/1*cEFEzIbu646lwTWIzjI-4w.png"/>
+                <meta property="og:description" content="A framework for distributed data to bring transparency, immutability, and sovereignty to relevant data by combining centralized, scattered datasets that affect the public."/>
+                <meta property="og:url" content="https://pac.foundation" />
+
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
             <header className={styles.header}>

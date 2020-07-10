@@ -89,7 +89,7 @@ handler.get(async (req, res) => {
     let numPages = Math.floor(numRows / limit);
 
     let data = await req.db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION)
-        .find(dbQuery)
+        .find(dbQuery, {projection:{ _id: 0 }})
         .sort({ sourceDatetime: sort })
         .skip(parseInt(skip))
         .limit(parseInt(limit)).toArray();

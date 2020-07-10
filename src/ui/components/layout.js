@@ -97,6 +97,8 @@ export default function Layout({ children, home, total }) {
                 <a href="/usage" className={styles.link}>User Agreement</a>
                 <span className={styles.separator}> | </span>
                 <a href="/privacy" className={styles.link}>Privacy Policy</a>
+                <span className={styles.separator}> | </span>
+                <a href="/ipfs" className={styles.link}>IPFS Backups</a>
             </footer>
         </>
     )

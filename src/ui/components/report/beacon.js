@@ -23,7 +23,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
             <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Mainchain details</h4>
                 <p>
-                    The BEACON hash was timestamped at <Date timestamp={beaconTimestamp} withTime='true'/> and successfully submitted to Mainchain.
+                    The BEACON hash was timestamped at <Date timestamp={beaconTimestamp} withTime='true' gmt='true' /> and successfully submitted to Mainchain.
                     The BEACON Timestamp ID is <a href={mainchainRest + '/beacon/' + beaconId + '/timestamp/' + beaconTimestampId} target="_blank">{beaconTimestampId}</a>.
                     Submitted in Mainchain Tx <a href={mainchainExplorer + '/transactions/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a>, at block
                     height <a href={mainchainExplorer + '/blocks/' + mainchainBlockHeight} target="_blank">{mainchainBlockHeight}</a>

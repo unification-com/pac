@@ -123,6 +123,10 @@ MongoClient.connect(mongoDbUrl(true), function(err, db) {
                 await ipfs_collection.createIndex({ timestamp: 1 }, { collation: { locale: "en" } });
                 console.log("done");
 
+                console.log("create cid index on", PAC_CONFIG.IPFS_HISTORY_COLLECTION);
+                await ipfs_collection.createIndex({ cid: 1 }, { collation: { locale: "en" } });
+                console.log("done");
+
                 db.close();
             });
         });

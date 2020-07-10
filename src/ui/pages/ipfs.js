@@ -38,31 +38,41 @@ export default function Ipfs({ipfsBackups, total}) {
                     database themselves. The data will always exist as long as at least one IPFS node is hosting it.
                 </p>
 
-                <h3>Latest IPFS Backup: <Date timestamp={ipfsBackups[0].timestamp} withTime='true' gmt='true'/></h3>
+                {(ipfsBackups.length > 0) ?
 
-                <p>
-                    <a href={'https://ipfs.io/ipfs/' + ipfsBackups[0].cid} className={utilStyles.link} target="_blank">
-                        ipfs/{ipfsBackups[0].cid}/{ipfsBackups[0].filename}
-                    </a>
-                </p>
+                    <div>
+                        <h3>Latest IPFS Backup: <Date timestamp={ipfsBackups[0].timestamp} withTime='true' gmt='true'/>
+                        </h3>
 
-                <h3>Recent backup history</h3>
-
-                <ul className={utilStyles.nbPadding}>
-                {ipfsBackups.map((ipfs) => (
-                    <li key={'cid-' + ipfs.cid}>
-                        <div>
-                            <strong>
-                                <Date timestamp={ipfs.timestamp} withTime='true' gmt='true'/>
-                            </strong>
-                            :&nbsp;
-                            <a href={'https://ipfs.io/ipfs/' + ipfs.cid} className={utilStyles.link} target="_blank">
-                                ipfs/{ipfs.cid}/{ipfs.filename}
+                        <p>
+                            <a href={'https://ipfs.io/ipfs/' + ipfsBackups[0].cid} className={utilStyles.link}
+                               target="_blank">
+                                ipfs/{ipfsBackups[0].cid}/{ipfsBackups[0].filename}
                             </a>
-                        </div>
-                    </li>
-                ))}
-                </ul>
+                        </p>
+
+                        <h3>Recent backup history</h3>
+
+                        <ul className={utilStyles.nbPadding}>
+                            {ipfsBackups.map((ipfs) => (
+                                <li key={'cid-' + ipfs.cid}>
+                                    <div>
+                                        <strong>
+                                            <Date timestamp={ipfs.timestamp} withTime='true' gmt='true'/>
+                                        </strong>
+                                        :&nbsp;
+                                        <a href={'https://ipfs.io/ipfs/' + ipfs.cid} className={utilStyles.link}
+                                           target="_blank">
+                                            ipfs/{ipfs.cid}/{ipfs.filename}
+                                        </a>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    :
+                    <></>
+                }
 
                 <div className={styles.backToHome}>
                     <Link href="/">

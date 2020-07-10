@@ -3,10 +3,21 @@ import Head from "next/head";
 import utilStyles from "../styles/utils.module.css";
 import styles from "../components/layout.module.css";
 import Link from "next/link";
+import fetch from "isomorphic-unfetch";
 
-export default function Home() {
+export async function getServerSideProps(context) {
+    const total = await fetch('http://localhost:3000/api/total');
+
+    return {
+        props: {
+            total: await total.json()
+        }
+    }
+}
+
+export default function Privacy({total}) {
     return (
-        <Layout home>
+        <Layout home total={total}>
             <Head>
                 <title>{siteTitle}: About</title>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"/>

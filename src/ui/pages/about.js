@@ -3,10 +3,21 @@ import Head from "next/head";
 import utilStyles from "../styles/utils.module.css";
 import styles from "../components/layout.module.css";
 import Link from "next/link";
+import fetch from "isomorphic-unfetch";
 
-export default function Home() {
+export async function getServerSideProps(context) {
+    const total = await fetch('http://localhost:3000/api/total');
+
+    return {
+        props: {
+            total: await total.json()
+        }
+    }
+}
+
+export default function About({total}) {
     return (
-        <Layout home>
+        <Layout home total={total}>
             <Head>
                 <title>{siteTitle}: About</title>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"/>
@@ -22,7 +33,7 @@ export default function Home() {
                 <ol>
                     <li>Searching publicly available databases & info sources of police misconduct</li>
                     <li>Standardising the data into the same format (so it can be indexed and searched)</li>
-                    <li>backs up the full database to IPFS which is a distributed, decentralised storage network -  so it is not in a single source of failure  (to keep a non-destructible, reconcilable record of the data)</li>
+                    <li>backs up the full database to <a href="/ipfs">IPFS</a> which is a distributed, decentralised storage network -  so it is not in a single source of failure  (to keep a non-destructible, reconcilable record of the data)</li>
                     <li>Provides a sortable, sharable front-end to share this information easily & publicly</li>
                     <li>Submits a BEACON timestamp hash to the Unification Mainchain for each new entry added & stamps the intermittent feed regularly to the Unification mainnet (to keep immutable verifiable hash link of the data)</li>
                     <li>Provides a public data access API to query the data and puts up a frontend for a non-technical user to be able to search and access the data  (to allow full sovereignty of the data)</li>

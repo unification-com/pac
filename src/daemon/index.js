@@ -48,7 +48,7 @@ const runDaemon = async () => {
             const backupDaemon = new BackupDaemon(mongoClient);
             backupDaemon.backupDb()
             let dbBackupFrequency = (process.env.DB_BACKUP_FREQUENCY || PAC_CONFIG.DEFAULT_DB_BACKUP_FREQUENCY) * 1000;
-            setInterval(() => backupDbToIpfs(), dbBackupFrequency);
+            setInterval(() => backupDaemon.backupDb(), dbBackupFrequency);
             break
         default:
             console.log("unknown daemon", daemon)

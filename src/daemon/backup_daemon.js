@@ -1,6 +1,6 @@
 require('dotenv').config();
 const fs = require('fs');
-const IPFS = require('ipfs');
+const IpfsHttpClient = require('ipfs-http-client')
 const AdmZip = require('adm-zip');
 
 const {dbBackUp} = require('../db_utils/backup');
@@ -12,15 +12,18 @@ class BackupDaemon {
         this.mongoClient = _mongoClient;
         const db = this.mongoClient.db(process.env.MONGODB_DBNAME);
         this.collection = db.collection(PAC_CONFIG.IPFS_HISTORY_COLLECTION);
-        this.ipfsNode = null;
+        this.ipfsClient = null;
         this.backupToIPFS = (parseInt(process.env.BACKUP_TO_IPFS) || 0);
         this.backupFileName = 'pac_db.zip';
     }
 
-    async backupDb() {
+    async backupDb(ipfsUrl = "http://127.0.0.1:5002") {
         console.log("run DB backup");
-        if(this.backupToIPFS === 1 && this.ipfsNode === null) {
-            this.ipfsNode = await IPFS.create()
+        if(this.backupToIPFS === 1 && this.ipfsClient === null) {
+            this.ipfsClient = await IpfsHttpClient(ipfsUrl);
+            const { id, agentVersion } = await this.ipfsClient.id()
+            console.log(`IPFS Version ${agentVersion}`)
+            console.log(`IPFS Peer ID ${id}`)
         }
         let self = this;
         dbBackUp('./data/backup/pac_mongodb_backup', function (backupDir) {
@@ -74,7 +77,7 @@ class BackupDaemon {
     async saveToIpfs(archiveFile) {
 
         let self = this;
-        const version = await this.ipfsNode.version()
+        const version = await this.ipfsClient.version()
 
         const now = new Date();
         const timestamp = Math.round(now.getTime() / 1000);
@@ -84,7 +87,7 @@ class BackupDaemon {
         if (fs.existsSync(archiveFile)) {
             console.log('Version:', version.version)
 
-            for await (let fileAdded of this.ipfsNode.add({
+            for await (let fileAdded of this.ipfsClient.add({
                 path: ipfsPath,
                 content: fs.readFileSync(archiveFile),
             })) {

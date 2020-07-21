@@ -73,7 +73,7 @@ are generated from the standardised data.
 3. **Merkle Tree Daemon** - generates a Merkle tree from the hashes that have been submitted to
 Unification Mainchain. The root hash is also submitted to Mainchain.
 4. **Backup Daemon** - creates a full backup of all collections in the MongoDb database. This backup
-will eventually be saved to IPFS offering an immutible copy of the entire database to be
+is saved to IPFS offering an immutible copy of the entire database to be
 available at all times.
 
 ### src/ui

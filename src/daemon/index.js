@@ -27,28 +27,18 @@ const runDaemon = async () => {
         case 'data':
             const dataDaemon = new DataDaemon(mongoClient);
             dataDaemon.runDbUpdates();
-            let dbUpdateFrequency = (process.env.DB_UPDATE_FREQUENCY || PAC_CONFIG.DEFAULT_UPDATE_FREQUENCY) * 1000;
-            setInterval(() => dataDaemon.runDbUpdates(), dbUpdateFrequency);
             break
         case 'beacon':
             const beaconDaemon = new BeaconDaemon(mongoClient);
             beaconDaemon.submitBeaconHashes();
-            let beaconUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 36 * 1000;
-            beaconUpdateFrequency = beaconUpdateFrequency + 6000
-            setInterval(() => beaconDaemon.submitBeaconHashes(), beaconUpdateFrequency);
             break
         case 'merkle':
             const merkleDaemon = new MerkleDaemon(mongoClient);
             merkleDaemon.generateMerkleTree();
-            let merkleUpdateFrequency = (process.env.BEACON_SUBMIT_IN_BATCH || PAC_CONFIG.DEFAULT_BEACON_SUBMIT_IN_BATCH) * 36 * 1000;
-            merkleUpdateFrequency = merkleUpdateFrequency + 6000 // extra few seconds
-            setInterval(() => merkleDaemon.generateMerkleTree(), merkleUpdateFrequency);
             break
         case 'backup':
             const backupDaemon = new BackupDaemon(mongoClient);
             backupDaemon.backupDb()
-            let dbBackupFrequency = (process.env.DB_BACKUP_FREQUENCY || PAC_CONFIG.DEFAULT_DB_BACKUP_FREQUENCY) * 1000;
-            setInterval(() => backupDaemon.backupDb(), dbBackupFrequency);
             break
         default:
             console.log("unknown daemon", daemon)

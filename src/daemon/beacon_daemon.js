@@ -9,7 +9,6 @@ const PAC_CONFIG = require('../common/constants');
 class BeaconDaemon {
     constructor(_mongoClient) {
         this.mongoClient = _mongoClient;
-        this.BEACON_UPDATE_RUNNING = false;
         this.undClient = null;
     }
 
@@ -27,15 +26,8 @@ class BeaconDaemon {
     async submitBeaconHashes() {
         if (process.env.BEACON_OWNER_ADDRESS === '' || process.env.BEACON_ID === '' || process.env.BEACON_OWNER_PK === '') {
             console.log("BEACON vars not set. Skip hash submission");
-            this.BEACON_UPDATE_RUNNING = false;
-            return;
+            process.exit()
         }
-
-        if (this.BEACON_UPDATE_RUNNING) {
-            console.log("BEACON update already in progress");
-            return;
-        }
-        this.BEACON_UPDATE_RUNNING = true;
 
         const db = this.mongoClient.db(process.env.MONGODB_DBNAME);
         const collection = db.collection(PAC_CONFIG.INCIDENT_REPORT_COLLECTION);
@@ -90,14 +82,13 @@ class BeaconDaemon {
                 }
             } catch (err) {
                 console.log("FAILED TO SUBMIT BEACON HASH");
-                this.BEACON_UPDATE_RUNNING = false;
                 console.log(err)
             }
             console.log("wait 30 seconds...")
             await sleepFor(30000);
         }
         console.log("BEACON batch done.")
-        this.BEACON_UPDATE_RUNNING = false;
+        process.exit()
     }
 }
 

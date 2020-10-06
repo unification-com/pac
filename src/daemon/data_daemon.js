@@ -12,7 +12,6 @@ const WashingtonPost = require('./apis/washington_post');
 class DataDaemon {
     constructor(_mongoClient) {
         this.mongoClient = _mongoClient;
-        this.DB_UPDATE_RUNNING = false;
 
         let API_LIMIT = -1;
 
@@ -26,12 +25,6 @@ class DataDaemon {
     }
 
     async runDbUpdates() {
-        if (this.DB_UPDATE_RUNNING) {
-            console.log("DB update already in progress");
-            return;
-        }
-        this.DB_UPDATE_RUNNING = true;
-
         const start = new Date();
 
         Promise.all([
@@ -51,17 +44,15 @@ class DataDaemon {
             console.log("mpvUpRes", values[5]);
             console.log("gtcUpRes", values[6]);
 
-            this.DB_UPDATE_RUNNING = false;
-
             const end = new Date();
 
             const timeTaken = (end.getTime() - start.getTime()) / 1000;
 
             console.log("api updates complete in ", timeTaken, "seconds");
+            process.exit()
         }).catch(function (err) {
             console.error(err);
-
-            this.DB_UPDATE_RUNNING = false;
+            process.exit()
         });
     }
 }

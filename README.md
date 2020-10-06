@@ -68,13 +68,29 @@ data structure before inserting into the MongoDB collection. If an indident repo
 daemon will check from cross references and update the record with links to the duplicate data
 as required.
 2. **BEACON Daemon** - if BEACON variables have been configured in `.env`, this daemon will
-periodically submit the data hashes in batches to the Unification Mainchain. The hashes submitted
+submit the data hashes in batches to the Unification Mainchain. The hashes submitted
 are generated from the standardised data.
 3. **Merkle Tree Daemon** - generates a Merkle tree from the hashes that have been submitted to
 Unification Mainchain. The root hash is also submitted to Mainchain.
 4. **Backup Daemon** - creates a full backup of all collections in the MongoDb database. This backup
 is saved to IPFS offering an immutible copy of the entire database to be
 available at all times.
+
+Daemons can be configured to run with the desired frequency using a tool such as `cron`
+
+For example:
+
+```bash 
+crontab -e
+```
+
+and setting
+
+```bash 
+0 * * * * /path/to/node /path/to/lib/daemon data  >> /path/to/log_file.log 2>&1
+```
+
+will run the Data Daemon every hour, and log the results to a file
 
 ### src/ui
 

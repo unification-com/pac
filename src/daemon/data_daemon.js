@@ -26,34 +26,71 @@ class DataDaemon {
 
     async runDbUpdates() {
         const start = new Date();
+        console.log(start, "START API UPDATES");
 
-        Promise.all([
-            this.pb.run(),
-            this.wp.run(),
-            this.fe.run(),
-            this.kbp.run(),
-            this.usps.run(),
-            this.mpv.run(),
-            this.gtc.run()
-        ]).then((values) => {
-            console.log("pbUpRes", values[0]);
-            console.log("wpUpRes", values[1]);
-            console.log("feUpRes", values[2]);
-            console.log("kbpUpRes", values[3]);
-            console.log("uspsUpRes", values[4]);
-            console.log("mpvUpRes", values[5]);
-            console.log("gtcUpRes", values[6]);
-
-            const end = new Date();
-
-            const timeTaken = (end.getTime() - start.getTime()) / 1000;
-
-            console.log("api updates complete in ", timeTaken, "seconds");
+        try {
+            const pbUpRes = await this.pb.run()
+            console.log("pbUpRes", pbUpRes)
+        } catch(err) {
+            console.error("pbUpRes error", err);
             process.exit()
-        }).catch(function (err) {
-            console.error(err);
+        }
+
+        try {
+            const wpUpRes = await this.wp.run()
+            console.log("wpUpRes", wpUpRes)
+        } catch(err) {
+            console.error("wpUpRes error", err);
             process.exit()
-        });
+        }
+
+        try {
+            const feUpRes = await this.fe.run()
+            console.log("feUpRes", feUpRes)
+        } catch(err) {
+            console.error("feUpRes error", err);
+            process.exit()
+        }
+
+        try {
+            const kbpUpRes = await this.kbp.run()
+            console.log("kbpUpRes", kbpUpRes)
+        } catch(err) {
+            console.error("kbpUpRes error", err);
+            process.exit()
+        }
+
+        try {
+            const uspsUpRes = await this.usps.run()
+            console.log("uspsUpRes", uspsUpRes)
+        } catch(err) {
+            console.error("uspsUpRes error", err);
+            process.exit()
+        }
+
+        try {
+            const mpvUpRes = await this.mpv.run()
+            console.log("mpvUpRes", mpvUpRes)
+        } catch(err) {
+            console.error("mpvUpRes error", err);
+            process.exit()
+        }
+
+        try {
+            const gtcUpRes = await this.gtc.run()
+            console.log("gtcUpRes", gtcUpRes)
+        } catch(err) {
+            console.error("gtcUpRes error", err);
+            process.exit()
+        }
+
+        const end = new Date();
+
+        const timeTaken = (end.getTime() - start.getTime()) / 1000;
+
+        console.log("api updates complete in ", timeTaken, "seconds");
+        console.log(end, "END API UPDATES");
+        process.exit()
     }
 }
 

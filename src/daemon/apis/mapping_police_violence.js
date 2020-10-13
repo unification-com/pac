@@ -49,8 +49,8 @@ class MappingPoliceViolence extends ReportApi {
             for (let d of this.baseData) {
                 i++;
                 // first search the collection to see if it's already been recorded
-                if(d.ID < 1 || d.State.length === 0 || d.State === '' || d["Victim's name"].length === 0 || d["Victim's name"] === '') {
-                    if(d.ID < 1) {
+                if(d['MPV ID'] < 1 || d.State.length === 0 || d.State === '' || d["Victim's name"].length === 0 || d["Victim's name"] === '') {
+                    if(d['MPV ID'] < 1) {
                         console.log("no source ID found. Skip until data source updated with ID.")
                     } else {
                         console.log("no name/state data found. Skip until populated.");
@@ -62,13 +62,13 @@ class MappingPoliceViolence extends ReportApi {
                     processCompleteCallback(true);
                     return;
                 }
-                console.log(SOURCE_NAME, ": process", i, "/", numRecords, "mpv-id:", d.ID);
+                console.log(SOURCE_NAME, ": process", i, "/", numRecords, "mpv-id:", d['MPV ID']);
 
                 let report = await this.collection.find({
-                    $and: [{source: SOURCE_NAME}, {sourceId: d.ID}],
+                    $and: [{source: SOURCE_NAME}, {sourceId: d['MPV ID']}],
                 }).limit(1).toArray();
                 if(report.length > 0) {
-                    console.log(SOURCE_NAME, d.ID, "already recorded. Update potential cross references for", report[0]._id);
+                    console.log(SOURCE_NAME, d['MPV ID'], "already recorded. Update potential cross references for", report[0]._id);
                     try {
                         let crRes = await this.updateCrossReferences(report[0]._id);
                         console.log("has cross references:", crRes)
@@ -98,7 +98,7 @@ class MappingPoliceViolence extends ReportApi {
 
                     ir.setSource(
                         SOURCE_NAME,
-                        d.ID,
+                        d['MPV ID'],
                         BASE_DATA_URL,
                         timestamp,
                         JSON.stringify(d),
@@ -122,7 +122,7 @@ class MappingPoliceViolence extends ReportApi {
                     ir.setVictimRace(d["Victim's race"]);
                     ir.setVictimAge(d["Victim's age"]);
                     ir.setVictimGender(d["Victim's gender"]);
-                    ir.setVictimArmed(d["Unarmed/Did Not Have a Weapon"]);
+                    ir.setVictimArmed(d["Unarmed/Did Not Have an Actual Weapon"]);
 
                     let additionalEvidence = {
                         victim_name: d["Victim's name"],
@@ -159,7 +159,7 @@ class MappingPoliceViolence extends ReportApi {
 
                     try {
                         let dbInsRes = await this.addReportToDb(ir);
-                        console.log("mpv-id:", d.ID, "inserted into db:", dbInsRes);
+                        console.log("mpv-id:", d['MPV ID'], "inserted into db:", dbInsRes);
                     } catch(dbErr) {
                         console.log("db inster err:", dbErr);
                     }

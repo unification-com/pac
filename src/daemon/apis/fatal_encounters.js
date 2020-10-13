@@ -39,7 +39,7 @@ class FatalEncountersDotOrg extends ReportApi {
             for (let d of records) {
                 i++;
                 // first search the collection to see if it's already been recorded
-                if(d['Unique ID'] < 1 || d['Location of death (state)'].length === 0 || d['Location of death (state)'] === '' || d["Subject's name"].length === 0 || d["Subject's name"] === '') {
+                if(d['Unique ID'] < 1 || d['State'].length === 0 || d['State'] === '' || d["Name"].length === 0 || d["Name"] === '') {
                     console.log("no data. skipping");
                     continue;
                 }
@@ -73,17 +73,17 @@ class FatalEncountersDotOrg extends ReportApi {
                     let dateFormatted = date.getDate() + ' ' + month + ' ' + date.getFullYear();
                     let timestamp = Math.round(date / 1000);
 
-                    let stateCode = UsStates.sanitizeStateCode(d['Location of death (state)']);
+                    let stateCode = UsStates.sanitizeStateCode(d['State']);
                     let stateName = UsStates.getStateNameByStateCode(stateCode);
 
-                    let title = d["Subject's name"] + ( (parseInt(d["Subject's age"]) > 0) ?  ', ' + d["Subject's age"] : '' )
+                    let title = d["Name"] + ( (parseInt(d["Age"]) > 0) ?  ', ' + d["Age"] : '' )
                         + ', from ' + d['Location of death (city)'] + ', ' + stateName
                         + ', on ' + dateFormatted;
                     ir.setTitle(title);
 
-                    ir.setContent(d['Date&Description']);
+                    ir.setContent(d['Brief description']);
 
-                    ir.setVictimName(d["Subject's name"]);
+                    ir.setVictimName(d["Name"]);
 
                     ir.setSource(
                         SOURCE_NAME,
@@ -102,38 +102,34 @@ class FatalEncountersDotOrg extends ReportApi {
                         d.Longitude
                     );
 
-                    ir.addEvidenceLink(d['Link to news article or photo of official document']);
-                    if(d.Video.length > 0) {
-                        ir.addEvidenceLink(d.Video);
-                    }
-                    if(d['URL of image of deceased'].length > 0) {
-                        ir.addEvidenceLink(d['URL of image of deceased'])
+                    ir.addEvidenceLink(d['Supporting document link']);
+
+                    if(d['URL of image (PLS NO HOTLINKS)'].length > 0) {
+                        ir.addEvidenceLink(d['URL of image (PLS NO HOTLINKS)'])
                     }
 
-                    ir.setVictimRace(d["Subject's race"]);
-                    ir.setVictimAge(d["Subject's age"]);
-                    ir.setVictimGender(d["Subject's gender"]);
+                    ir.setVictimRace(d["Race"]);
+                    ir.setVictimAge(d["Age"]);
+                    ir.setVictimGender(d["Gender"]);
                     ir.setVictimArmed('');
 
                     let additionalEvidence = {
-                        name: d["Subject's name"],
-                        age: d["Subject's age"],
-                        gender: d["Subject's gender"],
-                        race: d["Subject's race"],
-                        race_with_imputations: d["Subject's race with imputations"],
+                        name: d["Name"],
+                        age: d["Age"],
+                        gender: d["Gender"],
+                        race: d["Race"],
+                        race_with_imputations: d["Race with imputations"],
                         imputation_probability: d['Imputation probability'],
                         address: d['Location of injury (address)'],
                         city: d['Location of death (city)'],
-                        state: d['Location of death (state)'],
+                        state: d['State'],
                         zipcode: d['Location of death (zip code)'],
                         county: d['Location of death (county)'],
                         full_address: d['Full Address'],
-                        agency_responsible: d['Agency responsible for death'],
+                        agency_responsible: d['Agency or agencies involved'],
                         cause_of_death: d['Cause of death'],
                         dispositions_exclusions: d['Dispositions/Exclusions INTERNAL USE, NOT FOR ANALYSIS'],
-                        mental_illness: d['Symptoms of mental illness? INTERNAL USE, NOT FOR ANALYSIS'],
-                        year: d['Date (Year)'],
-                        image_of_victim: d['URL of image of deceased']
+                        image_of_victim: d['URL of image (PLS NO HOTLINKS)']
                     };
 
                     let evidence = {

@@ -100,6 +100,10 @@ class WashingtonPost extends ReportApi {
                     ir.setVictimGender(d.gender);
                     ir.setVictimArmed(d.armed);
 
+                    if(d.longitude && d.latitude) {
+                        ir.setGeoLocation(d.latitude, d.longitude);
+                    }
+
                     let additionalEvidence = {
                         name: d.name,
                         date: d.date,
@@ -113,7 +117,8 @@ class WashingtonPost extends ReportApi {
                         signs_of_mental_illness: d.signs_of_mental_illness,
                         threat_level: d.threat_level,
                         flee: d.flee,
-                        body_camera: d.body_camera
+                        body_camera: d.body_camera,
+                        is_geocoding_exact: d.is_geocoding_exact,
                     }
 
                     let evidence = {

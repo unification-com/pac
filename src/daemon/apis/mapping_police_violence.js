@@ -122,7 +122,7 @@ class MappingPoliceViolence extends ReportApi {
                     ir.setVictimRace(d["Victim's race"]);
                     ir.setVictimAge(d["Victim's age"]);
                     ir.setVictimGender(d["Victim's gender"]);
-                    ir.setVictimArmed(d["Unarmed/Did Not Have an Actual Weapon"]);
+                    ir.setVictimArmed(d["Armed/Unarmed Status"]);
 
                     let additionalEvidence = {
                         victim_name: d["Victim's name"],
@@ -135,11 +135,12 @@ class MappingPoliceViolence extends ReportApi {
                         zipcode: d.Zipcode,
                         county: d.County,
                         agency_responsible_for_death: d['Agency responsible for death'],
+                        ori_agency_identifier: d['ORI Agency Identifier (if available)'],
                         cause_of_death: d['Cause of death'],
                         official_disposition_of_death: d['Official disposition of death (justified or other)'],
                         criminal_charges: d['Criminal Charges?'],
                         mental_illness: d['Symptoms of mental illness?'],
-                        unarmed: d["Unarmed/Did Not Have a Weapon"],
+                        unarmed: d["Armed/Unarmed Status"],
                         alleged_weapon: d['Alleged Weapon (Source: WaPo and Review of Cases Not Included in WaPo Database)'],
                         alleged_threat_level: d['Alleged Threat Level (Source: WaPo)'],
                         fleeing: d['Fleeing (Source: WaPo)'],
@@ -147,7 +148,9 @@ class MappingPoliceViolence extends ReportApi {
                         wapo_id: d['WaPo ID (If included in WaPo database)'],
                         off_duty_killing: d['Off-Duty Killing?'],
                         geography: d[ 'Geography (via Trulia methodology based on zipcode population density: http://jedkolko.com/wp-content/uploads/2015/05/full-ZCTA-urban-suburban-rural-classification.xlsx )'],
-                        image_of_victim: d['URL of image of victim']
+                        image_of_victim: d['URL of image of victim'],
+                        encounter_type: d['Encounter Type (DRAFT)'],
+                        initial_reported_reason: d['Initial Reported Reason for Encounter (DRAFT)'],
                     };
 
                     let evidence = {

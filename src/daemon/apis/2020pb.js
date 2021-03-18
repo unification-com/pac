@@ -22,10 +22,10 @@ class PoliceBrutality2020 extends ReportApi {
         let self = this;
         console.log("start", SOURCE_NAME);
         return new Promise((resolve) => {
-            Promise.all([fetchData(BASE_DATA_URL), fetchData(IPFS_ARCHIVE_URL)]).then((values) => {
+            Promise.all([fetchData(BASE_DATA_URL) /*, fetchData(IPFS_ARCHIVE_URL)*/]).then((values) => {
                 self.baseData = values[0];
-                let ipfsHtml = values[1];
-                self.ipfsArchive = new JSDOM(ipfsHtml);
+                // let ipfsHtml = values[1];
+                // self.ipfsArchive = new JSDOM(ipfsHtml);
                 self.processData(function(status) {
                     resolve(status);
                 });
@@ -221,14 +221,16 @@ class PoliceBrutality2020 extends ReportApi {
         let self = this;
         let links = [];
         return new Promise((resolve, reject) => {
-            self.ipfsArchive.window.document.querySelectorAll('a').forEach(link => {
-                let linkHref = link.href;
-                let n = linkHref.search(id);
-                if(n > -1) {
-                    links.push(linkHref);
-                }
+            if(this.ipfsArchive) {
+                self.ipfsArchive.window.document.querySelectorAll( 'a' ).forEach( link => {
+                    let linkHref = link.href;
+                    let n = linkHref.search( id );
+                    if ( n > -1 ) {
+                        links.push( linkHref );
+                    }
 
-            });
+                } );
+            }
             resolve(links);
         });
     }

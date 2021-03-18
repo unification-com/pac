@@ -5,6 +5,8 @@ FUND Mainchain.
 
 ## Development - Quick Start
 
+Requires Node JS >= v14.4.x
+
 Docker, Docker Compose and `make` are the recommended minimum requirements for development.
 
 1. Copy `.env.example` to `.env` and edit. Copy `.env` to `src/ui/.env.local`

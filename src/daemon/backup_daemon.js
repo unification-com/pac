@@ -25,13 +25,29 @@ class BackupDaemon {
             console.log(`IPFS Version ${agentVersion}`)
             console.log(`IPFS Peer ID ${id}`)
         }
-        let self = this;
-        dbBackUp('./data/backup/pac_mongodb_backup', function (backupDir) {
-            if (fs.existsSync(backupDir)) {
-                console.log("BACKUP SUCCESS. Location:", backupDir);
-                self.compressBackup(backupDir);
+
+        try {
+            const backupDir = await dbBackUp( './data/backup/pac_mongodb_backup' )
+
+            if ( !fs.existsSync( backupDir ) ) {
+                console.log( "something went wrong" )
+                process.exit( 1 )
             }
-        });
+
+            console.log( "BACKUP SUCCESS. Location:", backupDir );
+            const archiveFile = await this.compressBackup( backupDir );
+
+            if(this.backupToIPFS === 1) {
+                const fileAdded = await this.saveToIpfs(archiveFile)
+                console.log(fileAdded)
+            } else {
+                console.log("IPFS backup disabled in .env")
+            }
+        } catch (err) {
+            console.error("backup error", err)
+            process.exit( 1 )
+        }
+        process.exit( 0 )
     }
 
     removeDir(rmPath) {
@@ -57,45 +73,43 @@ class BackupDaemon {
     }
 
     async compressBackup(backupDir) {
-
-        let self = this;
-        let archiveFile = './data/backup/' + this.backupFileName;
-        let zip = new AdmZip();
-        zip.addLocalFolder(backupDir);
-        zip.writeZip(archiveFile, function(ok) {
-            console.log("writeZip res",ok);
-            console.log("zipfile created in ", archiveFile, ". Remove dir", backupDir)
-            self.removeDir(backupDir)
-            if(self.backupToIPFS === 1) {
-                self.saveToIpfs(archiveFile)
-            } else {
-                console.log("IPFS backup disabled in .env")
-            }
-        });
+        return new Promise((resolve, reject) => {
+            let self = this;
+            let archiveFile = './data/backup/' + this.backupFileName;
+            let zip = new AdmZip();
+            zip.addLocalFolder(backupDir);
+            zip.writeZip(archiveFile, function(ok) {
+                console.log("writeZip res",ok);
+                console.log("zipfile created in ", archiveFile, ". Remove dir", backupDir)
+                self.removeDir(backupDir)
+                resolve(archiveFile)
+            });
+        })
     }
 
     async saveToIpfs(archiveFile) {
-
-        let self = this;
         const version = await this.ipfsClient.version()
+        console.log('Version:', version.version)
 
         const now = new Date();
         const timestamp = Math.round(now.getTime() / 1000);
 
         let ipfsPath = '/backup/' + this.backupFileName;
 
-        if (fs.existsSync(archiveFile)) {
-            console.log('Version:', version.version)
+        return new Promise(async (resolve, reject) => {
+            if (fs.existsSync(archiveFile)) {
+                const fileAdded = await this.ipfsClient.add({
+                    path: ipfsPath,
+                    content: fs.readFileSync(archiveFile),
+                })
 
-            for await (let fileAdded of this.ipfsClient.add({
-                path: ipfsPath,
-                content: fs.readFileSync(archiveFile),
-            })) {
                 if(fileAdded.path === 'backup') {
-                    self.updateDb(fileAdded, timestamp)
+                    await this.updateDb(fileAdded, timestamp)
                 }
+
+            resolve(fileAdded)
             }
-        }
+        })
     }
 
     async updateDb(fileInfo, timestamp) {

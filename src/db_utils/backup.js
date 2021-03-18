@@ -22,14 +22,17 @@ const empty = (mixedVar) => {
 };
 
 // Auto backup script
-module.exports.dbBackUp = (backupPath = './data/backup/pac_mongodb_backup', cb = function () {
-}) => {
+module.exports.dbBackUp = (backupPath = './data/backup/pac_mongodb_backup') => {
     let cmd = 'mongodump --host ' + process.env.MONGODB_HOST + ' --port ' + process.env.MONGODB_PORT + ' --db ' + process.env.MONGODB_DBNAME + ' --username ' + process.env.MONGODB_DBUSER + ' --password ' + process.env.MONGODB_DBPASS + ' --out ' + backupPath; // Command for mongodb dump process
-    exec(cmd, function (error) {
-        if (empty(error)) {
-            cb(backupPath);
-        } else {
-            console.log("Backup error");
-        }
-    });
+
+    return new Promise((resolve, reject) => {
+        exec(cmd, function (error) {
+            if (empty(error)) {
+                resolve(backupPath);
+            } else {
+                console.log("Backup error", error)
+                reject(error)
+            }
+        })
+    })
 }

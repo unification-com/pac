@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const assert = require('assert').strict;
 const merkle_mod = require('merkle-tree');
-const UndClient = require('@unification-com/und-js');
+const UndClient = require('@unification-com/und-js-v2');
 
 // Common classes
 const IncidentReport = require('../common/incident_report.js');
@@ -17,13 +17,10 @@ class MerkleDaemon {
     }
 
     async getUndClient() {
-        const undClient = new UndClient(process.env.MAINCHAIN_REST)
+        const UndClient = await import("@unification-com/und-js-v2")
+        const undClient = new UndClient.default.UndClient(process.env.MAINCHAIN_REST, 'BROADCAST_MODE_BLOCK')
         await undClient.initChain()
-        undClient.setBroadcastMode("block")
         await undClient.setPrivateKey(process.env.BEACON_OWNER_PK)
-        // use default delegates (signing, broadcast)
-        undClient.useDefaultSigningDelegate()
-        undClient.useDefaultBroadcastDelegate()
         this.undClient = undClient
     }
 
@@ -35,16 +32,42 @@ class MerkleDaemon {
         const timestamp = Math.round(now.getTime() / 1000);
 
         let subRes = await this.undClient.recordBeaconTimestamp(
-            process.env.BEACON_ID,
-            rootHash,
-            timestamp
+          process.env.BEACON_ID,
+          rootHash,
+          timestamp,
+          process.env.BEACON_OWNER_ADDRESS,
+          250000
         );
 
-        if ('data' in subRes.result && 'height' in subRes.result) {
-            let txHash = subRes.result.txhash;
-            let mcHeight = subRes.result.height;
-            let tsId = subRes.result.data;
-            let tsIdInt = parseInt(tsId, 16);
+        if ('txhash' in subRes.tx_response && 'height' in subRes.tx_response && 'code' in subRes.tx_response) {
+
+            let txHash = "";
+            let mcHeight = 0;
+            let tsId = 0;
+
+            if(parseInt(subRes.tx_response.code, 10) !== 0) {
+                console.log("FAILED TO SUBMIT BEACON HASH");
+                console.log("tx response");
+                console.log(subRes);
+            } else {
+                txHash = subRes.result.txhash;
+                mcHeight = subRes.result.height;
+
+                for(let i = 0; i < subRes.tx_response.events.length; i += 1) {
+                    const event = subRes.tx_response.events[i]
+                    if(event.type === "record_beacon_timestamp") {
+                        for(let j = 0; j < event.attributes.length; j += 1) {
+                            const attribute = event.attributes[j]
+                            const key = Buffer.from(attribute.key, 'base64').toString()
+                            const value = Buffer.from(attribute.value, 'base64').toString()
+                            if(key === 'beacon_timestamp_id') {
+                                tsId = value
+                            }
+                        }
+                    }
+                }
+            }
+
             let merkleTree = {
                 rootHash: rootHash,
                 beaconTimestampId: 0,
@@ -52,10 +75,10 @@ class MerkleDaemon {
                 mainchainBlockHeight: 0,
                 beaconTimestamp: timestamp,
             }
-            if (tsIdInt > 0) {
+            if (tsId > 0) {
                 console.log("BEACON SUBMIT SUCCESS");
-                console.log("txHash", txHash, "height", mcHeight, "tsId", tsId, "parseInt(tsId)", tsIdInt);
-                merkleTree.beaconTimestampId = tsIdInt;
+                console.log("txHash", txHash, "height", mcHeight, "tsId", tsId);
+                merkleTree.beaconTimestampId = tsId;
                 merkleTree.mainchainTxHash = txHash;
                 merkleTree.mainchainBlockHeight = mcHeight;
             }

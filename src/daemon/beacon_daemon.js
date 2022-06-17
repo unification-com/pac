@@ -1,6 +1,5 @@
 require('dotenv').config();
 const mongo = require('mongodb');
-const UndClient = require('@unification-com/und-js');
 
 const { sleepFor } = require('../common/utils')
 
@@ -13,13 +12,10 @@ class BeaconDaemon {
     }
 
     async getUndClient() {
-        const undClient = new UndClient(process.env.MAINCHAIN_REST)
+        const UndClient = await import("@unification-com/und-js-v2")
+        const undClient = new UndClient.default.UndClient(process.env.MAINCHAIN_REST, 'BROADCAST_MODE_BLOCK')
         await undClient.initChain()
-        undClient.setBroadcastMode("block")
         await undClient.setPrivateKey(process.env.BEACON_OWNER_PK)
-        // use default delegates (signing, broadcast)
-        undClient.useDefaultSigningDelegate()
-        undClient.useDefaultBroadcastDelegate()
         this.undClient = undClient
     }
 
@@ -52,18 +48,38 @@ class BeaconDaemon {
                     b.beaconHash,
                     timestamp,
                     process.env.BEACON_OWNER_ADDRESS,
-                    150000
+                    250000
                 );
 
-                if ('data' in subRes.result && 'height' in subRes.result) {
-                    let txHash = subRes.result.txhash;
-                    let mcHeight = subRes.result.height;
-                    let tsId = subRes.result.data;
-                    let tsIdInt = parseInt(tsId, 16);
+                if ('txhash' in subRes.tx_response && 'height' in subRes.tx_response && 'code' in subRes.tx_response) {
 
-                    if (tsIdInt > 0) {
+                    if(parseInt(subRes.tx_response.code, 10) !== 0) {
+                        console.log("FAILED TO SUBMIT BEACON HASH");
+                        console.log("tx response");
+                        console.log(subRes);
+                        continue;
+                    }
+
+                    let txHash = subRes.tx_response.txhash;
+                    let mcHeight = subRes.tx_response.height;
+                    let tsId = 0
+                    for(let i = 0; i < subRes.tx_response.events.length; i += 1) {
+                        const event = subRes.tx_response.events[i]
+                        if(event.type === "record_beacon_timestamp") {
+                            for(let j = 0; j < event.attributes.length; j += 1) {
+                                const attribute = event.attributes[j]
+                                const key = Buffer.from(attribute.key, 'base64').toString()
+                                const value = Buffer.from(attribute.value, 'base64').toString()
+                                if(key === 'beacon_timestamp_id') {
+                                    tsId = value
+                                }
+                            }
+                        }
+                    }
+
+                    if (tsId > 0) {
                         console.log("BEACON SUBMIT SUCCESS");
-                        console.log("txHash", txHash, "height", mcHeight, "tsId", tsId, "parseInt(tsId)", tsIdInt);
+                        console.log("txHash", txHash, "height", mcHeight, "tsId", tsId);
 
                         console.log("update database _id:", b._id);
                         // ToDo - handle update error
@@ -72,7 +88,7 @@ class BeaconDaemon {
                             {
                                 $set: {
                                     beaconTimestamp: timestamp,
-                                    beaconTimestampId: tsIdInt,
+                                    beaconTimestampId: tsId,
                                     mainchainTxHash: txHash,
                                     mainchainBlockHeight: mcHeight,
                                     addedToMerkleTree: false,
@@ -84,8 +100,8 @@ class BeaconDaemon {
                 console.log("FAILED TO SUBMIT BEACON HASH");
                 console.log(err)
             }
-            console.log("wait 30 seconds...")
-            await sleepFor(30000);
+            console.log("wait 1 seconds...")
+            await sleepFor(1000);
         }
         console.log("BEACON batch done.")
         process.exit()

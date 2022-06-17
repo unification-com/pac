@@ -1,7 +1,7 @@
 version: '2'
 services:
   base:
-    image: node:latest
+    image: node:14.17.6
     volumes:
       - .:/usr/src/pac/
     working_dir: /usr/src/pac/

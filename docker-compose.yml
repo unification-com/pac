@@ -2,7 +2,7 @@ version: "2"
 services:
   pac:
     container_name: pac
-    image: node:latest
+    image: node:14.17.6
     volumes:
       - .:/usr/src/pac
       - /usr/src/pac/src/ui/.next

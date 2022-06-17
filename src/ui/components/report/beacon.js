@@ -18,13 +18,13 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
         </div>
     } else {
         hasMainchain = true
-        hashesMatch = (hashesAreEqual(beaconHash, generatedHash, beaconTx.tx.value.msg[0].value.hash))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
+        hashesMatch = (hashesAreEqual(beaconHash, generatedHash, beaconTx.tx_response.logs[0].events[1].attributes[2].value))?<Alert type='success' children='YES'/>:<Alert type='error' children='NO'/>
         mainchainTxInfo = <>
             <div className={[utilStyles.section, utilStyles.innerSection, utilStyles.breakWord].join(' ')}>
                 <h4 className={utilStyles.headingXs}>Mainchain details</h4>
                 <p>
                     The BEACON hash was timestamped at <Date timestamp={beaconTimestamp} withTime='true' gmt='true' /> and successfully submitted to Mainchain.
-                    The BEACON Timestamp ID is <a href={mainchainRest + '/beacon/' + beaconId + '/timestamp/' + beaconTimestampId} target="_blank">{beaconTimestampId}</a>.
+                    The BEACON Timestamp ID is <a href={mainchainRest + '/mainchain/beacon/v1/beacon/' + beaconId + '/timestamp/' + beaconTimestampId} target="_blank">{beaconTimestampId}</a>.
                     Submitted in Mainchain Tx <a href={mainchainExplorer + '/transactions/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a>, at block
                     height <a href={mainchainExplorer + '/blocks/' + mainchainBlockHeight} target="_blank">{mainchainBlockHeight}</a>
                 </p>
@@ -34,11 +34,11 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                 <h4 className={utilStyles.headingXs}>Transaction details</h4>
                 <p>
                     Tx <a href={mainchainExplorer + '/transactions/' + mainchainTxHash} target="_blank">{mainchainTxHash}</a><br />
-                    Sent from: <a href={mainchainExplorer + '/account/' + beaconTx.logs[0].events[0].attributes[1].value} target="_blank">{beaconTx.logs[0].events[0].attributes[1].value}</a><br />
-                    Public Key Type: {beaconTx.tx.value.signatures[0].pub_key.type}<br />
-                    Public Key: {beaconTx.tx.value.signatures[0].pub_key.value}<br />
-                    Signature: {beaconTx.tx.value.signatures[0].signature} <br/>
-                    Raw Tx data: <textarea defaultValue={JSON.stringify(beaconTx.tx)}/>
+                    Sent from: <a href={mainchainExplorer + '/accounts/' + beaconTx.tx.body.messages[0].owner} target="_blank">{beaconTx.tx.body.messages[0].owner}</a><br />
+                    Public Key Type: {beaconTx.tx.auth_info.signer_infos[0].public_key['@type']}<br />
+                    Public Key: {beaconTx.tx.auth_info.signer_infos[0].public_key.key}<br />
+                    Signature: {beaconTx.tx.signatures[0]} <br/>
+                    Raw Tx data: <textarea defaultValue={JSON.stringify(beaconTx)}/>
                 </p>
             </div>
         </>
@@ -57,7 +57,7 @@ export default function Beacon({beaconHash, beaconTimestampId, beaconTimestamp, 
                         <strong>Hash from&nbsp;
                         <a href={mainchainExplorer + '/transactions/' + mainchainTxHash} target="_blank">
                                     Mainchain Tx
-                        </a>: </strong>{beaconTx.tx.value.msg[0].value.hash}
+                        </a>: </strong>{beaconTx.tx_response.logs[0].events[1].attributes[2].value}
                     </p>
                 </>
                 ) : (

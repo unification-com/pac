@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
         incidentReport.crossReferences = crossReferences
 
         if (incidentReport.mainchainTxHash !== '') {
-            const mcRes = await fetch(process.env.MAINCHAIN_REST + '/txs/' + incidentReport.mainchainTxHash)
+            const mcRes = await fetch(process.env.MAINCHAIN_REST + '/cosmos/tx/v1beta1/txs/' + incidentReport.mainchainTxHash)
             beaconTx = await mcRes.json()
         }
         incidentReport.beaconTx = beaconTx
@@ -128,7 +128,7 @@ export default function Report({ incidentReport, total, mainchainRest, mainchain
                     sourceAdditionalData={incidentReport.sourceAdditionalData}
                     sourceId={incidentReport.sourceId}
                     sourceUrl={incidentReport.sourceUrl}/>
-            
+
             <CrossReferences hasCrossReferences={incidentReport.hasCrossReferences}
                              crossReferences={incidentReport.crossReferences}/>
 

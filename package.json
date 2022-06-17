@@ -23,7 +23,7 @@
   "author": "Codegnosis",
   "license": "Apache-2.0",
   "dependencies": {
-    "@unification-com/und-js": "^1.8.6",
+    "@unification-com/und-js-v2": "^0.1.5",
     "adm-zip": "^0.4.16",
     "assert": "^2.0.0",
     "axios": "^0.21.1",
@@ -59,5 +59,8 @@
     "mocha": "^7.2.0",
     "nodemon": "^2.0.7",
     "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

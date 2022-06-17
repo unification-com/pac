@@ -49,7 +49,7 @@
     "react-dom": "^16.14.0",
     "react-share": "^4.4.0",
     "us-state-codes": "^1.1.2",
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.10",

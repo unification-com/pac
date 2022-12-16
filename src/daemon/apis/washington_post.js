@@ -8,7 +8,7 @@ const ReportApi = require('./api');
 
 const SOURCE_NAME = "WashingtonPost";
 
-const BASE_DATA_URL = "https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv";
+const BASE_DATA_URL = "https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/v2/fatal-police-shootings-data.csv";
 
 class WashingtonPost extends ReportApi {
     constructor(_mongoClient, _limit = -1) {
@@ -98,7 +98,7 @@ class WashingtonPost extends ReportApi {
                     ir.setVictimRace(d.race);
                     ir.setVictimAge(d.age);
                     ir.setVictimGender(d.gender);
-                    ir.setVictimArmed(d.armed);
+                    ir.setVictimArmed(d.armed_with);
 
                     if(d.longitude && d.latitude) {
                         ir.setGeoLocation(d.latitude, d.longitude);
@@ -107,18 +107,20 @@ class WashingtonPost extends ReportApi {
                     let additionalEvidence = {
                         name: d.name,
                         date: d.date,
-                        manner_of_death: d.manner_of_death,
-                        armed: d.armed,
+                        manner_of_death: "Police Shooting", // see https://github.com/washingtonpost/data-police-shootings/tree/master/v2
+                        armed_with: d.armed_with,
                         age: d.age,
                         gender: d.gender,
                         race: d.race,
+                        race_source: d.race_source,
                         city: d.city,
                         state: d.state,
-                        signs_of_mental_illness: d.signs_of_mental_illness,
-                        threat_level: d.threat_level,
-                        flee: d.flee,
+                        was_mental_illness_related: d.was_mental_illness_related,
+                        threat_type: d.threat_type,
+                        flee_status: d.flee_status,
                         body_camera: d.body_camera,
-                        is_geocoding_exact: d.is_geocoding_exact,
+                        location_precision: d.location_precision,
+                        agency_ids: d.agency_ids,
                     }
 
                     let evidence = {

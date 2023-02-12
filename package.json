@@ -35,7 +35,7 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "install": "^0.13.0",
-    "ipfs": "^0.54.4",
+    "ipfs": "^0.66.0",
     "isomorphic-unfetch": "^3.1.0",
     "jsdom": "^16.5.1",
     "lodash": "^4.17.21",
@@ -57,7 +57,7 @@
     "@babel/node": "^7.13.10",
     "eslint": "^7.22.0",
     "mocha": "^7.2.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.20",
     "rimraf": "^3.0.2"
   },
   "engines": {
